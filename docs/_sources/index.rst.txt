@@ -1,0 +1,32 @@
+
+.. parseyaml index file, created by `ablog start` on Thu May 17 10:44:53 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Brown CBC's Reference YAML Utility
+===================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   CBC Workshop index <https://compbiocore.github.io/cbc-workshops/>
+
+   usage
+
+   manual
+
+
+
+Purpose
+-------
+
+This site hosts documentation pertaining to the CBC Reference YAML Utility.  This tool exists for two primary reasons: first, to document the exact steps undertaken in the retrival of genomic references and maintain the associated metadata; second, to provide a mechanism for automatically reproducing said retrieval and creating an exact copy of our accumulated references.
+
+The specific logic of the software and how to run it (which cannot be done at the moment as the repository is private for the foreseeable future) can be found on the 'Usage Guide' page linked above.  The software's syntax can be found on the 'Manual' page similarly linked.
+
+
+Contact
+-------
+
+For assistance, contact cbc-help@brown.edu - this is our general help line, so please specify that your issue is with this site's contents

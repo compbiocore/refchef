@@ -25,18 +25,47 @@ def append(origin, destination):
 	"""Append the 'new' YAML to the 'master' YAML"""
 
 	print("Now appending --new to --master...")
+
+
 	subprocessCommand = 'grep -n "reference-entries" ' + origin + ' | grep -Eo \'^[^:]+\''
 	referenceLine = int(subprocess.check_output([subprocessCommand],shell=True))
 	subprocessCommand = 'wc -l < ' + origin
 	totalLines = int(subprocess.check_output([subprocessCommand],shell=True))
-	tailLines = totalLines - referenceLine
+	subprocessCommand = 'grep -c "^$" ' + origin
+	blankLines = int(subprocess.check_output([subprocessCommand], shell=True))
+	tailLines = (totalLines + blankLines) - referenceLine
 	subprocessCommand = 'tail -n' + str(tailLines) + ' ' + origin + '> temp.yaml'
 	subprocess.call([subprocessCommand], shell=True)
+	# create the temp yaml file consisting of only the reference entries and not the config settings
 
-	subprocessCommand = "cat " + origin + " >> " + destination
+	masterYaml = yaml.load(open(destination))
+	tempYaml = yaml.load(open("temp.yaml"))
+	masterNames = sorted(masterYaml["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
+	# ^superfluous except for below line, but retained for symmetry
+	masterLength = len(masterNames)
+	newNames = sorted(tempYaml.keys(), key=lambda entry: int(entry.split('-')[2]))
+	newLength = len(newNames)
+
+	#### The first number in temp must be the last number in master + 1
+
+	for k in newNames:
+		index = int(k.split("-")[2]) + masterLength
+		temp = "reference-information-" + str(index)
+		subprocessCommand = "sed -i -e \'s/" + k + "/" + temp + "/g\' temp.yaml"
+		subprocess.call([subprocessCommand], shell=True)
+		subprocess.call(['rm temp.yaml\-e'], shell=True)
+		# remove anomalous intermediary file
+
+	# sed -i -e 's/reference-information-3/reference-information-1/g' tester.yaml
+
+	subprocessCommand = 'sed -i -e \'$a\\\' ' + destination
+	# add a newline to the end of master if there isn't one there already
 	subprocess.call([subprocessCommand], shell=True)
-	#subprocess.call(['rm temp.yaml'], shell=True)
-	print("Done")
+	subprocessCommand = "cat temp.yaml >> " + destination
+	# append temp to master
+	subprocess.call([subprocessCommand], shell=True)
+	subprocess.call(['rm temp.yaml'], shell=True)
+	sys.exit("Done")
 
 class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
@@ -187,7 +216,6 @@ else:
 
 
 # Begin parsing of YAML
-#yamlPar = yaml.load(open(arguments.yaml))
 
 
 if  __name__ == "__main__":
@@ -196,6 +224,7 @@ if  __name__ == "__main__":
 	referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
 	# extract the keys under 'reference-entries' named 'reference-information-X'
 	run = referenceHandler(errorBehavior=yamlPar["reference-yaml"]["configuration"]["break-on-error"])
+	print(referenceKeys)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, yamlPar["reference-yaml"]["reference-entries"].get(referenceKeys[k]))
 		# run processEntry for each 'reference-information-X'

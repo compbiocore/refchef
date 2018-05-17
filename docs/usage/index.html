@@ -52,7 +52,17 @@
             
   <div class="section" id="brown-cbc-s-reference-yaml-utility-usage-guide">
 <h1>Brown CBC’s Reference YAML Utility Usage Guide<a class="headerlink" href="#brown-cbc-s-reference-yaml-utility-usage-guide" title="Permalink to this headline">¶</a></h1>
-<p>Placeholder</p>
+<p>At present, this documentation exists to describe the software in its current state to aid in the development process.  It will therefore usually lag one version behind the software itself, so some of the functions described herein may be incorrect/outdated.</p>
+<div class="section" id="master-yaml-new-yaml-structure-overview">
+<h2>Master YAML / New YAML Structure Overview<a class="headerlink" href="#master-yaml-new-yaml-structure-overview" title="Permalink to this headline">¶</a></h2>
+<p>In the broadest possible sense, this tool can accommodate either one or two YAMLs.  It always must be given a ‘Master YAML’ - that is to say, an existing list of references and their associated commands and metadata.  The Master YAML (hereafter simply ‘Master’) is, essentially, a manifest of all references on the entire system.  It can also be given a ‘New YAML’ (hereafter simply ‘New’) containing references.  Both of these files have the same formatting, but New corresponds to references that are being newly added to the system.  Providing both Master and New causes New to be appended to Master, ensuring the manifest remains comprehensive.</p>
+</div>
+<div class="section" id="yaml-structure">
+<h2>YAML Structure<a class="headerlink" href="#yaml-structure" title="Permalink to this headline">¶</a></h2>
+<p>Please see the following screenshot for an example YAML file, then refer to the description below the image for an explanation of its properties.</p>
+    <p>example.yaml</p>
+<img src="https://compbiocore.github.io/parseyaml/_static/parseyaml_yaml_example.png"><p>test text</p>
+</div>
 </div>
 
   <div class="section">
@@ -90,7 +100,11 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference external" href="https://compbiocore.github.io/cbc-workshops/">CBC Workshop index</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s Reference YAML Utility Usage Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s Reference YAML Utility Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#master-yaml-new-yaml-structure-overview">Master YAML / New YAML Structure Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yaml-structure">YAML Structure</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../manual/">Brown CBC’s Reference YAML Utility Manual</a></li>
 </ul>
 

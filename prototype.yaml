@@ -1,0 +1,58 @@
+reference-yaml:
+    configuration:
+        root-directory                 : /users/aleith/reference_yaml/references
+        break-on-error                 : True
+        verbose                        : True
+    reference-entries:
+        reference-information-1:
+            metadata:
+                reference-name                 : ucsc-hg19-concatenate
+                species                        : human
+                organization                   : ucsc
+                downloader                     : aleith
+            primary-reference:
+                retrieve                       : True
+                command-sequence:
+                    command-1               : wget 'ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/*'
+                    command-2               : md5 *.fa.gz > postdownload-checksums.md5
+                    command-3               : gunzip *.gz
+                    command-4               : cat *.fa > hg19.fa
+                    command-5               : rm chr*.fa
+                    command-6               : md5 *.fa > final-checksums.md5
+            est:
+                retrieve                       : True
+                command-sequence:
+                    command-1               : wget 'ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/est.fa.gz*'
+                    command-2               : md5 *.fa.gz > postdownload-checksums.md5
+                    command-3               : gunzip *.gz
+                    command-4               : md5 *.fa > final-checksums.md5
+
+        reference-information-2:
+            metadata:
+                reference-name                : ucsc-hg38
+                species                       : human
+                organization                  : ucsc
+                downloader                    : aleith
+            primary-reference:
+                retrieve                        : True
+                command-sequence:
+                    command-1               : wget 'ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/*'
+                    command-2               : md5 *.fa.gz > postdownload-checksums.md5
+                    command-3               : gunzip *.gz
+                    command-4               : md5 *.fa > final-checksums.md5
+
+        reference-information-3:
+            metadata:
+                reference-name                : broad-bundle-hg19
+                species                       : human
+                organization                  : broad institute
+                downloader                    : aleith
+            primary-reference:
+                retrieve                        : True
+                command-sequence:
+                    command-1               : wget --user='gsapubftp-anonymous' 'ftp://ftp.broadinstitute.org/bundle/hg19/*'
+                    command-2               : ls -a1 .*.done | xargs rm
+                    command-3               : md5 *.gz > postdownload-checksums.md5
+                    command-4               : gunzip *.gz
+                    command-5               : md5 *.* > final-checksums.md5
+

@@ -65,7 +65,7 @@ def append(origin, destination):
 	# append temp to master
 	subprocess.call([subprocessCommand], shell=True)
 	subprocess.call(['rm temp.yaml'], shell=True)
-	sys.exit("Done")
+	#sys.exit("Done")
 
 class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
@@ -195,31 +195,28 @@ parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for te
 # Parse arguments
 arguments = parser.parse_args()
 
-if arguments.new is None:
-	if arguments.execute:
-		print("No new YAML detected - running the master only...")
-		# load the master as yamlPar
-		yamlPar = yaml.load(open(arguments.master))
-	else:
-		sys.exit("Nothing to do - exiting...")
-		# load nothing, do nothing
-else:
-# if --new exists
-	if arguments.execute:
-		print("Running new and appending to master...")
-		# load the new as yamlPar and append it after running; no need to load master
-		yamlPar = yaml.load(open(arguments.new))
-	else:
-		print("Appending to master with no execution...")
-		# load nothing, just append new to master using >>
-		append(arguments.new, arguments.master)
-
-
-# Begin parsing of YAML
-
-
 if  __name__ == "__main__":
-	#yamlPar = yaml.load(open("/users/aleith/reference_yaml/prototype.yaml"))
+	if arguments.new is None:
+		if arguments.execute:
+			print("No new YAML detected - running the master only...")
+			# load the master as yamlPar
+			yamlPar = yaml.load(open(arguments.master))
+		else:
+			sys.exit("Nothing to do - exiting...")
+			# load nothing, do nothing
+	else:
+	# if --new exists
+		if arguments.execute:
+			print("Running new and appending to master...")
+			# load the new as yamlPar and append it after running; no need to load master
+			yamlPar = yaml.load(open(arguments.new))
+			append(arguments.new, arguments.master)
+		else:
+			print("Appending to master with no execution...")
+			# load nothing, just append new to master using >>
+			append(arguments.new, arguments.master)
+			sys.exit("Done")
+
 	rootDirectory = yamlPar["reference-yaml"]["configuration"]["root-directory"]
 	referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
 	# extract the keys under 'reference-entries' named 'reference-information-X'
@@ -228,6 +225,16 @@ if  __name__ == "__main__":
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, yamlPar["reference-yaml"]["reference-entries"].get(referenceKeys[k]))
 		# run processEntry for each 'reference-information-X'
+
+
+
+# Begin parsing of YAML
+#yamlPar = yaml.load(open(arguments.yaml))
+
+
+#if  __name__ == "__main__":
+	#yamlPar = yaml.load(open("/users/aleith/reference_yaml/prototype.yaml"))
+
 
 
 

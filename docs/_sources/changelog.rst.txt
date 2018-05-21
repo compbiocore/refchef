@@ -1,0 +1,18 @@
+
+.. parseyaml index file, created by `ablog start` on Thu May 17 10:44:53 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Brown CBC's Reference YAML Utility Changelog
+============================================
+
+Upcoming Features
+~~~~~~~~~~~~~~~~~
+
+A method to detect and handle references with the same exact name
+
+
+Version 0.5 - 5/21/18
+~~~~~~~~~~~~~~~~~~~~~~
+
+Base version for describing future changes

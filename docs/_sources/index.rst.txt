@@ -16,6 +16,8 @@ Brown CBC's Reference YAML Utility
 
    manual
 
+   walkthrough
+
    changelog
 
 

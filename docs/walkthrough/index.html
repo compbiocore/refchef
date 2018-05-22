@@ -1,0 +1,219 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sample Workflow / Walkthrough &#8212; Brown CBC&#39;s Reference YAML Utility</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Brown CBC’s Reference YAML Utility Changelog" href="../changelog/" />
+    <link rel="prev" title="Brown CBC’s Reference YAML Utility Manual" href="../manual/" />
+   
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115983496-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115983496-2');
+</script>
+
+  
+  <link rel="alternate" type="application/atom+xml"  href="../blog/atom.xml" title="Brown CBC's Reference YAML Utility">
+  
+  
+  <style type="text/css">
+    ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
+    ul.ablog-archive li {float: left; margin-right: 5px; font-size: 80%}
+    ul.postlist a {font-style: italic;}
+    ul.postlist-style-disc {list-style-type: disc;}
+    ul.postlist-style-none {list-style-type: none;}
+    ul.postlist-style-circle {list-style-type: circle;}
+  </style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sample-workflow-walkthrough">
+<h1>Sample Workflow / Walkthrough<a class="headerlink" href="#sample-workflow-walkthrough" title="Permalink to this headline">¶</a></h1>
+<p>Now, we will provide a brief worked example of how to operate this software.</p>
+<div class="section" id="sample-files">
+<h2>Sample Files<a class="headerlink" href="#sample-files" title="Permalink to this headline">¶</a></h2>
+<p>To begin, please download and extract the following zip file; a manifest of its contents is as follows:</p>
+<p>master_test.yaml - a sample “Master” YAML file for testing</p>
+<p>new_test.yaml - a sample “New” YAML file for testing</p>
+<p>new_norun_test.yaml - another sample “New” YAML file for further testing</p>
+<p>end_result.yaml - a YAML that is (almost) identical to the results of running this tutorial to validate that your implementation has succeeded</p>
+</div>
+<div class="section" id="walkthrough">
+<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Permalink to this headline">¶</a></h2>
+<p>Some very minor editing of these YAML files is necessary before running the software.  Please open both master_test.yaml and new_test.yaml and edit their ‘root-directory’ lines to a location on your computer; this directory will be where the references are deposited.  This step is why end_result.yaml is ‘almost’ identical to what your end result will be, as we cannot predict your local file structure.</p>
+<p><em>NB: One of the commands used in these YAMLs, ‘md5’, is Mac-specific.  The corresponding command on most Linux systems is ‘md5sum’, so running this walkthrough to completion on Linux requires those commands be changed as well</em>.</p>
+<p>From there, we can run the software in both its useful modes.  We will begin by running with only a Master YAML, and then continue by running with both a Master YAML and a New YAML to add additional references.</p>
+<p>To initiate a reference download according to the Master YAML’s specifications, type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">master</span> <span class="n">master_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">excecute</span>
+</pre></div>
+</div>
+<p>It will take approximately 30 minutes for this task to complete (depending heavily on your own network’s capabilities).  Once it is done, you can check in the directory you designated as ‘root-directory’ to verify that the files have been obtained.  You should see two subfolders, “ucsc-hg19-concatenate” and “ucsc-hg38”, each with a multitude of files.</p>
+<p>Now that we have some references, we have created a situation in which we can expand our inventory thereof.  This tool exists to maintain an up-to-date master list of references on the system, and running it with the New YAML will demonstrate this capability by updating the Master YAML:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">master</span> <span class="n">master_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">new</span> <span class="n">new_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">execute</span>
+</pre></div>
+</div>
+<p>This reference is rather large, and will likely take another 30 minutes unto itself.  Once it is complete, you can verify two things that have now transpired: first, there is a new subfolder in ‘root-directory’ entitled “broad-bundle-hg19”, and second, new_test.yaml’s ‘reference-information-1’ has been appended to master_test.yaml and renumbered within that document as ‘reference-information-3’.</p>
+<p>Finally, we will run the tool one more time with both a Master YAML, our embiggened master_test.yaml, and the other New YAML, new_norun_test.yaml.  As implied by the name, we will not instruct parseyaml to run new_norun_test.yaml; oftentimes, a user will be creating their YAMLs retrospectively after the manual download of a new reference to serve as a permanent record of their actions, so this set of options will just append the New YAML without actually downloading anything:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">master</span> <span class="n">master_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">new</span> <span class="n">new_norun_test</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>Note that ‘root-directory’ does not contain a new subdirectory called “mm9”, even though that entry has been appended to master_test.yaml as ‘reference-information-4’.</p>
+<p>Running the software without excecution ensures that new references are added to the Master YAML with the correct sequential number and line formatting, mitigating the possibility of human error in copying and pasting.</p>
+<p>With these three commands run, master_test.yaml should now be identical to end_result.yaml aside from the file path specified in ‘root-directory’.  These sample files can be edited to get a sense of how options like ‘retrieve’ work, and will provide a syntactical skeleton for adding further references as the user sees fit.</p>
+</div>
+</div>
+
+  <div class="section">
+  
+  
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../">
+    <img class="logo" src="../_static/brown_logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=compbiocore&repo=compbiocore&type=follow&count=true"
+  allowtransparency="true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference external" href="https://compbiocore.github.io/cbc-workshops/">CBC Workshop index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/">Brown CBC’s Reference YAML Utility Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manual/">Brown CBC’s Reference YAML Utility Manual</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sample Workflow / Walkthrough</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sample-files">Sample Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#walkthrough">Walkthrough</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/">Brown CBC’s Reference YAML Utility Changelog</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="https://compbiocore.github.io/tutorials">Tutorials</a></li>
+    
+    <li class="toctree-l1"><a href="https://compbiocore.github.io/workshops">Workshops</a></li>
+    
+    <li class="toctree-l1"><a href="https://compbiocore.github.io">Main Page</a></li>
+    
+    <li class="toctree-l1"><a href="https://compbiocore.github.io/software">Software</a></li>
+    
+</ul>
+
+
+
+  <h3><a href="../blog/">Recent Posts</a></h3>
+  <ul>
+    
+    
+      <li><a href="../first-post/">17 May - First Post</a></li>
+    
+  </ul>
+
+  <h3><a href="../blog/archive/">Archives</a></h3>
+  <ul>
+  
+    
+    <li><a href="../blog/2018/">2018 (1)</a></li>
+    
+  
+  </ul>
+
+  <h3><a href="../blog/tag/">Tags</a></h3>
+  <style type="text/css">
+    ul.ablog-cloud {list-style: none; overflow: auto;}
+    ul.ablog-cloud li {float: left; height: 20pt; line-height: 18pt; margin-right: 5px;}
+    ul.ablog-cloud a {text-decoration: none; vertical-align: middle;}
+    li.ablog-cloud-1{font-size: 80%;}
+    li.ablog-cloud-2{font-size: 95%;}
+    li.ablog-cloud-3{font-size: 110%;}
+    li.ablog-cloud-4{font-size: 125%;}
+    li.ablog-cloud-5{font-size: 140%;}
+  </style>
+  <ul class="ablog-cloud">
+    
+      
+      <li class="ablog-cloud ablog-cloud-3">
+        <a href="../blog/tag/atag/">atag</a></li>
+      
+    
+  </ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Andrew Leith.
+      
+      |
+      <a href="../_sources/walkthrough.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-115983496-2']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

@@ -6,5 +6,18 @@
 Brown CBC's Reference YAML Utility Manual
 =========================================
 
-Placeholder for manual
+Parseyaml currenly has two arguments, one required and one optional::
 
+	--master: REQUIRED - denotes the Master YAML file containing one or more references
+
+	--new: OPTIONAL - denotes the New YAML file containing one or more references to be added to Master
+
+	-e --execute: OPTIONAL - determines whether the YAML (New if it exists, Master if not) should be run
+
+
+Notes
+-----
+
+--execute changes its behavior based on the presence or absence of --new; if both --master and --new are passed as arguments, then the --new YAML will be executed.  If there is no --new and only a --master (which is always required), the --master will be executed instead.
+
+Fine-grained control of the execution of these files is managed within the YAMLs themselves using the 'retrieve' option as described on the `Usage page <https://compbiocore.github.io/parseyaml/usage.html>`_.

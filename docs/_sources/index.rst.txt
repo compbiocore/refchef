@@ -7,7 +7,7 @@ Brown CBC's Reference YAML Utility
 ===================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    CBC Workshop index <https://compbiocore.github.io/cbc-workshops/>

@@ -1,5 +1,5 @@
-Sample Workflow / Walkthrough
-==============================
+Brown CBC's Reference YAML Utility Sample Workflow / Walkthrough
+=================================================================
 
 Now, we will provide a brief worked example of how to operate this software.  Please download the files located at the following link:
 

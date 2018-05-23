@@ -6,12 +6,14 @@
 Brown CBC's Reference YAML Utility Usage Guide
 ==============================================
 
-At present, this documentation exists to describe the software in its current state to aid in the development process.  It will therefore usually lag one version behind the software itself, so some of the functions described herein may be incorrect/outdated.
+At present, this documentation exists to describe the software in its current state to aid in the development process.  It will therefore usually lag one version behind the software itself, so some of the information presented herein may be incorrect/outdated.
 
-Master YAML / New YAML Structure Overview
------------------------------------------
+For a more hands-on introduction to this software via walkthrough with code and sample files, please see the 'Sample Workflow / Walkthrough' page linked in the sidebar and on the homepage.
 
-In the broadest possible sense, this tool can accommodate either one or two YAMLs.  It always must be given a 'Master YAML' - that is to say, an existing list of references and their associated commands and metadata.  The Master YAML (hereafter simply 'Master') is, essentially, a manifest of all references on the entire system.  It can also be given a 'New YAML' (hereafter simply 'New') containing references.  Both of these files have the same formatting, but New corresponds to references that are being newly added to the system.  Providing both Master and New causes New to be appended to Master, ensuring the manifest remains comprehensive.
+Master YAML / New YAML Scheme Overview
+---------------------------------------
+
+In the broadest possible sense, this tool can accommodate either one or two YAMLs.  It must always be given a 'Master YAML' - that is to say, a comprehensive list of references and their associated commands and metadata.  The Master YAML (hereafter simply 'the Master') is, essentially, a manifest of all references on the entire system (meant to be continually updated when further references are added).  The tool can also be given a 'New YAML' alongside the Master containing additional references.  Both of these files have the same formatting, but a New YAML corresponds to references that are being newly added to a system where some references are already present as tabulated in the Master.  Providing both the Master and a New YAML causes the New YAML's reference section to be appended to Master, ensuring the manifest remains comprehensive.
 
 YAML Structure
 --------------

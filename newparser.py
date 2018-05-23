@@ -20,20 +20,31 @@ import collections
 
 ######################################
 
-
 def append(origin, destination):
 	"""Append the 'new' YAML to the 'master' YAML"""
 
-	print("Now appending --new to --master...")
+	print("Now appending " + origin + " to " + destination + "...")
 
+	# First, clean up the file's blank lines
+	subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml && mv temp.yaml ' + origin
+	subprocess.call([subprocessCommand], shell=True)
+
+	subprocessCommand = 'sed -i -e \'$a\\\' ' + origin
+	# add a newline to the end of New if there isn't one there already
+	subprocess.call([subprocessCommand], shell=True)
 
 	subprocessCommand = 'grep -n "reference-entries" ' + origin + ' | grep -Eo \'^[^:]+\''
 	referenceLine = int(subprocess.check_output([subprocessCommand],shell=True))
 	subprocessCommand = 'wc -l < ' + origin
 	totalLines = int(subprocess.check_output([subprocessCommand],shell=True))
-	subprocessCommand = 'grep -c "^$" ' + origin
-	blankLines = int(subprocess.check_output([subprocessCommand], shell=True))
-	tailLines = (totalLines + blankLines) - referenceLine
+	#subprocessCommand = 'grep -c "^$" ' + origin
+	#blankLines = int(subprocess.check_output([subprocessCommand], shell=True))
+	## Check if there is a blank line at the end of the file or not - there will be iff there were 1+ blank lines at the end before parsing
+
+
+
+	#tailLines = (totalLines + blankLines) - referenceLine
+	tailLines = (totalLines) - referenceLine
 	subprocessCommand = 'tail -n' + str(tailLines) + ' ' + origin + '> temp.yaml'
 	subprocess.call([subprocessCommand], shell=True)
 	# create the temp yaml file consisting of only the reference entries and not the config settings
@@ -53,8 +64,7 @@ def append(origin, destination):
 		temp = "reference-information-" + str(index)
 		subprocessCommand = "sed -i -e \'s/" + k + "/" + temp + "/g\' temp.yaml"
 		subprocess.call([subprocessCommand], shell=True)
-		subprocess.call(['rm temp.yaml\-e'], shell=True)
-		# remove anomalous intermediary file
+		
 
 	# sed -i -e 's/reference-information-3/reference-information-1/g' tester.yaml
 
@@ -65,6 +75,8 @@ def append(origin, destination):
 	# append temp to master
 	subprocess.call([subprocessCommand], shell=True)
 	subprocess.call(['rm temp.yaml'], shell=True)
+	subprocess.call(['rm *-e'], shell=True)
+	# remove anomalous intermediary files created by bad sed and subprocess integration
 	#sys.exit("Done")
 
 class referenceHandler:
@@ -88,7 +100,6 @@ class referenceHandler:
 		#yamlEntry.keys()[0] is the top-level key i.e. the name of the reference subunit e.g. 'est' or 'primary-reference'
 		#print(yamlEntry)
 		#print(yamlEntry.keys())
-
 		if yamlEntry["retrieve"] == True:
 		# check to see if the given reference should be retrieved
 			print("\033[1m" + "\nRetrieving " + componentName + "\n"+ "\033[0m")
@@ -213,7 +224,7 @@ if  __name__ == "__main__":
 			append(arguments.new, arguments.master)
 		else:
 			print("Appending to master with no execution...")
-			# load nothing, just append new to master using >>
+			yamlPar = yaml.load(open(arguments.new))
 			append(arguments.new, arguments.master)
 			sys.exit("Done")
 

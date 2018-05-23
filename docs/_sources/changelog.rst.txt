@@ -12,6 +12,15 @@ Upcoming Features
 A method to detect and handle references with the same exact name
 
 
+Version 0.6 - 5/23/18
+~~~~~~~~~~~~~~~~~~~~~
+
+Fixed bug where blank lines in New YAML would cause incorrect appending and break execution
+
+Added requirements information to the manual page
+
+Added tutorial zip file to the github repository
+
 Version 0.5 - 5/21/18
 ~~~~~~~~~~~~~~~~~~~~~~
 

@@ -6,6 +6,16 @@
 Brown CBC's Reference YAML Utility Manual
 =========================================
 
+Requirements
+------------
+
+PyYAML::
+
+	pip install pyyaml
+
+Syntax
+------
+
 Parseyaml currenly has two arguments, one required and one optional::
 
 	--master: REQUIRED - denotes the Master YAML file containing one or more references

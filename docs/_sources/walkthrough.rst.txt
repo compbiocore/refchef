@@ -1,7 +1,9 @@
 Sample Workflow / Walkthrough
 ==============================
 
-Now, we will provide a brief worked example of how to operate this software.
+Now, we will provide a brief worked example of how to operate this software.  Please download the files located at the following link:
+
+https://github.com/compbiocore/parseyaml/raw/master/example_files.zip
 
 Sample Files
 ------------
@@ -15,6 +17,7 @@ new_test.yaml - a sample "New" YAML file for testing
 new_norun_test.yaml - another sample "New" YAML file for further testing
 
 end_result.yaml - a YAML that is (almost) identical to the results of running this tutorial to validate that your implementation has succeeded
+
 
 Walkthrough
 -----------

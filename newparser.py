@@ -75,8 +75,9 @@ def append(origin, destination):
 	# append temp to master
 	subprocess.call([subprocessCommand], shell=True)
 	subprocess.call(['rm temp.yaml'], shell=True)
-	subprocess.call(['rm *-e'], shell=True)
-	# remove anomalous intermediary files created by bad sed and subprocess integration
+	if sys.platform == "darwin":
+		subprocess.call(['rm *-e'], shell=True)
+		# remove anomalous intermediary files created by bad sed and subprocess integration on OSX only
 	#sys.exit("Done")
 
 class referenceHandler:

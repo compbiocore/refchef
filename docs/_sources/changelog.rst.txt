@@ -6,10 +6,15 @@
 Brown CBC's Reference YAML Utility Changelog
 ============================================
 
-Upcoming Features
-~~~~~~~~~~~~~~~~~
+Upcoming Features (in order of priority)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Git integration - autopush master upon update, automatically process a YAML on a repo
+
+A separate config file to control the behavior of the tool (to be separated from the master) - will be used to set the reference location, logging options, settings for future features, etc.
 
 A method to detect and handle references with the same exact name
+
 
 Version 0.61 - 5/29/18
 ~~~~~~~~~~~~~~~~~~~~~~

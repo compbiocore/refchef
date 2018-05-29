@@ -11,6 +11,12 @@ Upcoming Features
 
 A method to detect and handle references with the same exact name
 
+Version 0.61 - 5/29/18
+~~~~~~~~~~~~~~~~~~~~~~
+
+Added a separate tutorial zip file for OSX and Linux due to different commands for creating md5 files
+
+Fixed a minor issue causes by OSX's sed and subprocess integration (not present on Linux)
 
 Version 0.6 - 5/23/18
 ~~~~~~~~~~~~~~~~~~~~~

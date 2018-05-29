@@ -1,9 +1,11 @@
 Brown CBC's Reference YAML Utility Sample Workflow / Walkthrough
 =================================================================
 
-Now, we will provide a brief worked example of how to operate this software.  Please download the files located at the following link:
+Now, we will provide a brief worked example of how to operate this software.  Please download the files located at the following links, depending on your platform:
 
-https://github.com/compbiocore/parseyaml/raw/master/example_files.zip
+`Example for OSX <https://github.com/compbiocore/parseyaml/raw/master/example_files_osx.zip>`_
+
+`Example for Linux (tested on CentOS 6.7) <https://github.com/compbiocore/parseyaml/raw/master/example_files_linux.zip>`_
 
 Sample Files
 ------------

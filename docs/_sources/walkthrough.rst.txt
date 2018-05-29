@@ -3,9 +3,11 @@ Brown CBC's Reference YAML Utility Sample Workflow / Walkthrough
 
 Now, we will provide a brief worked example of how to operate this software.  Please download the files located at the following links, depending on your platform:
 
-`Example for OSX <https://github.com/compbiocore/parseyaml/raw/master/example_files_osx.zip>`_
+`Example files for OSX <https://github.com/compbiocore/parseyaml/raw/master/example_files_osx.zip>`_
 
-`Example for Linux (tested on CentOS 6.7) <https://github.com/compbiocore/parseyaml/raw/master/example_files_linux.zip>`_
+`Example files for Linux (tested on CentOS 6.7) <https://github.com/compbiocore/parseyaml/raw/master/example_files_linux.zip>`_
+
+Both of these sets of files accomplish the exact same tasks; they contain small differences in the method of generating md5 files and deleting intermediary files.
 
 Sample Files
 ------------

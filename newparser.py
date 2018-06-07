@@ -16,9 +16,68 @@ import time
 import sys
 import datetime
 import collections
+import shutil
 
 
 ######################################
+
+def generateConfig():
+	"""Generate a human-readable configuration YAML for running the software proper.
+
+	Code readability has been traded for output readability via escape character-based document formatting."""
+	print("This interactive prompt will allow you to generate a config file for this tool.")
+	print("If asked to provide a filepath, please provide the full, absolute filepath.")
+	print("Furthermore, please do not append a trailing '/' to the filepaths.")
+	print("If you leave your response to a prompt empty, that entry will not be generated.")
+	print("\033[1m" + "This operation will overwrite any existing config.yaml.  Type 'yes' to proceed, or anything else to exit." + "\033[0m")
+	continue_prompt = raw_input("> ")
+	if continue_prompt != "yes":
+		sys.exit("Exiting without action.")
+	f = open("config.yaml", 'w')
+	f.write("config-yaml:\n")
+	print("\033[1m" + "Filepaths" + "\033[0m")
+	f.write("\t\tpath-settings:\n")
+	print("What is the filepath of the directory to be used as root for the references? (Required)")
+	root_dir = raw_input("> ")
+	if root_dir != "":
+		f.write("\t\t\t\treference-directory\t\t\t\t\t: " + str(root_dir) + "\n")
+	else:
+		os.remove("config.yaml")
+		sys.exit("Required option omitted; exiting.")
+	print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
+	local_git_dir = raw_input("> ")
+	if local_git_dir != "":
+		f.write("\t\t\t\tgithub-directory\t\t\t\t\t\t: " + str(local_git_dir) + "\n")
+	print("What is the " + "\033[1m" + "remote" + "\033[0m" + " Github repo in the format 'USER/REPO'?")
+	remote_git_name = raw_input("> ")
+	if remote_git_name != "":
+		f.write("\t\t\t\tremote-repository\t\t\t\t\t\t: " + str(remote_git_name) + "\n")
+	print("\033[1m" + "Logging" + "\033[0m")
+	f.write("\t\tlog-settings:\n")
+	print("Should logs be generated?  Type 'True' or 'False'. (Default: True)")
+	log_setting = raw_input("> ")
+	if log_setting == "":
+		log_setting = "True"
+	f.write("\t\t\t\tlog\t\t\t\t\t\t\t\t\t\t\t\t\t: " + str(log_setting) + "\n")
+	print("\033[1m" + "Runtime Settings" + "\033[0m")
+	f.write("\t\truntime-settings:\n")
+	print("Should the tool end its run on any error?  Type 'True' or 'False'. (Default: True)")
+	break_on_error = raw_input("> ")
+	if break_on_error == "":
+		break_on_error = "True"
+	f.write("\t\t\t\tbreak-on-error\t\t\t\t\t\t\t: " + str(break_on_error) + "\n")
+	print("Should the tool be verbose (generate lots of stepwise output)? (Default: False)")
+	verbose = raw_input("> ")
+	if verbose == "":
+		verbose = "False"
+	f.write("\t\t\t\tverbose\t\t\t\t\t\t\t\t\t\t\t: " + str(verbose) + "\n")
+	f.close()
+	current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
+	backup_path = "config_backup_" + current_time + ".yaml"
+	shutil.copyfile("config.yaml",backup_path)
+	print("Generated config file and timestamped backup.")
+	print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
+
 
 def append(origin, destination):
 	"""Append the 'new' YAML to the 'master' YAML"""
@@ -84,6 +143,25 @@ class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
 		self.filetype = filetype
 		self.errorBehavior = errorBehavior
+
+	def mirrorGithub(self, gitDir, repository):
+		"""Retrieve and parse a master YAML stored somewhere on Github"""
+		# use an existing config file to run this 
+
+		startingDir = os.getcwd()
+		# retain current working directory to change back to at the end
+		os.chdir(gitDir)
+		# switch to main git directory
+		githubUrl = "https://github.com/" + repository + ".git"
+		subprocess.call(['git clone ' + githubUrl], shell=True)
+		# clone the repo with the YAML
+
+		# temporarily hardcode the reference directory in lieu of a configuration file for testing purposes
+		referenceDirectory = "/Users/aleith/reference_yaml/github_references"
+
+
+
+
 
 
 	def retrieveReference(self, rootSubDirectory, yamlEntry, componentName):
@@ -189,10 +267,14 @@ class referenceHandler:
 
 # Create argument parser
 parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
-parser.add_argument('-e', '--execute', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
-parser.add_argument('--master', type=str, required = True, help = 'Denotes the Master YAML')
-parser.add_argument('--new', type=str, help = 'Denotes the new YAML')
-parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for testing)', action="store_true")
+subs = parser.add_subparsers(dest='command')
+
+
+local_parser = subs.add_parser('local')
+local_parser.add_argument('-e', '--execute', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
+local_parser.add_argument('--master', type=str, required = True, help = 'Denotes the Master YAML')
+local_parser.add_argument('--new', type=str, help = 'Denotes the new YAML')
+local_parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for testing)', action="store_true")
 # check for --master and --new FIRST to determine the mode, then check --execute to determine what to do
 # do not allow running both the --new and the --master in one command
 # if --new exists and --execute is TRUE, run the --new and append --new to --master (subject to --skip in testing)
@@ -201,17 +283,23 @@ parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for te
 # if --new does not exist and --execute is FALSE, exit with an error, as this combination is pointless
 
 
+remote_parser = subs.add_parser('remote')
+remote_parser.add_argument('--repo', type=str, required = True, help = 'Denotes the remote Github repo')
+
 
 
 
 # Parse arguments
 arguments = parser.parse_args()
+print(arguments)
+sys.exit("test over")
 
 if  __name__ == "__main__":
 	if arguments.new is None:
 		if arguments.execute:
 			print("No new YAML detected - running the master only...")
 			# load the master as yamlPar
+			sys.exit("further tested")
 			yamlPar = yaml.load(open(arguments.master))
 		else:
 			sys.exit("Nothing to do - exiting...")

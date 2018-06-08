@@ -36,41 +36,41 @@ def generateConfig():
 	f = open("config.yaml", 'w')
 	f.write("config-yaml:\n")
 	print("\033[1m" + "Filepaths" + "\033[0m")
-	f.write("\t\tpath-settings:\n")
+	f.write("    path-settings:\n")
 	print("What is the filepath of the directory to be used as root for the references? (Required)")
 	root_dir = raw_input("> ")
 	if root_dir != "":
-		f.write("\t\t\t\treference-directory\t\t\t\t\t: " + str(root_dir) + "\n")
+		f.write("        reference-directory     : " + str(root_dir) + "\n")
 	else:
 		os.remove("config.yaml")
 		sys.exit("Required option omitted; exiting.")
 	print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
 	local_git_dir = raw_input("> ")
 	if local_git_dir != "":
-		f.write("\t\t\t\tgithub-directory\t\t\t\t\t\t: " + str(local_git_dir) + "\n")
+		f.write("        github-directory        : " + str(local_git_dir) + "\n")
 	print("What is the " + "\033[1m" + "remote" + "\033[0m" + " Github repo in the format 'USER/REPO'?")
 	remote_git_name = raw_input("> ")
 	if remote_git_name != "":
-		f.write("\t\t\t\tremote-repository\t\t\t\t\t\t: " + str(remote_git_name) + "\n")
+		f.write("        remote-repository       : " + str(remote_git_name) + "\n")
 	print("\033[1m" + "Logging" + "\033[0m")
-	f.write("\t\tlog-settings:\n")
+	f.write("    log-settings:\n")
 	print("Should logs be generated?  Type 'True' or 'False'. (Default: True)")
 	log_setting = raw_input("> ")
 	if log_setting == "":
 		log_setting = "True"
-	f.write("\t\t\t\tlog\t\t\t\t\t\t\t\t\t\t\t\t\t: " + str(log_setting) + "\n")
+	f.write("        log                        : " + str(log_setting) + "\n")
 	print("\033[1m" + "Runtime Settings" + "\033[0m")
-	f.write("\t\truntime-settings:\n")
+	f.write("    runtime-settings:\n")
 	print("Should the tool end its run on any error?  Type 'True' or 'False'. (Default: True)")
 	break_on_error = raw_input("> ")
 	if break_on_error == "":
 		break_on_error = "True"
-	f.write("\t\t\t\tbreak-on-error\t\t\t\t\t\t\t: " + str(break_on_error) + "\n")
+	f.write("        break-on-error             : " + str(break_on_error) + "\n")
 	print("Should the tool be verbose (generate lots of stepwise output)? (Default: False)")
 	verbose = raw_input("> ")
 	if verbose == "":
 		verbose = "False"
-	f.write("\t\t\t\tverbose\t\t\t\t\t\t\t\t\t\t\t: " + str(verbose) + "\n")
+	f.write("        verbose                    : " + str(verbose) + "\n")
 	f.close()
 	current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
 	backup_path = "config_backup_" + current_time + ".yaml"
@@ -208,7 +208,7 @@ class referenceHandler:
 
 
 			for j in range(0,len(commandKeys)):
-					if yamlPar["reference-yaml"]["configuration"]["verbose"] == True:
+					if configYaml["config-yaml"]["runtime-settings"]["verbose"] == True:
 						print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["command-sequence"].get(commandKeys[j]) + "\n")
 		    			subprocess.call([yamlEntry["command-sequence"].get(commandKeys[j])], shell=True)
 		    	else:
@@ -282,7 +282,7 @@ local_parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly 
 # if --new does not exist and --execute is TRUE, run the --master
 # if --new does not exist and --execute is FALSE, exit with an error, as this combination is pointless
 
-
+###pretend this doesn't exist for now
 remote_parser = subs.add_parser('remote')
 remote_parser.add_argument('--repo', type=str, required = True, help = 'Denotes the remote Github repo')
 
@@ -292,14 +292,17 @@ remote_parser.add_argument('--repo', type=str, required = True, help = 'Denotes 
 # Parse arguments
 arguments = parser.parse_args()
 print(arguments)
-sys.exit("test over")
+#sys.exit("test over")
 
 if  __name__ == "__main__":
+	if not os.path.isfile("config.yaml"):
+		print("\n\nWarning: No config file detected.  Running configuration generator...\nIf you do have a config file, terminate execution and be sure the file is named 'config.yaml' before rerunning.\n")
+		generateConfig()
+	configYaml = yaml.load(open("config.yaml"))
 	if arguments.new is None:
 		if arguments.execute:
 			print("No new YAML detected - running the master only...")
 			# load the master as yamlPar
-			sys.exit("further tested")
 			yamlPar = yaml.load(open(arguments.master))
 		else:
 			sys.exit("Nothing to do - exiting...")
@@ -317,10 +320,10 @@ if  __name__ == "__main__":
 			append(arguments.new, arguments.master)
 			sys.exit("Done")
 
-	rootDirectory = yamlPar["reference-yaml"]["configuration"]["root-directory"]
+	rootDirectory = configYaml["config-yaml"]["path-settings"]["reference-directory"]
 	referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
 	# extract the keys under 'reference-entries' named 'reference-information-X'
-	run = referenceHandler(errorBehavior=yamlPar["reference-yaml"]["configuration"]["break-on-error"])
+	run = referenceHandler(errorBehavior=configYaml["config-yaml"]["runtime-settings"]["break-on-error"])
 	print(referenceKeys)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, yamlPar["reference-yaml"]["reference-entries"].get(referenceKeys[k]))

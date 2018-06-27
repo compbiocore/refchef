@@ -1,4 +1,5 @@
-# parseyaml
-Temporary name for CBC yaml parsing project
+Welcome to the CBC YAML parsing / reference management software repository.
 
-[Link to the parseyaml manual on Github Pages](https://compbiocore.github.io/parseyaml/manual/)
+This document will contain links to the Github Pages documentation.
+
+[Link to the parseyaml manual on Github Pages](https://compbiocore.github.io/refchef/manual/)

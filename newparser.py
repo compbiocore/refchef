@@ -16,10 +16,62 @@ import time
 import sys
 import datetime
 import collections
+from collections import OrderedDict, defaultdict
 import shutil
+from inspect import getouterframes, currentframe
+
 
 
 ######################################
+
+def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
+    '''
+     Load YAML as an Ordered Dict
+    :param stream:
+    :param loader:
+    :param object_pairs_hook:
+    :return:
+    Borrowed shamelessly from http://codegist.net/code/python2-yaml/
+    '''
+    class OrderedLoader(loader):
+        pass
+    def construct_mapping(loader, node):
+        loader.flatten_mapping(node)
+        return object_pairs_hook(loader.construct_pairs(node))
+    OrderedLoader.add_constructor(
+        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+        construct_mapping
+    )
+    return yaml.load(stream, OrderedLoader)
+
+def ordered_dump(dictionary):
+	"""
+	Take an ordered dictionary and turn it into a YAML.
+	This function also works on unordered dictionaries as a secondary use case.
+
+	This function must be called after opening a file for writing, e.g.:
+	f = open("example.yaml", 'w')
+	ordered_dump(example_ordered_dictionary)
+	f.close()
+	"""
+	level = len(getouterframes(currentframe(1)))
+	# track the depth of the recursion
+	for key,value in dictionary.iteritems():
+		if type(value) == collections.OrderedDict or type(value) == dict:
+			#print("{0} :{1}".format(key, level))
+			text = ("    " * (level - 1)) + ("{0}:".format(key))
+			# write out an entry that contains other entries, prefaced by 4 spaces per level of recursiom beyond the first
+			#print(text)
+			f.write(str(text) + "\n")
+			ordered_dump(value)
+			# if this entry has any subheadings, go deeper
+		else:
+			#print("{0} : {1} : {2}".format(key, value, level))
+			text = ("    " * (level - 1)) + ("{0} : {1}".format(key, value))
+			# write out an entry that has a value and no subentries, prefaced by 4 spaces per level of recursion beyond the first
+			#print(text)
+			f.write(str(text) + "\n")
+
 
 def generateConfig():
 	"""Generate a human-readable configuration YAML for running the software proper.
@@ -78,15 +130,16 @@ def generateConfig():
 	print("Generated config file and timestamped backup.")
 	print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
 
-
 def append(origin, destination):
 	"""Append the 'new' YAML to the 'master' YAML"""
 
 	print("Now appending " + origin + " to " + destination + "...")
 
 	# First, clean up the file's blank lines
-	subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml && mv temp.yaml ' + origin
+	#subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml && mv temp.yaml ' + origin
+	subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml'
 	subprocess.call([subprocessCommand], shell=True)
+	os.rename("temp.yaml", origin)
 
 	subprocessCommand = 'sed -i -e \'$a\\\' ' + origin
 	# add a newline to the end of New if there isn't one there already
@@ -108,8 +161,10 @@ def append(origin, destination):
 	subprocess.call([subprocessCommand], shell=True)
 	# create the temp yaml file consisting of only the reference entries and not the config settings
 
-	masterYaml = yaml.load(open(destination))
-	tempYaml = yaml.load(open("temp.yaml"))
+	#masterYaml = yaml.load(open(destination))
+	#tempYaml = yaml.load(open("temp.yaml"))
+	masterYaml = ordered_load(open(destination))
+	tempYaml = ordered_load(open("temp.yaml"))
 	masterNames = sorted(masterYaml["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
 	# ^superfluous except for below line, but retained for symmetry
 	masterLength = len(masterNames)
@@ -138,6 +193,39 @@ def append(origin, destination):
 		subprocess.call(['rm *-e'], shell=True)
 		# remove anomalous intermediary files created by bad sed and subprocess integration on OSX only
 	#sys.exit("Done")
+
+def new_append(origin, destination):
+	"""
+	origin and destination are the new filename and the master filename respectively.
+
+	The function checks to see if a given key in origin exists in destination, adds it if not.
+
+	Open before calling this, close after it ends.
+	"""
+	# Load in the YAMLs
+	masterYaml = ordered_load(open(destination))
+	newYaml = ordered_load(open(origin))
+	# Loop over each key in the origin and add it to the destination
+	for i in newYaml["reference-yaml"]["reference-entries"].keys():
+		if i in masterYaml["reference-yaml"]["reference-entries"]:
+			for j in newYaml["reference-yaml"]["reference-entries"][i].keys():
+				for s in newYaml["reference-yaml"]["reference-entries"][i][j].keys():
+					print(s)
+					# add entries that do not previously exist
+					### IF THE KEY EXISTS AND THE VALUE IS DIFFERENT, DO NOT OVERWRITE - RECORD WOULD BE COMPROMISED
+					### How to handle cases where a new command is added between two old commands?
+					### Add new non-default argument to force an overwrite?
+					if s in masterYaml["reference-yaml"]["reference-entries"][i][j].keys():
+						masterYaml["reference-yaml"]["reference-entries"][i][j][str(s)] = newYaml["reference-yaml"]["reference-entries"][i][j][s]
+		else:
+			masterYaml["reference-yaml"]["reference-entries"][str(i)] = newYaml["reference-yaml"]["reference-entries"][i]
+	#f = open("master_test_new.yaml", 'w')
+	ordered_dump(masterYaml)
+	#f.close()
+	#return(destination)
+
+	
+
 
 class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
@@ -186,7 +274,8 @@ class referenceHandler:
 			componentLocation = rootSubDirectory + "/" + componentName
 			# assemble the path for this component of the reference - separate folders for testing purposes
 			if os.path.exists(componentLocation)==False:
-				subprocess.call(["mkdir " + componentLocation], shell=True)
+				#subprocess.call(["mkdir " + componentLocation], shell=True)
+				os.mkdir(componentLocation)
 				# creates a directory for the component's files if said directory does not yet exist
 
 			os.chdir(componentLocation)
@@ -211,11 +300,12 @@ class referenceHandler:
 					if configYaml["config-yaml"]["runtime-settings"]["verbose"] == True:
 						print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["command-sequence"].get(commandKeys[j]) + "\n")
 		    			subprocess.call([yamlEntry["command-sequence"].get(commandKeys[j])], shell=True)
+		    			# this line is an actual system command so needs to stay as a subprocess call
 		    	else:
 		    	# this asymmetric indent is the only way to avoid a strange bug - any other indent pattern is deemed too little or too much
 		    		subprocess.call([yamlEntry["command-sequence"].get(commandKeys[j])], shell=True)
 		    		# loops through all subentries under the 'command-sequence' entry and runs those commands
-
+		    		# actual system command as above
 
 
 
@@ -298,12 +388,14 @@ if  __name__ == "__main__":
 	if not os.path.isfile("config.yaml"):
 		print("\n\nWarning: No config file detected.  Running configuration generator...\nIf you do have a config file, terminate execution and be sure the file is named 'config.yaml' before rerunning.\n")
 		generateConfig()
-	configYaml = yaml.load(open("config.yaml"))
+	#configYaml = yaml.load(open("config.yaml"))
+	configYaml = ordered_load(open("config.yaml"))
 	if arguments.new is None:
 		if arguments.execute:
 			print("No new YAML detected - running the master only...")
 			# load the master as yamlPar
-			yamlPar = yaml.load(open(arguments.master))
+			#yamlPar = yaml.load(open(arguments.master))
+			yamlPar = ordered_load(open(arguments.master))
 		else:
 			sys.exit("Nothing to do - exiting...")
 			# load nothing, do nothing
@@ -312,16 +404,27 @@ if  __name__ == "__main__":
 		if arguments.execute:
 			print("Running new and appending to master...")
 			# load the new as yamlPar and append it after running; no need to load master
-			yamlPar = yaml.load(open(arguments.new))
-			append(arguments.new, arguments.master)
+			#yamlPar = yaml.load(open(arguments.new))
+			yamlPar = ordered_load(open(arguments.new))
+			f = open("temp.yaml", 'w')
+			new_append(arguments.new, arguments.master)
+			#append(arguments.new, arguments.master)
+			f.close()
+			os.rename("temp.yaml", arguments.master)
 		else:
 			print("Appending to master with no execution...")
-			yamlPar = yaml.load(open(arguments.new))
-			append(arguments.new, arguments.master)
+			#yamlPar = yaml.load(open(arguments.new))
+			#yamlPar = ordered_load(open(arguments.new))
+			f = open("temp.yaml", 'w')
+			new_append(arguments.new, arguments.master)
+			#append(arguments.new, arguments.master)
+			f.close()
+			os.rename("temp.yaml", arguments.master)
 			sys.exit("Done")
 
 	rootDirectory = configYaml["config-yaml"]["path-settings"]["reference-directory"]
-	referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
+	#referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
+	referenceKeys = yamlPar["reference-yaml"]["reference-entries"].keys()
 	# extract the keys under 'reference-entries' named 'reference-information-X'
 	run = referenceHandler(errorBehavior=configYaml["config-yaml"]["runtime-settings"]["break-on-error"])
 	print(referenceKeys)

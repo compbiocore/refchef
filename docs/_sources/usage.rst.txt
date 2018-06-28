@@ -23,7 +23,7 @@ Please see the following screenshot for an example YAML file, then refer to the 
 .. raw:: html
 
 	<p>example.yaml</p>
-    <img src="https://compbiocore.github.io/parseyaml/_static/refactored_yaml_screenshot.png">
+    <img src="https://compbiocore.github.io/refchef/_static/refactored_yaml_screenshot.png">
 
 There are several important features of this file structure that should be noted.
 

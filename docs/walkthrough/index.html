@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Brown CBC’s Reference YAML Utility Sample Workflow / Walkthrough &#8212; Brown CBC&#39;s Reference YAML Utility</title>
+    <title>Brown CBC’s RefChef Sample Workflow / Walkthrough &#8212; Brown CBC&#39;s RefChef Reference Management Utility</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -16,8 +16,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="next" title="Brown CBC’s Reference YAML Utility Changelog" href="../changelog/" />
-    <link rel="prev" title="Brown CBC’s Reference YAML Utility Manual" href="../manual/" />
+    <link rel="next" title="Brown CBC’s RefChef Changelog" href="../changelog/" />
+    <link rel="prev" title="Brown CBC’s RefChef Manual" href="../manual/" />
    
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115983496-2"></script>
@@ -30,7 +30,7 @@
 </script>
 
   
-  <link rel="alternate" type="application/atom+xml"  href="../blog/atom.xml" title="Brown CBC's Reference YAML Utility">
+  <link rel="alternate" type="application/atom+xml"  href="../blog/atom.xml" title="Brown CBC's RefChef Reference Management Utility">
   
   
   <style type="text/css">
@@ -50,11 +50,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="brown-cbc-s-reference-yaml-utility-sample-workflow-walkthrough">
-<h1>Brown CBC’s Reference YAML Utility Sample Workflow / Walkthrough<a class="headerlink" href="#brown-cbc-s-reference-yaml-utility-sample-workflow-walkthrough" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="brown-cbc-s-refchef-sample-workflow-walkthrough">
+<h1>Brown CBC’s RefChef Sample Workflow / Walkthrough<a class="headerlink" href="#brown-cbc-s-refchef-sample-workflow-walkthrough" title="Permalink to this headline">¶</a></h1>
+<p>THIS GUIDE IS OUT OF DATE AND WILL NOT BE UPDATED UNTIL REFACTORING IS COMPLETE</p>
 <p>Now, we will provide a brief worked example of how to operate this software.  Please download the files located at the following links, depending on your platform:</p>
-<p><a class="reference external" href="https://github.com/compbiocore/parseyaml/raw/master/example_files_osx.zip">Example files for OSX</a></p>
-<p><a class="reference external" href="https://github.com/compbiocore/parseyaml/raw/master/example_files_linux.zip">Example files for Linux (tested on CentOS 6.7)</a></p>
+<p>REFERENCE FILES TEMPORARILY REMOVED UNTIL REFACTORING IS COMPLETE</p>
 <p>Both of these sets of files accomplish the exact same tasks; they contain small differences in the method of generating md5 files and deleting intermediary files.</p>
 <div class="section" id="sample-files">
 <h2>Sample Files<a class="headerlink" href="#sample-files" title="Permalink to this headline">¶</a></h2>
@@ -70,12 +70,12 @@
 <p><em>NB: One of the commands used in these YAMLs, ‘md5’, is Mac-specific.  The corresponding command on most Linux systems is ‘md5sum’, so running this walkthrough to completion on Linux requires those commands be changed as well</em>.</p>
 <p>From there, we can run the software in both its useful modes.  We will begin by running with only a Master YAML, and then continue by running with both a Master YAML and a New YAML to add additional references.</p>
 <p>To initiate a reference download according to the Master YAML’s specifications, type:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">master</span> <span class="n">master_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">excecute</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="n">local</span> <span class="o">--</span><span class="n">master</span> <span class="n">master_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">excecute</span>
 </pre></div>
 </div>
 <p>It will take approximately 30 minutes for this task to complete (depending heavily on your own network’s capabilities).  Once it is done, you can check in the directory you designated as ‘root-directory’ to verify that the files have been obtained.  You should see two subfolders, “ucsc-hg19-concatenate” and “ucsc-hg38”, each with a multitude of files.</p>
 <p>Now that we have some references, we have created a situation in which we can expand our inventory thereof.  This tool exists to maintain an up-to-date master list of references on the system, and running it with the New YAML will demonstrate this capability by updating the Master YAML:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">master</span> <span class="n">master_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">new</span> <span class="n">new_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">execute</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="n">local</span> <span class="o">--</span><span class="n">master</span> <span class="n">master_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">new</span> <span class="n">new_test</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">execute</span>
 </pre></div>
 </div>
 <p>This reference is rather large, and will likely take another 30 minutes unto itself.  Once it is complete, you can verify two things that have now transpired: first, there is a new subfolder in ‘root-directory’ entitled “broad-bundle-hg19”, and second, new_test.yaml’s ‘reference-information-1’ has been appended to master_test.yaml and renumbered within that document as ‘reference-information-3’.</p>
@@ -123,11 +123,10 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="https://compbiocore.github.io/cbc-workshops/">CBC Workshop index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usage/">Brown CBC’s Reference YAML Utility Usage Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../manual/">Brown CBC’s Reference YAML Utility Manual</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s Reference YAML Utility Sample Workflow / Walkthrough</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog/">Brown CBC’s Reference YAML Utility Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/">Brown CBC’s RefChef Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manual/">Brown CBC’s RefChef Manual</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s RefChef Sample Workflow / Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/">Brown CBC’s RefChef Changelog</a></li>
 </ul>
 
 

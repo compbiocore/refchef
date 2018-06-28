@@ -1,11 +1,11 @@
-Brown CBC's Reference YAML Utility Sample Workflow / Walkthrough
-=================================================================
+Brown CBC's RefChef Sample Workflow / Walkthrough
+=================================================
+
+THIS GUIDE IS OUT OF DATE AND WILL NOT BE UPDATED UNTIL REFACTORING IS COMPLETE
 
 Now, we will provide a brief worked example of how to operate this software.  Please download the files located at the following links, depending on your platform:
 
-`Example files for OSX <https://github.com/compbiocore/parseyaml/raw/master/example_files_osx.zip>`_
-
-`Example files for Linux (tested on CentOS 6.7) <https://github.com/compbiocore/parseyaml/raw/master/example_files_linux.zip>`_
+REFERENCE FILES TEMPORARILY REMOVED UNTIL REFACTORING IS COMPLETE
 
 Both of these sets of files accomplish the exact same tasks; they contain small differences in the method of generating md5 files and deleting intermediary files.
 
@@ -34,13 +34,13 @@ From there, we can run the software in both its useful modes.  We will begin by 
 
 To initiate a reference download according to the Master YAML's specifications, type::
 
-	python newparser.py --master master_test.yaml --excecute
+	python newparser.py local --master master_test.yaml --excecute
 
 It will take approximately 30 minutes for this task to complete (depending heavily on your own network's capabilities).  Once it is done, you can check in the directory you designated as 'root-directory' to verify that the files have been obtained.  You should see two subfolders, "ucsc-hg19-concatenate" and "ucsc-hg38", each with a multitude of files.
 
 Now that we have some references, we have created a situation in which we can expand our inventory thereof.  This tool exists to maintain an up-to-date master list of references on the system, and running it with the New YAML will demonstrate this capability by updating the Master YAML::
 
-	python newparser.py --master master_test.yaml --new new_test.yaml --execute
+	python newparser.py local --master master_test.yaml --new new_test.yaml --execute
 
 This reference is rather large, and will likely take another 30 minutes unto itself.  Once it is complete, you can verify two things that have now transpired: first, there is a new subfolder in 'root-directory' entitled "broad-bundle-hg19", and second, new_test.yaml's 'reference-information-1' has been appended to master_test.yaml and renumbered within that document as 'reference-information-3'.
 

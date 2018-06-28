@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Brown CBC’s Reference YAML Utility Changelog &#8212; Brown CBC&#39;s Reference YAML Utility</title>
+    <title>Brown CBC’s RefChef Changelog &#8212; Brown CBC&#39;s RefChef Reference Management Utility</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="prev" title="Brown CBC’s Reference YAML Utility Sample Workflow / Walkthrough" href="../walkthrough/" />
+    <link rel="prev" title="Brown CBC’s RefChef Sample Workflow / Walkthrough" href="../walkthrough/" />
    
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115983496-2"></script>
@@ -29,7 +29,7 @@
 </script>
 
   
-  <link rel="alternate" type="application/atom+xml"  href="../blog/atom.xml" title="Brown CBC's Reference YAML Utility">
+  <link rel="alternate" type="application/atom+xml"  href="../blog/atom.xml" title="Brown CBC's RefChef Reference Management Utility">
   
   
   <style type="text/css">
@@ -49,14 +49,34 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="brown-cbc-s-reference-yaml-utility-changelog">
-<h1>Brown CBC’s Reference YAML Utility Changelog<a class="headerlink" href="#brown-cbc-s-reference-yaml-utility-changelog" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="brown-cbc-s-refchef-changelog">
+<h1>Brown CBC’s RefChef Changelog<a class="headerlink" href="#brown-cbc-s-refchef-changelog" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="upcoming-features-in-order-of-priority">
 <h2>Upcoming Features (in order of priority)<a class="headerlink" href="#upcoming-features-in-order-of-priority" title="Permalink to this headline">¶</a></h2>
-<p>A separate config file to control the behavior of the tool (to be separated from the master) - will be used to set the reference location, logging options, settings for future features, etc.</p>
-<p>Interactive prompts to generate a config file if none exists</p>
+<p>Multiple options for handing duplicate reference names</p>
 <p>Git integration - autopush master upon update, automatically process a YAML on a repo</p>
-<p>A method to detect and handle references with the same exact name</p>
+<p>Remote operation mode</p>
+<p>Option for S3 push of reference directory</p>
+<p>Refactor configuration file to use ordered dictionary dumper</p>
+<p>Command-level execution control (such control currently exists only at the reference subcomponent level)</p>
+</div>
+<div class="section" id="version-0-8-6-27-18">
+<h2>Version 0.8 - 6/27/18<a class="headerlink" href="#version-0-8-6-27-18" title="Permalink to this headline">¶</a></h2>
+<p>Major overhaul to nearly every aspect of functionality</p>
+<p>Name changed to ‘RefChef’</p>
+<p>append() function deprecated and supplanted by new_append()</p>
+<p>All dictionaries changed to ordered dictionaries</p>
+<p>Reference keys changed to use reference names</p>
+<p>Local / remote structure implemented (only local functional as of now)</p>
+<p>Git functionality partially implemented</p>
+<p>Interactive configuration file prompts added, invoked if config file absent</p>
+<p>Created function to dump an ordered dictionary as a YAML</p>
+</div>
+<div class="section" id="version-0-7-6-8-18">
+<h2>Version 0.7 - 6/8/18<a class="headerlink" href="#version-0-7-6-8-18" title="Permalink to this headline">¶</a></h2>
+<p>Configuration file scheme added</p>
+<p>Interactive config file generation added (autotriggered when no config file is present)</p>
+<p>Began subparser implementation</p>
 </div>
 <div class="section" id="version-0-61-5-29-18">
 <h2>Version 0.61 - 5/29/18<a class="headerlink" href="#version-0-61-5-29-18" title="Permalink to this headline">¶</a></h2>
@@ -109,11 +129,10 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="https://compbiocore.github.io/cbc-workshops/">CBC Workshop index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usage/">Brown CBC’s Reference YAML Utility Usage Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../manual/">Brown CBC’s Reference YAML Utility Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../walkthrough/">Brown CBC’s Reference YAML Utility Sample Workflow / Walkthrough</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s Reference YAML Utility Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/">Brown CBC’s RefChef Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manual/">Brown CBC’s RefChef Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../walkthrough/">Brown CBC’s RefChef Sample Workflow / Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s RefChef Changelog</a></li>
 </ul>
 
 

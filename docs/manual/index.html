@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Brown CBC’s Reference YAML Utility Manual &#8212; Brown CBC&#39;s Reference YAML Utility</title>
+    <title>Brown CBC’s RefChef Manual &#8212; Brown CBC&#39;s RefChef Reference Management Utility</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -16,8 +16,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="next" title="Brown CBC’s Reference YAML Utility Sample Workflow / Walkthrough" href="../walkthrough/" />
-    <link rel="prev" title="Brown CBC’s Reference YAML Utility Usage Guide" href="../usage/" />
+    <link rel="next" title="Brown CBC’s RefChef Sample Workflow / Walkthrough" href="../walkthrough/" />
+    <link rel="prev" title="Brown CBC’s RefChef Usage Guide" href="../usage/" />
    
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115983496-2"></script>
@@ -30,7 +30,7 @@
 </script>
 
   
-  <link rel="alternate" type="application/atom+xml"  href="../blog/atom.xml" title="Brown CBC's Reference YAML Utility">
+  <link rel="alternate" type="application/atom+xml"  href="../blog/atom.xml" title="Brown CBC's RefChef Reference Management Utility">
   
   
   <style type="text/css">
@@ -50,8 +50,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="brown-cbc-s-reference-yaml-utility-manual">
-<h1>Brown CBC’s Reference YAML Utility Manual<a class="headerlink" href="#brown-cbc-s-reference-yaml-utility-manual" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="brown-cbc-s-refchef-manual">
+<h1>Brown CBC’s RefChef Manual<a class="headerlink" href="#brown-cbc-s-refchef-manual" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>PyYAML:</p>
@@ -61,7 +61,8 @@
 </div>
 <div class="section" id="syntax">
 <h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
-<p>Parseyaml currenly has two arguments, one required and one optional:</p>
+<p>RefChef will have two operating modes, ‘local’ and ‘remote’, each corresponding to one type of location the Master YAML is stored.  At the moment, only ‘local’ is implemented.</p>
+<p>RefChef’s local mode currenly has two arguments, one required and one optional:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">master</span><span class="p">:</span> <span class="n">REQUIRED</span> <span class="o">-</span> <span class="n">denotes</span> <span class="n">the</span> <span class="n">Master</span> <span class="n">YAML</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">references</span>
 
 <span class="o">--</span><span class="n">new</span><span class="p">:</span> <span class="n">OPTIONAL</span> <span class="o">-</span> <span class="n">denotes</span> <span class="n">the</span> <span class="n">New</span> <span class="n">YAML</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">references</span> <span class="n">to</span> <span class="n">be</span> <span class="n">added</span> <span class="n">to</span> <span class="n">Master</span>
@@ -69,11 +70,15 @@
 <span class="o">-</span><span class="n">e</span> <span class="o">--</span><span class="n">execute</span><span class="p">:</span> <span class="n">OPTIONAL</span> <span class="o">-</span> <span class="n">determines</span> <span class="n">whether</span> <span class="n">the</span> <span class="n">YAML</span> <span class="p">(</span><span class="n">New</span> <span class="k">if</span> <span class="n">it</span> <span class="n">exists</span><span class="p">,</span> <span class="n">Master</span> <span class="k">if</span> <span class="ow">not</span><span class="p">)</span> <span class="n">should</span> <span class="n">be</span> <span class="n">run</span>
 </pre></div>
 </div>
+<p>An example RefChef local command is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">newparser</span><span class="o">.</span><span class="n">py</span> <span class="n">local</span> <span class="o">--</span><span class="n">master</span> <span class="n">master</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">new</span> <span class="n">new</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">execute</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
 <p>–execute changes its behavior based on the presence or absence of –new; if both –master and –new are passed as arguments, then the –new YAML will be executed.  If there is no –new and only a –master (which is always required), the –master will be executed instead.</p>
-<p>Fine-grained control of the execution of these files is managed within the YAMLs themselves using the ‘retrieve’ option as described on the <a class="reference external" href="https://compbiocore.github.io/parseyaml/usage">Usage page</a>.</p>
+<p>Fine-grained control of the execution of these files is managed within the YAMLs themselves using the ‘retrieve’ option as described on the <a class="reference external" href="https://compbiocore.github.io/refchef/usage">Usage page</a>.</p>
 </div>
 </div>
 
@@ -111,11 +116,10 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="https://compbiocore.github.io/cbc-workshops/">CBC Workshop index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usage/">Brown CBC’s Reference YAML Utility Usage Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s Reference YAML Utility Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../walkthrough/">Brown CBC’s Reference YAML Utility Sample Workflow / Walkthrough</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog/">Brown CBC’s Reference YAML Utility Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/">Brown CBC’s RefChef Usage Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Brown CBC’s RefChef Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../walkthrough/">Brown CBC’s RefChef Sample Workflow / Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/">Brown CBC’s RefChef Changelog</a></li>
 </ul>
 
 

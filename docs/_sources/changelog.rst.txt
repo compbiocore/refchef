@@ -1,22 +1,57 @@
 
-.. parseyaml index file, created by `ablog start` on Thu May 17 10:44:53 2018.
+.. refchef index file, created by `ablog start` on Thu May 17 10:44:53 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Brown CBC's Reference YAML Utility Changelog
-============================================
+Brown CBC's RefChef Changelog
+=============================
 
 Upcoming Features (in order of priority)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A separate config file to control the behavior of the tool (to be separated from the master) - will be used to set the reference location, logging options, settings for future features, etc.
-
-Interactive prompts to generate a config file if none exists
+Multiple options for handing duplicate reference names
 
 Git integration - autopush master upon update, automatically process a YAML on a repo
 
-A method to detect and handle references with the same exact name
+Remote operation mode
 
+Option for S3 push of reference directory
+
+Refactor configuration file to use ordered dictionary dumper
+
+Command-level execution control (such control currently exists only at the reference subcomponent level)
+
+
+Version 0.8 - 6/27/18
+~~~~~~~~~~~~~~~~~~~~~
+
+Major overhaul to nearly every aspect of functionality
+
+Name changed to 'RefChef'
+
+append() function deprecated and supplanted by new_append()
+
+All dictionaries changed to ordered dictionaries
+
+Reference keys changed to use reference names
+
+Local / remote structure implemented (only local functional as of now)
+
+Git functionality partially implemented
+
+Interactive configuration file prompts added, invoked if config file absent
+
+Created function to dump an ordered dictionary as a YAML
+
+
+Version 0.7 - 6/8/18
+~~~~~~~~~~~~~~~~~~~~
+
+Configuration file scheme added
+
+Interactive config file generation added (autotriggered when no config file is present)
+
+Began subparser implementation
 
 Version 0.61 - 5/29/18
 ~~~~~~~~~~~~~~~~~~~~~~

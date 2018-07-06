@@ -18,7 +18,8 @@ import datetime
 import collections
 from collections import OrderedDict, defaultdict
 import shutil
-from inspect import getouterframes, currentframe
+#from inspect import getouterframes, currentframe
+import yamlordereddictloader
 
 
 
@@ -44,33 +45,33 @@ def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
     )
     return yaml.load(stream, OrderedLoader)
 
-def ordered_dump(dictionary):
-	"""
-	Take an ordered dictionary and turn it into a YAML.
-	This function also works on unordered dictionaries as a secondary use case.
+# def ordered_dump(dictionary):
+# 	"""
+# 	Take an ordered dictionary and turn it into a YAML.
+# 	This function also works on unordered dictionaries as a secondary use case.
 
-	This function must be called after opening a file for writing, e.g.:
-	f = open("example.yaml", 'w')
-	ordered_dump(example_ordered_dictionary)
-	f.close()
-	"""
-	level = len(getouterframes(currentframe(1)))
-	# track the depth of the recursion
-	for key,value in dictionary.iteritems():
-		if type(value) == collections.OrderedDict or type(value) == dict:
-			#print("{0} :{1}".format(key, level))
-			text = ("    " * (level - 1)) + ("{0}:".format(key))
-			# write out an entry that contains other entries, prefaced by 4 spaces per level of recursiom beyond the first
-			#print(text)
-			f.write(str(text) + "\n")
-			ordered_dump(value)
-			# if this entry has any subheadings, go deeper
-		else:
-			#print("{0} : {1} : {2}".format(key, value, level))
-			text = ("    " * (level - 1)) + ("{0} : {1}".format(key, value))
-			# write out an entry that has a value and no subentries, prefaced by 4 spaces per level of recursion beyond the first
-			#print(text)
-			f.write(str(text) + "\n")
+# 	This function must be called after opening a file for writing, e.g.:
+# 	f = open("example.yaml", 'w')
+# 	ordered_dump(example_ordered_dictionary)
+# 	f.close()
+# 	"""
+# 	level = len(getouterframes(currentframe(1)))
+# 	# track the depth of the recursion
+# 	for key,value in dictionary.iteritems():
+# 		if type(value) == collections.OrderedDict or type(value) == dict:
+# 			#print("{0} :{1}".format(key, level))
+# 			text = ("    " * (level - 1)) + ("{0}:".format(key))
+# 			# write out an entry that contains other entries, prefaced by 4 spaces per level of recursiom beyond the first
+# 			#print(text)
+# 			f.write(str(text) + "\n")
+# 			ordered_dump(value)
+# 			# if this entry has any subheadings, go deeper
+# 		else:
+# 			#print("{0} : {1} : {2}".format(key, value, level))
+# 			text = ("    " * (level - 1)) + ("{0} : {1}".format(key, value))
+# 			# write out an entry that has a value and no subentries, prefaced by 4 spaces per level of recursion beyond the first
+# 			#print(text)
+# 			f.write(str(text) + "\n")
 
 
 def generateConfig():
@@ -130,69 +131,69 @@ def generateConfig():
 	print("Generated config file and timestamped backup.")
 	print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
 
-def append(origin, destination):
-	"""Append the 'new' YAML to the 'master' YAML"""
+# def append(origin, destination):
+# 	"""Append the 'new' YAML to the 'master' YAML"""
 
-	print("Now appending " + origin + " to " + destination + "...")
+# 	print("Now appending " + origin + " to " + destination + "...")
 
-	# First, clean up the file's blank lines
-	#subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml && mv temp.yaml ' + origin
-	subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml'
-	subprocess.call([subprocessCommand], shell=True)
-	os.rename("temp.yaml", origin)
+# 	# First, clean up the file's blank lines
+# 	#subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml && mv temp.yaml ' + origin
+# 	subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml'
+# 	subprocess.call([subprocessCommand], shell=True)
+# 	os.rename("temp.yaml", origin)
 
-	subprocessCommand = 'sed -i -e \'$a\\\' ' + origin
-	# add a newline to the end of New if there isn't one there already
-	subprocess.call([subprocessCommand], shell=True)
+# 	subprocessCommand = 'sed -i -e \'$a\\\' ' + origin
+# 	# add a newline to the end of New if there isn't one there already
+# 	subprocess.call([subprocessCommand], shell=True)
 
-	subprocessCommand = 'grep -n "reference-entries" ' + origin + ' | grep -Eo \'^[^:]+\''
-	referenceLine = int(subprocess.check_output([subprocessCommand],shell=True))
-	subprocessCommand = 'wc -l < ' + origin
-	totalLines = int(subprocess.check_output([subprocessCommand],shell=True))
-	#subprocessCommand = 'grep -c "^$" ' + origin
-	#blankLines = int(subprocess.check_output([subprocessCommand], shell=True))
-	## Check if there is a blank line at the end of the file or not - there will be iff there were 1+ blank lines at the end before parsing
+# 	subprocessCommand = 'grep -n "reference-entries" ' + origin + ' | grep -Eo \'^[^:]+\''
+# 	referenceLine = int(subprocess.check_output([subprocessCommand],shell=True))
+# 	subprocessCommand = 'wc -l < ' + origin
+# 	totalLines = int(subprocess.check_output([subprocessCommand],shell=True))
+# 	#subprocessCommand = 'grep -c "^$" ' + origin
+# 	#blankLines = int(subprocess.check_output([subprocessCommand], shell=True))
+# 	## Check if there is a blank line at the end of the file or not - there will be iff there were 1+ blank lines at the end before parsing
 
 
 
-	#tailLines = (totalLines + blankLines) - referenceLine
-	tailLines = (totalLines) - referenceLine
-	subprocessCommand = 'tail -n' + str(tailLines) + ' ' + origin + '> temp.yaml'
-	subprocess.call([subprocessCommand], shell=True)
-	# create the temp yaml file consisting of only the reference entries and not the config settings
+# 	#tailLines = (totalLines + blankLines) - referenceLine
+# 	tailLines = (totalLines) - referenceLine
+# 	subprocessCommand = 'tail -n' + str(tailLines) + ' ' + origin + '> temp.yaml'
+# 	subprocess.call([subprocessCommand], shell=True)
+# 	# create the temp yaml file consisting of only the reference entries and not the config settings
 
-	#masterYaml = yaml.load(open(destination))
-	#tempYaml = yaml.load(open("temp.yaml"))
-	masterYaml = ordered_load(open(destination))
-	tempYaml = ordered_load(open("temp.yaml"))
-	masterNames = sorted(masterYaml["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
-	# ^superfluous except for below line, but retained for symmetry
-	masterLength = len(masterNames)
-	newNames = sorted(tempYaml.keys(), key=lambda entry: int(entry.split('-')[2]))
-	newLength = len(newNames)
+# 	#masterYaml = yaml.load(open(destination))
+# 	#tempYaml = yaml.load(open("temp.yaml"))
+# 	masterYaml = ordered_load(open(destination))
+# 	tempYaml = ordered_load(open("temp.yaml"))
+# 	masterNames = sorted(masterYaml["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
+# 	# ^superfluous except for below line, but retained for symmetry
+# 	masterLength = len(masterNames)
+# 	newNames = sorted(tempYaml.keys(), key=lambda entry: int(entry.split('-')[2]))
+# 	newLength = len(newNames)
 
-	#### The first number in temp must be the last number in master + 1
+# 	#### The first number in temp must be the last number in master + 1
 
-	for k in newNames:
-		index = int(k.split("-")[2]) + masterLength
-		temp = "reference-information-" + str(index)
-		subprocessCommand = "sed -i -e \'s/" + k + "/" + temp + "/g\' temp.yaml"
-		subprocess.call([subprocessCommand], shell=True)
+# 	for k in newNames:
+# 		index = int(k.split("-")[2]) + masterLength
+# 		temp = "reference-information-" + str(index)
+# 		subprocessCommand = "sed -i -e \'s/" + k + "/" + temp + "/g\' temp.yaml"
+# 		subprocess.call([subprocessCommand], shell=True)
 		
 
-	# sed -i -e 's/reference-information-3/reference-information-1/g' tester.yaml
+# 	# sed -i -e 's/reference-information-3/reference-information-1/g' tester.yaml
 
-	subprocessCommand = 'sed -i -e \'$a\\\' ' + destination
-	# add a newline to the end of master if there isn't one there already
-	subprocess.call([subprocessCommand], shell=True)
-	subprocessCommand = "cat temp.yaml >> " + destination
-	# append temp to master
-	subprocess.call([subprocessCommand], shell=True)
-	subprocess.call(['rm temp.yaml'], shell=True)
-	if sys.platform == "darwin":
-		subprocess.call(['rm *-e'], shell=True)
-		# remove anomalous intermediary files created by bad sed and subprocess integration on OSX only
-	#sys.exit("Done")
+# 	subprocessCommand = 'sed -i -e \'$a\\\' ' + destination
+# 	# add a newline to the end of master if there isn't one there already
+# 	subprocess.call([subprocessCommand], shell=True)
+# 	subprocessCommand = "cat temp.yaml >> " + destination
+# 	# append temp to master
+# 	subprocess.call([subprocessCommand], shell=True)
+# 	subprocess.call(['rm temp.yaml'], shell=True)
+# 	if sys.platform == "darwin":
+# 		subprocess.call(['rm *-e'], shell=True)
+# 		# remove anomalous intermediary files created by bad sed and subprocess integration on OSX only
+# 	#sys.exit("Done")
 
 def new_append(origin, destination):
 	"""
@@ -220,7 +221,8 @@ def new_append(origin, destination):
 		else:
 			masterYaml["reference-yaml"]["reference-entries"][str(i)] = newYaml["reference-yaml"]["reference-entries"][i]
 	#f = open("master_test_new.yaml", 'w')
-	ordered_dump(masterYaml)
+	#ordered_dump(masterYaml)
+	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
 	#f.close()
 	#return(destination)
 
@@ -406,19 +408,19 @@ if  __name__ == "__main__":
 			# load the new as yamlPar and append it after running; no need to load master
 			#yamlPar = yaml.load(open(arguments.new))
 			yamlPar = ordered_load(open(arguments.new))
-			f = open("temp.yaml", 'w')
+			#f = open("temp.yaml", 'w')
 			new_append(arguments.new, arguments.master)
 			#append(arguments.new, arguments.master)
-			f.close()
+			#f.close()
 			os.rename("temp.yaml", arguments.master)
 		else:
 			print("Appending to master with no execution...")
 			#yamlPar = yaml.load(open(arguments.new))
-			#yamlPar = ordered_load(open(arguments.new))
-			f = open("temp.yaml", 'w')
+			yamlPar = ordered_load(open(arguments.new))
+			#f = open("temp.yaml", 'w')
 			new_append(arguments.new, arguments.master)
 			#append(arguments.new, arguments.master)
-			f.close()
+			#f.close()
 			os.rename("temp.yaml", arguments.master)
 			sys.exit("Done")
 

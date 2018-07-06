@@ -289,7 +289,10 @@ class referenceHandler:
 			if (commandKeys == ["command-" + str(k) for k in range(1, len(commandKeys)+1)]) == False:
 			# check to be sure the commands are enumerated by a numerical sequence i.e. don't have typos
 				#sys.exit("\033[1m" + "Fatal Error: Command Entries misnumbered for component " + "\033[0m" + componentName)
-				subprocess.call(["echo 'Error: misnumbered commands' > error.txt"], shell=True)
+				#subprocess.call(["echo 'Error: misnumbered commands' > error.txt"], shell=True)
+				f = open("error.txt", 'w')
+				f.write("Error: misnumbered commands")
+				f.close()
 				if self.errorBehavior == True:
 					sys.exit("\033[1m" + "Fatal Error: Command Entries misnumbered for component: " + "\033[0m" + componentName)
 				else:
@@ -338,7 +341,8 @@ class referenceHandler:
 		referenceParentLocation = rootDirectory + "/" + subYaml["metadata"]["reference-name"]
 		# assemble the path of this reference into which components will be put
 		if os.path.exists(referenceParentLocation)==False:
-				subprocess.call(["mkdir " + referenceParentLocation], shell=True)
+				#subprocess.call(["mkdir " + referenceParentLocation], shell=True)
+				os.makedirs(referenceParentLocation)
 				# create the directory if it doesn't exist yet
 
 		metadata = subYaml["metadata"]

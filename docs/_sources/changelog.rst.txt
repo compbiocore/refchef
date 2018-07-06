@@ -22,6 +22,14 @@ Refactor configuration file to use ordered dictionary dumper
 Command-level execution control (such control currently exists only at the reference subcomponent level)
 
 
+Version 0.8.1 - 7/6/18
+~~~~~~~~~~~~~~~~~~~~~~
+
+YAML dumping refactored
+
+All internal subprocess commands replaced with python commands
+
+
 Version 0.8 - 6/27/18
 ~~~~~~~~~~~~~~~~~~~~~
 

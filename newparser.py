@@ -74,10 +74,80 @@ def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
 # 			f.write(str(text) + "\n")
 
 
+# def generateConfig():
+# 	"""Generate a human-readable configuration YAML for running the software proper.
+
+# 	Code readability has been traded for output readability via escape character-based document formatting."""
+# 	print("This interactive prompt will allow you to generate a config file for this tool.")
+# 	print("If asked to provide a filepath, please provide the full, absolute filepath.")
+# 	print("Furthermore, please do not append a trailing '/' to the filepaths.")
+# 	print("If you leave your response to a prompt empty, that entry will not be generated.")
+# 	print("\033[1m" + "This operation will overwrite any existing config.yaml.  Type 'yes' to proceed, or anything else to exit." + "\033[0m")
+# 	continue_prompt = raw_input("> ")
+# 	if continue_prompt != "yes":
+# 		sys.exit("Exiting without action.")
+# 	f = open("config.yaml", 'w')
+# 	f.write("config-yaml:\n")
+# 	print("\033[1m" + "Filepaths" + "\033[0m")
+# 	f.write("    path-settings:\n")
+# 	print("What is the filepath of the directory to be used as root for the references? (Required)")
+# 	root_dir = raw_input("> ")
+# 	if root_dir != "":
+# 		f.write("        reference-directory     : " + str(root_dir) + "\n")
+# 	else:
+# 		os.remove("config.yaml")
+# 		sys.exit("Required option omitted; exiting.")
+# 	print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
+# 	local_git_dir = raw_input("> ")
+# 	if local_git_dir != "":
+# 		f.write("        github-directory        : " + str(local_git_dir) + "\n")
+# 	print("What is the " + "\033[1m" + "remote" + "\033[0m" + " Github repo in the format 'USER/REPO'?")
+# 	remote_git_name = raw_input("> ")
+# 	if remote_git_name != "":
+# 		f.write("        remote-repository       : " + str(remote_git_name) + "\n")
+# 	print("\033[1m" + "Logging" + "\033[0m")
+# 	f.write("    log-settings:\n")
+# 	print("Should logs be generated?  Type 'True' or 'False'. (Default: True)")
+# 	log_setting = raw_input("> ")
+# 	if log_setting == "":
+# 		log_setting = "True"
+# 	f.write("        log                        : " + str(log_setting) + "\n")
+# 	print("\033[1m" + "Runtime Settings" + "\033[0m")
+# 	f.write("    runtime-settings:\n")
+# 	print("Should the tool end its run on any error?  Type 'True' or 'False'. (Default: True)")
+# 	break_on_error = raw_input("> ")
+# 	if break_on_error == "":
+# 		break_on_error = "True"
+# 	f.write("        break-on-error             : " + str(break_on_error) + "\n")
+# 	print("Should the tool be verbose (generate lots of stepwise output)? (Default: False)")
+# 	verbose = raw_input("> ")
+# 	if verbose == "":
+# 		verbose = "False"
+# 	f.write("        verbose                    : " + str(verbose) + "\n")
+# 	f.close()
+# 	current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
+# 	backup_path = "config_backup_" + current_time + ".yaml"
+# 	shutil.copyfile("config.yaml",backup_path)
+# 	print("Generated config file and timestamped backup.")
+# 	print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
+
+def processLogical(text):
+	"""
+	Turn text into the corresponding logical.
+	"""
+	text = str(text)
+	if(text == "true" or text == "True" or text == "TRUE" or text == "T" or text == "t" or text == "1"):
+		return True
+	elif(text == "false" or text == "False" or text == "FALSE" or text == "F" or text == "f" or text == "0"):
+		return False
+	else:
+		print("Input has no logical analogue.")
+		return(text)
+
 def generateConfig():
 	"""Generate a human-readable configuration YAML for running the software proper.
 
-	Code readability has been traded for output readability via escape character-based document formatting."""
+	This version of generateConfig() uses an ordered dictionary to generate its YAML."""
 	print("This interactive prompt will allow you to generate a config file for this tool.")
 	print("If asked to provide a filepath, please provide the full, absolute filepath.")
 	print("Furthermore, please do not append a trailing '/' to the filepaths.")
@@ -86,45 +156,53 @@ def generateConfig():
 	continue_prompt = raw_input("> ")
 	if continue_prompt != "yes":
 		sys.exit("Exiting without action.")
-	f = open("config.yaml", 'w')
-	f.write("config-yaml:\n")
+	#f = open("config.yaml", 'w')
+	#f.write("config-yaml:\n")
 	print("\033[1m" + "Filepaths" + "\033[0m")
-	f.write("    path-settings:\n")
+	#f.write("    path-settings:\n")
 	print("What is the filepath of the directory to be used as root for the references? (Required)")
 	root_dir = raw_input("> ")
 	if root_dir != "":
-		f.write("        reference-directory     : " + str(root_dir) + "\n")
+		print("do nothing")
+		#f.write("        reference-directory     : " + str(root_dir) + "\n")
 	else:
-		os.remove("config.yaml")
+		#os.remove("config.yaml")
 		sys.exit("Required option omitted; exiting.")
 	print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
 	local_git_dir = raw_input("> ")
 	if local_git_dir != "":
-		f.write("        github-directory        : " + str(local_git_dir) + "\n")
+		print("do nothing")
+		#f.write("        github-directory        : " + str(local_git_dir) + "\n")
 	print("What is the " + "\033[1m" + "remote" + "\033[0m" + " Github repo in the format 'USER/REPO'?")
 	remote_git_name = raw_input("> ")
 	if remote_git_name != "":
-		f.write("        remote-repository       : " + str(remote_git_name) + "\n")
+		print("do nothing")
+		#f.write("        remote-repository       : " + str(remote_git_name) + "\n")
 	print("\033[1m" + "Logging" + "\033[0m")
-	f.write("    log-settings:\n")
+	#f.write("    log-settings:\n")
 	print("Should logs be generated?  Type 'True' or 'False'. (Default: True)")
 	log_setting = raw_input("> ")
 	if log_setting == "":
 		log_setting = "True"
-	f.write("        log                        : " + str(log_setting) + "\n")
+	#f.write("        log                        : " + str(log_setting) + "\n")
 	print("\033[1m" + "Runtime Settings" + "\033[0m")
-	f.write("    runtime-settings:\n")
+	#f.write("    runtime-settings:\n")
 	print("Should the tool end its run on any error?  Type 'True' or 'False'. (Default: True)")
 	break_on_error = raw_input("> ")
 	if break_on_error == "":
 		break_on_error = "True"
-	f.write("        break-on-error             : " + str(break_on_error) + "\n")
+	#f.write("        break-on-error             : " + str(break_on_error) + "\n")
 	print("Should the tool be verbose (generate lots of stepwise output)? (Default: False)")
 	verbose = raw_input("> ")
 	if verbose == "":
 		verbose = "False"
-	f.write("        verbose                    : " + str(verbose) + "\n")
-	f.close()
+	#f.write("        verbose                    : " + str(verbose) + "\n")
+	#f.close()
+	configObject = OrderedDict([('config-yaml', OrderedDict([('path-settings', OrderedDict([('reference-directory', str(root_dir)), ('github-directory', str(local_git_dir)), ('remote-repository', str(remote_git_name))])), ('log-settings', OrderedDict([('log', str(log_setting))])), ('runtime-settings', OrderedDict([('break-on-error', str(break_on_error)), ('verbose', str(verbose))]))]))])
+	#pathSettings = OrderedDict([("reference-directory", "test"), ("github-directory", "test2"), ("remote-repository", "test3")])
+	#logSettings = OrderedDict([("log", "True")])
+	#runtimeSettings = OrderedDict([("break-on-error", "True"), ("verbose", "False")])
+	yaml.dump(configObject, open('config.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
 	current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
 	backup_path = "config_backup_" + current_time + ".yaml"
 	shutil.copyfile("config.yaml",backup_path)
@@ -194,6 +272,23 @@ def generateConfig():
 # 		subprocess.call(['rm *-e'], shell=True)
 # 		# remove anomalous intermediary files created by bad sed and subprocess integration on OSX only
 # 	#sys.exit("Done")
+
+def update_repository(master):
+	"""
+	Update a github repository
+	"""
+	configYaml = ordered_load(open("config.yaml"))
+	gitPath = configYaml["config-yaml"]["path-settings"]["github-directory"] + "/" + configYaml["config-yaml"]["path-settings"]["remote-repository"].split("/")[1]
+	startingDir = os.getcwd()
+	os.chdir(gitPath)
+	subprocess.call(["git pull"], shell=True)
+	os.chdir(startingDir)
+	shutil.copyfile(master, gitPath + "/" + master)
+	#shutil.copyfile("yamlOne.yaml", "/users/aleith/github_pages/yaml-repository/yamlOne.yaml")
+	os.chdir(gitPath)
+	subprocess.call(['git ca "refchef autopush" && git push origin master'], shell=True)
+	os.chdir(startingDir)
+
 
 def new_append(origin, destination):
 	"""
@@ -269,7 +364,7 @@ class referenceHandler:
 		#yamlEntry.keys()[0] is the top-level key i.e. the name of the reference subunit e.g. 'est' or 'primary-reference'
 		#print(yamlEntry)
 		#print(yamlEntry.keys())
-		if yamlEntry["retrieve"] == True:
+		if processLogical(yamlEntry["retrieve"]) == True:
 		# check to see if the given reference should be retrieved
 			print("\033[1m" + "\nRetrieving " + componentName + "\n"+ "\033[0m")
 
@@ -302,7 +397,7 @@ class referenceHandler:
 
 
 			for j in range(0,len(commandKeys)):
-					if configYaml["config-yaml"]["runtime-settings"]["verbose"] == True:
+					if processLogical(configYaml["config-yaml"]["runtime-settings"]["verbose"]) == True:
 						print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["command-sequence"].get(commandKeys[j]) + "\n")
 		    			subprocess.call([yamlEntry["command-sequence"].get(commandKeys[j])], shell=True)
 		    			# this line is an actual system command so needs to stay as a subprocess call
@@ -391,6 +486,7 @@ print(arguments)
 #sys.exit("test over")
 
 if  __name__ == "__main__":
+	home = os.getcwd()
 	if not os.path.isfile("config.yaml"):
 		print("\n\nWarning: No config file detected.  Running configuration generator...\nIf you do have a config file, terminate execution and be sure the file is named 'config.yaml' before rerunning.\n")
 		generateConfig()
@@ -432,11 +528,13 @@ if  __name__ == "__main__":
 	#referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
 	referenceKeys = yamlPar["reference-yaml"]["reference-entries"].keys()
 	# extract the keys under 'reference-entries' named 'reference-information-X'
-	run = referenceHandler(errorBehavior=configYaml["config-yaml"]["runtime-settings"]["break-on-error"])
+	run = referenceHandler(errorBehavior=processLogical(configYaml["config-yaml"]["runtime-settings"]["break-on-error"]))
 	print(referenceKeys)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, yamlPar["reference-yaml"]["reference-entries"].get(referenceKeys[k]))
 		# run processEntry for each 'reference-information-X'
+	os.chdir(home)
+	update_repository(arguments.master)
 
 
 

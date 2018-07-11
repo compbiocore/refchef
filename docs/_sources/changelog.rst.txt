@@ -9,17 +9,27 @@ Brown CBC's RefChef Changelog
 Upcoming Features (in order of priority)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Updated walkthrough
+
 Multiple options for handing duplicate reference names
-
-Git integration - autopush master upon update, automatically process a YAML on a repo
-
-Remote operation mode
 
 Option for S3 push of reference directory
 
-Refactor configuration file to use ordered dictionary dumper
-
 Command-level execution control (such control currently exists only at the reference subcomponent level)
+
+Options to handle failed / partially failed downloads
+
+
+Version 0.9 - 7/11/18
+~~~~~~~~~~~~~~~~~~~~~~
+
+Refactored configuration generation to use ordered dictionary
+
+Fixed multiple bugs in interactive configuration generation
+
+Optional github autopush added (controlled via config.yaml)
+
+Added remote operation mode, including an option to download the remote master file
 
 
 Version 0.8.1 - 7/6/18

@@ -20,6 +20,7 @@ from collections import OrderedDict, defaultdict
 import shutil
 #from inspect import getouterframes, currentframe
 import yamlordereddictloader
+import urllib2
 
 
 
@@ -149,27 +150,26 @@ def generateConfig():
 
 	This version of generateConfig() uses an ordered dictionary to generate its YAML."""
 	print("This interactive prompt will allow you to generate a config file for this tool.")
-	print("If asked to provide a filepath, please provide the full, absolute filepath.")
+	print("If asked to provide a filepath, please provide the full, absolute filepath, with no ~.")
 	print("Furthermore, please do not append a trailing '/' to the filepaths.")
 	print("If you leave your response to a prompt empty, that entry will not be generated.")
 	print("\033[1m" + "This operation will overwrite any existing config.yaml.  Type 'yes' to proceed, or anything else to exit." + "\033[0m")
 	continue_prompt = raw_input("> ")
 	if continue_prompt != "yes":
 		sys.exit("Exiting without action.")
-	#f = open("config.yaml", 'w')
-	#f.write("config-yaml:\n")
 	print("\033[1m" + "Filepaths" + "\033[0m")
-	#f.write("    path-settings:\n")
 	print("What is the filepath of the directory to be used as root for the references? (Required)")
 	root_dir = raw_input("> ")
+	if "~" in root_dir:
+		sys.exit("Please try again without using ~.")
 	if root_dir != "":
 		print("do nothing")
-		#f.write("        reference-directory     : " + str(root_dir) + "\n")
 	else:
-		#os.remove("config.yaml")
 		sys.exit("Required option omitted; exiting.")
 	print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
 	local_git_dir = raw_input("> ")
+	if "~" in local_git_dir:
+		sys.exit("Please try again without using ~.")
 	if local_git_dir != "":
 		print("do nothing")
 		#f.write("        github-directory        : " + str(local_git_dir) + "\n")
@@ -322,6 +322,23 @@ def new_append(origin, destination):
 	#return(destination)
 
 	
+def process_remote_file(url, download):
+	"""
+	Process a Master YAML stored on a github repository
+	"""
+	url = str(url)
+	file = urllib2.urlopen(url)
+	data = ordered_load(file)
+	if(download):
+		filename = url.split("/")[len(url.split("/")) - 1]
+		file = urllib2.urlopen(url)
+		# must be reassigned, for some reason
+		with open(filename, 'w') as output:
+  			output.write(file.read())
+	return(data)
+
+
+
 
 
 class referenceHandler:
@@ -329,25 +346,20 @@ class referenceHandler:
 		self.filetype = filetype
 		self.errorBehavior = errorBehavior
 
-	def mirrorGithub(self, gitDir, repository):
-		"""Retrieve and parse a master YAML stored somewhere on Github"""
-		# use an existing config file to run this 
+	# def mirrorGithub(self, gitDir, repository):
+	# 	"""Retrieve and parse a master YAML stored somewhere on Github"""
+	# 	# use an existing config file to run this 
 
-		startingDir = os.getcwd()
-		# retain current working directory to change back to at the end
-		os.chdir(gitDir)
-		# switch to main git directory
-		githubUrl = "https://github.com/" + repository + ".git"
-		subprocess.call(['git clone ' + githubUrl], shell=True)
-		# clone the repo with the YAML
+	# 	startingDir = os.getcwd()
+	# 	# retain current working directory to change back to at the end
+	# 	os.chdir(gitDir)
+	# 	# switch to main git directory
+	# 	githubUrl = "https://github.com/" + repository + ".git"
+	# 	subprocess.call(['git clone ' + githubUrl], shell=True)
+	# 	# clone the repo with the YAML
 
-		# temporarily hardcode the reference directory in lieu of a configuration file for testing purposes
-		referenceDirectory = "/Users/aleith/reference_yaml/github_references"
-
-
-
-
-
+	# 	# temporarily hardcode the reference directory in lieu of a configuration file for testing purposes
+	# 	referenceDirectory = "/Users/aleith/reference_yaml/github_references"
 
 	def retrieveReference(self, rootSubDirectory, yamlEntry, componentName):
 		"""Create a folder named for the reference component, then download and process the reference files in that folder.
@@ -473,16 +485,16 @@ local_parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly 
 # if --new does not exist and --execute is TRUE, run the --master
 # if --new does not exist and --execute is FALSE, exit with an error, as this combination is pointless
 
-###pretend this doesn't exist for now
 remote_parser = subs.add_parser('remote')
-remote_parser.add_argument('--repo', type=str, required = True, help = 'Denotes the remote Github repo')
+remote_parser.add_argument('--url', type=str, required = True, help = 'Denotes the URL of the remote file')
+remote_parser.add_argument('--download', help = 'Download a copy of the file to the working directory', action="store_true")
 
 
 
 
 # Parse arguments
 arguments = parser.parse_args()
-print(arguments)
+#print(arguments)
 #sys.exit("test over")
 
 if  __name__ == "__main__":
@@ -492,62 +504,57 @@ if  __name__ == "__main__":
 		generateConfig()
 	#configYaml = yaml.load(open("config.yaml"))
 	configYaml = ordered_load(open("config.yaml"))
-	if arguments.new is None:
-		if arguments.execute:
-			print("No new YAML detected - running the master only...")
-			# load the master as yamlPar
-			#yamlPar = yaml.load(open(arguments.master))
-			yamlPar = ordered_load(open(arguments.master))
+	if(arguments.command == "local"):
+		if arguments.new is None:
+			if arguments.execute:
+				print("No new YAML detected - running the master only...")
+				# load the master as yamlPar
+				#yamlPar = yaml.load(open(arguments.master))
+				yamlPar = ordered_load(open(arguments.master))
+			else:
+				sys.exit("Nothing to do - exiting...")
+				# load nothing, do nothing
 		else:
-			sys.exit("Nothing to do - exiting...")
-			# load nothing, do nothing
-	else:
-	# if --new exists
-		if arguments.execute:
-			print("Running new and appending to master...")
-			# load the new as yamlPar and append it after running; no need to load master
-			#yamlPar = yaml.load(open(arguments.new))
-			yamlPar = ordered_load(open(arguments.new))
-			#f = open("temp.yaml", 'w')
-			new_append(arguments.new, arguments.master)
-			#append(arguments.new, arguments.master)
-			#f.close()
-			os.rename("temp.yaml", arguments.master)
+		# if --new exists
+			if arguments.execute:
+				print("Running new and appending to master...")
+				# load the new as yamlPar and append it after running; no need to load master
+				#yamlPar = yaml.load(open(arguments.new))
+				yamlPar = ordered_load(open(arguments.new))
+				#f = open("temp.yaml", 'w')
+				new_append(arguments.new, arguments.master)
+				#append(arguments.new, arguments.master)
+				#f.close()
+				os.rename("temp.yaml", arguments.master)
+			else:
+				print("Appending to master with no execution...")
+				#yamlPar = yaml.load(open(arguments.new))
+				yamlPar = ordered_load(open(arguments.new))
+				#f = open("temp.yaml", 'w')
+				new_append(arguments.new, arguments.master)
+				#append(arguments.new, arguments.master)
+				#f.close()
+				os.rename("temp.yaml", arguments.master)
+				sys.exit("Done")
+	elif(arguments.command == "remote"):
+		print("remote")
+		if(arguments.download):
+			yamlPar = process_remote_file(arguments.url, download = True)
 		else:
-			print("Appending to master with no execution...")
-			#yamlPar = yaml.load(open(arguments.new))
-			yamlPar = ordered_load(open(arguments.new))
-			#f = open("temp.yaml", 'w')
-			new_append(arguments.new, arguments.master)
-			#append(arguments.new, arguments.master)
-			#f.close()
-			os.rename("temp.yaml", arguments.master)
-			sys.exit("Done")
+			yamlPar = process_remote_file(arguments.url, download = False)
+		print(yamlPar)
 
 	rootDirectory = configYaml["config-yaml"]["path-settings"]["reference-directory"]
 	#referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
 	referenceKeys = yamlPar["reference-yaml"]["reference-entries"].keys()
 	# extract the keys under 'reference-entries' named 'reference-information-X'
-	run = referenceHandler(errorBehavior=processLogical(configYaml["config-yaml"]["runtime-settings"]["break-on-error"]))
+	run = referenceHandler(errorBehavior = processLogical(configYaml["config-yaml"]["runtime-settings"]["break-on-error"]))
 	print(referenceKeys)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, yamlPar["reference-yaml"]["reference-entries"].get(referenceKeys[k]))
 		# run processEntry for each 'reference-information-X'
 	os.chdir(home)
-	update_repository(arguments.master)
-
-
-
-# Begin parsing of YAML
-#yamlPar = yaml.load(open(arguments.yaml))
-
-
-#if  __name__ == "__main__":
-	#yamlPar = yaml.load(open("/users/aleith/reference_yaml/prototype.yaml"))
-
-
-
-
-
+	if(arguments.command == "local"):
+		update_repository(arguments.master)
 
 

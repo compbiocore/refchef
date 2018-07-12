@@ -1,0 +1,17 @@
+reference-yaml:
+    reference-entries:
+        ucsc-mm9:
+            metadata:
+                reference-name                : ucsc-mm9
+                species                       : mouse
+                organization                  : ucsc
+                downloader                    : aleith
+            primary-reference:
+                retrieve                        : True
+                command-sequence:
+                    command-1               : wget 'ftp://hgdownload.cse.ucsc.edu/goldenPath/mm9/chromosomes/*'
+                    command-2               : md5 *.fa.gz > postdownload-checksums.md5
+                    command-3               : gunzip *.gz
+                    command-4               : cat *.fa > hg19.fa
+                    command-5               : rm chr*.fa
+                    command-6               : md5 *.fa > final-checksums.md5

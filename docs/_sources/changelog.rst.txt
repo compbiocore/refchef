@@ -9,15 +9,20 @@ Brown CBC's RefChef Changelog
 Upcoming Features (in order of priority)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Updated walkthrough
+Option for S3 push of reference directory
+
+Options to handle failed / partially failed downloads\
 
 Multiple options for handing duplicate reference names
 
-Option for S3 push of reference directory
-
 Command-level execution control (such control currently exists only at the reference subcomponent level)
 
-Options to handle failed / partially failed downloads
+
+
+Version 0.9.1 - 7/12/18
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Updated 'usage' and 'walkthrough' pages on this site to reflect the software's current status
 
 
 Version 0.9 - 7/11/18

@@ -502,14 +502,12 @@ if  __name__ == "__main__":
 	if not os.path.isfile("config.yaml"):
 		print("\n\nWarning: No config file detected.  Running configuration generator...\nIf you do have a config file, terminate execution and be sure the file is named 'config.yaml' before rerunning.\n")
 		generateConfig()
-	#configYaml = yaml.load(open("config.yaml"))
 	configYaml = ordered_load(open("config.yaml"))
 	if(arguments.command == "local"):
 		if arguments.new is None:
 			if arguments.execute:
 				print("No new YAML detected - running the master only...")
 				# load the master as yamlPar
-				#yamlPar = yaml.load(open(arguments.master))
 				yamlPar = ordered_load(open(arguments.master))
 			else:
 				sys.exit("Nothing to do - exiting...")
@@ -519,22 +517,16 @@ if  __name__ == "__main__":
 			if arguments.execute:
 				print("Running new and appending to master...")
 				# load the new as yamlPar and append it after running; no need to load master
-				#yamlPar = yaml.load(open(arguments.new))
 				yamlPar = ordered_load(open(arguments.new))
-				#f = open("temp.yaml", 'w')
 				new_append(arguments.new, arguments.master)
-				#append(arguments.new, arguments.master)
-				#f.close()
 				os.rename("temp.yaml", arguments.master)
 			else:
 				print("Appending to master with no execution...")
-				#yamlPar = yaml.load(open(arguments.new))
 				yamlPar = ordered_load(open(arguments.new))
-				#f = open("temp.yaml", 'w')
 				new_append(arguments.new, arguments.master)
-				#append(arguments.new, arguments.master)
-				#f.close()
 				os.rename("temp.yaml", arguments.master)
+				if(arguments.command == "local"):
+					update_repository(arguments.master)
 				sys.exit("Done")
 	elif(arguments.command == "remote"):
 		print("remote")
@@ -545,14 +537,13 @@ if  __name__ == "__main__":
 		print(yamlPar)
 
 	rootDirectory = configYaml["config-yaml"]["path-settings"]["reference-directory"]
-	#referenceKeys = sorted(yamlPar["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
 	referenceKeys = yamlPar["reference-yaml"]["reference-entries"].keys()
 	# extract the keys under 'reference-entries' named 'reference-information-X'
 	run = referenceHandler(errorBehavior = processLogical(configYaml["config-yaml"]["runtime-settings"]["break-on-error"]))
 	print(referenceKeys)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, yamlPar["reference-yaml"]["reference-entries"].get(referenceKeys[k]))
-		# run processEntry for each 'reference-information-X'
+		# run processEntry for each subheading
 	os.chdir(home)
 	if(arguments.command == "local"):
 		update_repository(arguments.master)

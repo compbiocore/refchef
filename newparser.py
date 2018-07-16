@@ -19,7 +19,8 @@ import collections
 from collections import OrderedDict, defaultdict
 import shutil
 #from inspect import getouterframes, currentframe
-import yamlordereddictloader
+#import yamlordereddictloader
+import yamlloader
 import urllib2
 
 
@@ -202,7 +203,8 @@ def generateConfig():
 	#pathSettings = OrderedDict([("reference-directory", "test"), ("github-directory", "test2"), ("remote-repository", "test3")])
 	#logSettings = OrderedDict([("log", "True")])
 	#runtimeSettings = OrderedDict([("break-on-error", "True"), ("verbose", "False")])
-	yaml.dump(configObject, open('config.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
+	#yaml.dump(configObject, open('config.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
+	yaml.dump(configObject, open('config.yaml', 'w'), Dumper=yamlloader.ordereddictCDumper, indent=4, default_flow_style=False)
 	current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
 	backup_path = "config_backup_" + current_time + ".yaml"
 	shutil.copyfile("config.yaml",backup_path)
@@ -317,7 +319,9 @@ def new_append(origin, destination):
 			masterYaml["reference-yaml"]["reference-entries"][str(i)] = newYaml["reference-yaml"]["reference-entries"][i]
 	#f = open("master_test_new.yaml", 'w')
 	#ordered_dump(masterYaml)
-	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
+	#yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
+	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=4, default_flow_style=False)
+
 	#f.close()
 	#return(destination)
 

@@ -47,92 +47,6 @@ def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
     )
     return yaml.load(stream, OrderedLoader)
 
-# def ordered_dump(dictionary):
-# 	"""
-# 	Take an ordered dictionary and turn it into a YAML.
-# 	This function also works on unordered dictionaries as a secondary use case.
-
-# 	This function must be called after opening a file for writing, e.g.:
-# 	f = open("example.yaml", 'w')
-# 	ordered_dump(example_ordered_dictionary)
-# 	f.close()
-# 	"""
-# 	level = len(getouterframes(currentframe(1)))
-# 	# track the depth of the recursion
-# 	for key,value in dictionary.iteritems():
-# 		if type(value) == collections.OrderedDict or type(value) == dict:
-# 			#print("{0} :{1}".format(key, level))
-# 			text = ("    " * (level - 1)) + ("{0}:".format(key))
-# 			# write out an entry that contains other entries, prefaced by 4 spaces per level of recursiom beyond the first
-# 			#print(text)
-# 			f.write(str(text) + "\n")
-# 			ordered_dump(value)
-# 			# if this entry has any subheadings, go deeper
-# 		else:
-# 			#print("{0} : {1} : {2}".format(key, value, level))
-# 			text = ("    " * (level - 1)) + ("{0} : {1}".format(key, value))
-# 			# write out an entry that has a value and no subentries, prefaced by 4 spaces per level of recursion beyond the first
-# 			#print(text)
-# 			f.write(str(text) + "\n")
-
-
-# def generateConfig():
-# 	"""Generate a human-readable configuration YAML for running the software proper.
-
-# 	Code readability has been traded for output readability via escape character-based document formatting."""
-# 	print("This interactive prompt will allow you to generate a config file for this tool.")
-# 	print("If asked to provide a filepath, please provide the full, absolute filepath.")
-# 	print("Furthermore, please do not append a trailing '/' to the filepaths.")
-# 	print("If you leave your response to a prompt empty, that entry will not be generated.")
-# 	print("\033[1m" + "This operation will overwrite any existing config.yaml.  Type 'yes' to proceed, or anything else to exit." + "\033[0m")
-# 	continue_prompt = raw_input("> ")
-# 	if continue_prompt != "yes":
-# 		sys.exit("Exiting without action.")
-# 	f = open("config.yaml", 'w')
-# 	f.write("config-yaml:\n")
-# 	print("\033[1m" + "Filepaths" + "\033[0m")
-# 	f.write("    path-settings:\n")
-# 	print("What is the filepath of the directory to be used as root for the references? (Required)")
-# 	root_dir = raw_input("> ")
-# 	if root_dir != "":
-# 		f.write("        reference-directory     : " + str(root_dir) + "\n")
-# 	else:
-# 		os.remove("config.yaml")
-# 		sys.exit("Required option omitted; exiting.")
-# 	print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
-# 	local_git_dir = raw_input("> ")
-# 	if local_git_dir != "":
-# 		f.write("        github-directory        : " + str(local_git_dir) + "\n")
-# 	print("What is the " + "\033[1m" + "remote" + "\033[0m" + " Github repo in the format 'USER/REPO'?")
-# 	remote_git_name = raw_input("> ")
-# 	if remote_git_name != "":
-# 		f.write("        remote-repository       : " + str(remote_git_name) + "\n")
-# 	print("\033[1m" + "Logging" + "\033[0m")
-# 	f.write("    log-settings:\n")
-# 	print("Should logs be generated?  Type 'True' or 'False'. (Default: True)")
-# 	log_setting = raw_input("> ")
-# 	if log_setting == "":
-# 		log_setting = "True"
-# 	f.write("        log                        : " + str(log_setting) + "\n")
-# 	print("\033[1m" + "Runtime Settings" + "\033[0m")
-# 	f.write("    runtime-settings:\n")
-# 	print("Should the tool end its run on any error?  Type 'True' or 'False'. (Default: True)")
-# 	break_on_error = raw_input("> ")
-# 	if break_on_error == "":
-# 		break_on_error = "True"
-# 	f.write("        break-on-error             : " + str(break_on_error) + "\n")
-# 	print("Should the tool be verbose (generate lots of stepwise output)? (Default: False)")
-# 	verbose = raw_input("> ")
-# 	if verbose == "":
-# 		verbose = "False"
-# 	f.write("        verbose                    : " + str(verbose) + "\n")
-# 	f.close()
-# 	current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
-# 	backup_path = "config_backup_" + current_time + ".yaml"
-# 	shutil.copyfile("config.yaml",backup_path)
-# 	print("Generated config file and timestamped backup.")
-# 	print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
-
 def processLogical(text):
 	"""
 	Turn text into the corresponding logical.
@@ -204,76 +118,13 @@ def generateConfig():
 	#logSettings = OrderedDict([("log", "True")])
 	#runtimeSettings = OrderedDict([("break-on-error", "True"), ("verbose", "False")])
 	#yaml.dump(configObject, open('config.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
-	yaml.dump(configObject, open('config.yaml', 'w'), Dumper=yamlloader.ordereddictCDumper, indent=4, default_flow_style=False)
+	yaml.dump(configObject, open('config.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=4, default_flow_style=False)
 	current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
 	backup_path = "config_backup_" + current_time + ".yaml"
 	shutil.copyfile("config.yaml",backup_path)
 	print("Generated config file and timestamped backup.")
 	print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
 
-# def append(origin, destination):
-# 	"""Append the 'new' YAML to the 'master' YAML"""
-
-# 	print("Now appending " + origin + " to " + destination + "...")
-
-# 	# First, clean up the file's blank lines
-# 	#subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml && mv temp.yaml ' + origin
-# 	subprocessCommand = 'awk \'NF\' ' + origin + ' > temp.yaml'
-# 	subprocess.call([subprocessCommand], shell=True)
-# 	os.rename("temp.yaml", origin)
-
-# 	subprocessCommand = 'sed -i -e \'$a\\\' ' + origin
-# 	# add a newline to the end of New if there isn't one there already
-# 	subprocess.call([subprocessCommand], shell=True)
-
-# 	subprocessCommand = 'grep -n "reference-entries" ' + origin + ' | grep -Eo \'^[^:]+\''
-# 	referenceLine = int(subprocess.check_output([subprocessCommand],shell=True))
-# 	subprocessCommand = 'wc -l < ' + origin
-# 	totalLines = int(subprocess.check_output([subprocessCommand],shell=True))
-# 	#subprocessCommand = 'grep -c "^$" ' + origin
-# 	#blankLines = int(subprocess.check_output([subprocessCommand], shell=True))
-# 	## Check if there is a blank line at the end of the file or not - there will be iff there were 1+ blank lines at the end before parsing
-
-
-
-# 	#tailLines = (totalLines + blankLines) - referenceLine
-# 	tailLines = (totalLines) - referenceLine
-# 	subprocessCommand = 'tail -n' + str(tailLines) + ' ' + origin + '> temp.yaml'
-# 	subprocess.call([subprocessCommand], shell=True)
-# 	# create the temp yaml file consisting of only the reference entries and not the config settings
-
-# 	#masterYaml = yaml.load(open(destination))
-# 	#tempYaml = yaml.load(open("temp.yaml"))
-# 	masterYaml = ordered_load(open(destination))
-# 	tempYaml = ordered_load(open("temp.yaml"))
-# 	masterNames = sorted(masterYaml["reference-yaml"]["reference-entries"].keys(), key=lambda entry: int(entry.split('-')[2]))
-# 	# ^superfluous except for below line, but retained for symmetry
-# 	masterLength = len(masterNames)
-# 	newNames = sorted(tempYaml.keys(), key=lambda entry: int(entry.split('-')[2]))
-# 	newLength = len(newNames)
-
-# 	#### The first number in temp must be the last number in master + 1
-
-# 	for k in newNames:
-# 		index = int(k.split("-")[2]) + masterLength
-# 		temp = "reference-information-" + str(index)
-# 		subprocessCommand = "sed -i -e \'s/" + k + "/" + temp + "/g\' temp.yaml"
-# 		subprocess.call([subprocessCommand], shell=True)
-		
-
-# 	# sed -i -e 's/reference-information-3/reference-information-1/g' tester.yaml
-
-# 	subprocessCommand = 'sed -i -e \'$a\\\' ' + destination
-# 	# add a newline to the end of master if there isn't one there already
-# 	subprocess.call([subprocessCommand], shell=True)
-# 	subprocessCommand = "cat temp.yaml >> " + destination
-# 	# append temp to master
-# 	subprocess.call([subprocessCommand], shell=True)
-# 	subprocess.call(['rm temp.yaml'], shell=True)
-# 	if sys.platform == "darwin":
-# 		subprocess.call(['rm *-e'], shell=True)
-# 		# remove anomalous intermediary files created by bad sed and subprocess integration on OSX only
-# 	#sys.exit("Done")
 
 def update_repository(master):
 	"""
@@ -349,21 +200,6 @@ class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
 		self.filetype = filetype
 		self.errorBehavior = errorBehavior
-
-	# def mirrorGithub(self, gitDir, repository):
-	# 	"""Retrieve and parse a master YAML stored somewhere on Github"""
-	# 	# use an existing config file to run this 
-
-	# 	startingDir = os.getcwd()
-	# 	# retain current working directory to change back to at the end
-	# 	os.chdir(gitDir)
-	# 	# switch to main git directory
-	# 	githubUrl = "https://github.com/" + repository + ".git"
-	# 	subprocess.call(['git clone ' + githubUrl], shell=True)
-	# 	# clone the repo with the YAML
-
-	# 	# temporarily hardcode the reference directory in lieu of a configuration file for testing purposes
-	# 	referenceDirectory = "/Users/aleith/reference_yaml/github_references"
 
 	def retrieveReference(self, rootSubDirectory, yamlEntry, componentName):
 		"""Create a folder named for the reference component, then download and process the reference files in that folder.
@@ -530,7 +366,8 @@ if  __name__ == "__main__":
 				new_append(arguments.new, arguments.master)
 				os.rename("temp.yaml", arguments.master)
 				if(arguments.command == "local"):
-					update_repository(arguments.master)
+					if "github_directory" in configYaml["config-yaml"]["path-settings"].keys()
+						update_repository(arguments.master)
 				sys.exit("Done")
 	elif(arguments.command == "remote"):
 		print("remote")
@@ -550,6 +387,7 @@ if  __name__ == "__main__":
 		# run processEntry for each subheading
 	os.chdir(home)
 	if(arguments.command == "local"):
-		update_repository(arguments.master)
+		if "github_directory" in configYaml["config-yaml"]["path-settings"].keys()
+			update_repository(arguments.master)
 
 

@@ -366,7 +366,7 @@ if  __name__ == "__main__":
 				new_append(arguments.new, arguments.master)
 				os.rename("temp.yaml", arguments.master)
 				if(arguments.command == "local"):
-					if "github_directory" in configYaml["config-yaml"]["path-settings"].keys()
+					if "github_directory" in configYaml["config-yaml"]["path-settings"].keys():
 						update_repository(arguments.master)
 				sys.exit("Done")
 	elif(arguments.command == "remote"):
@@ -387,7 +387,7 @@ if  __name__ == "__main__":
 		# run processEntry for each subheading
 	os.chdir(home)
 	if(arguments.command == "local"):
-		if "github_directory" in configYaml["config-yaml"]["path-settings"].keys()
+		if "github_directory" in configYaml["config-yaml"]["path-settings"].keys():
 			update_repository(arguments.master)
 
 

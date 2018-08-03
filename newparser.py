@@ -139,7 +139,7 @@ def update_repository(master):
 	shutil.copyfile(master, gitPath + "/" + master)
 	#shutil.copyfile("yamlOne.yaml", "/users/aleith/github_pages/yaml-repository/yamlOne.yaml")
 	os.chdir(gitPath)
-	subprocess.call(['git ca "refchef autopush" && git push origin master'], shell=True)
+	subprocess.call(['git add --all && git commit -m  "refchef autopush" && git push origin master'], shell=True)
 	os.chdir(startingDir)
 
 
@@ -366,7 +366,7 @@ if  __name__ == "__main__":
 				new_append(arguments.new, arguments.master)
 				os.rename("temp.yaml", arguments.master)
 				if(arguments.command == "local"):
-					if "github_directory" in configYaml["config-yaml"]["path-settings"].keys():
+					if configYaml["config-yaml"]["path-settings"]["github-directory"] != "":
 						update_repository(arguments.master)
 				sys.exit("Done")
 	elif(arguments.command == "remote"):
@@ -387,7 +387,7 @@ if  __name__ == "__main__":
 		# run processEntry for each subheading
 	os.chdir(home)
 	if(arguments.command == "local"):
-		if "github_directory" in configYaml["config-yaml"]["path-settings"].keys():
+		if configYaml["config-yaml"]["path-settings"]["github-directory"] != "":
 			update_repository(arguments.master)
 
 

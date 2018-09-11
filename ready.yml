@@ -1,0 +1,6 @@
+repo:             refchef
+site_name:        RefChef
+site_author:      Andrew Leith
+site_description: RefChef - Reference Management Software
+site_url:         https://compbiocore.github.io/
+type:             software    # required. choose one of [software, tutorial, workshop, documentation]

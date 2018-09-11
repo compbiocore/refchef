@@ -13,7 +13,7 @@ In the broadest possible sense, this tool can accommodate either one or two YAML
 Please see the following screenshot for an example YAML file, then refer to the description below the image for an explanation of its properties.
 
 <p>example.yaml</p>
-<img src="../assets/master_yaml_screenshot.png">
+<img src="../assets/refactored_yaml_screenshot.png">
 
 There are several important features of this file structure that should be noted.
 

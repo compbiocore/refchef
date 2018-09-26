@@ -1,0 +1,12 @@
+#!/usr/env/bin python
+"""
+RefChef - Genome References Management Software
+"""
+
+import argparse
+import sys
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--version", "-v", action="store_true")
+
+subparsers = parser.add_subparsers()

@@ -1,0 +1,8 @@
+.DS_Store
+.env
+refchef.egg-info
+refchef/__pycache__
+*.ipynb
+.ipynb_checkpoints
+.eggs
+.pytest_cache

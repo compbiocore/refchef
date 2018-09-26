@@ -23,5 +23,6 @@ setuptools.setup(
         "PyYAML",
         "PyGithub"],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest"]
+    tests_require=["pytest"],
+    scripts=["scripts/refchef"]
 )

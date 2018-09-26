@@ -10,3 +10,5 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--version", "-v", action="store_true")
 
 subparsers = parser.add_subparsers()
+
+print("Test cook")

@@ -6,3 +6,4 @@ refchef/__pycache__
 .ipynb_checkpoints
 .eggs
 .pytest_cache
+tests/__pycache__

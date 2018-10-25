@@ -155,19 +155,19 @@ def new_append(origin, destination):
 	masterYaml = ordered_load(open(destination))
 	newYaml = ordered_load(open(origin))
 	# Loop over each key in the origin and add it to the destination
-	for i in newYaml["reference-yaml"]["reference-entries"].keys():
-		if i in masterYaml["reference-yaml"]["reference-entries"]:
-			for j in newYaml["reference-yaml"]["reference-entries"][i].keys():
-				for s in newYaml["reference-yaml"]["reference-entries"][i][j].keys():
+	for i in newYaml.keys():
+		if i in masterYaml.keys():
+			for j in newYaml.get(i).keys():
+				for s in newYaml.get(i).get(j).keys():
 					print(s)
 					# add entries that do not previously exist
 					### IF THE KEY EXISTS AND THE VALUE IS DIFFERENT, DO NOT OVERWRITE - RECORD WOULD BE COMPROMISED
 					### How to handle cases where a new command is added between two old commands?
 					### Add new non-default argument to force an overwrite?
-					if s in masterYaml["reference-yaml"]["reference-entries"][i][j].keys():
-						masterYaml["reference-yaml"]["reference-entries"][i][j][str(s)] = newYaml["reference-yaml"]["reference-entries"][i][j][s]
+					if s in masterYaml.get(i).get(j).keys():
+						masterYaml[i][j][str(s)] = newYaml[i][j][s]
 		else:
-			masterYaml["reference-yaml"]["reference-entries"][str(i)] = newYaml["reference-yaml"]["reference-entries"][i]
+			masterYaml[str(i)] = newYaml.get(i)
 	#f = open("master_test_new.yaml", 'w')
 	#ordered_dump(masterYaml)
 	#yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
@@ -216,6 +216,8 @@ class referenceHandler:
 		#yamlEntry.keys()[0] is the top-level key i.e. the name of the reference subunit e.g. 'est' or 'primary-reference'
 		#print(yamlEntry)
 		#print(yamlEntry.keys())
+		print("\n\n\n\n\n\n\n")
+		print("made it this far")
 		if processLogical(yamlEntry["retrieve"]) == True:
 		# check to see if the given reference should be retrieved
 			print("\033[1m" + "\nRetrieving " + componentName + "\n"+ "\033[0m")
@@ -230,32 +232,16 @@ class referenceHandler:
 			os.chdir(componentLocation)
 			# moves to the given reference's directory
 
-			commandKeys = sorted(yamlEntry["command-sequence"].keys(), key=lambda entry: int(entry.split('-')[1]))
-			# create a sorted list of command keys since YAML files are read in unsorted
+			commands = yamlEntry["commands"]
 
-			if (commandKeys == ["command-" + str(k) for k in range(1, len(commandKeys)+1)]) == False:
-			# check to be sure the commands are enumerated by a numerical sequence i.e. don't have typos
-				#sys.exit("\033[1m" + "Fatal Error: Command Entries misnumbered for component " + "\033[0m" + componentName)
-				#subprocess.call(["echo 'Error: misnumbered commands' > error.txt"], shell=True)
-				f = open("error.txt", 'w')
-				f.write("Error: misnumbered commands")
-				f.close()
-				if self.errorBehavior == True:
-					sys.exit("\033[1m" + "Fatal Error: Command Entries misnumbered for component: " + "\033[0m" + componentName)
-				else:
-					print("\033[1m" + "Error: Command Entries misnumbered for component: " + "\033[0m" + componentName + "; skipping...")
-					return
-
-
-
-			for j in range(0,len(commandKeys)):
+			for j in range(0,len(commands)):
 					if processLogical(configYaml["config-yaml"]["runtime-settings"]["verbose"]) == True:
-						print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["command-sequence"].get(commandKeys[j]) + "\n")
-		    			subprocess.call([yamlEntry["command-sequence"].get(commandKeys[j])], shell=True)
+						print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["commands"][j] + "\n")
+		    			subprocess.call([yamlEntry["commands"][j]], shell=True)
 		    			# this line is an actual system command so needs to stay as a subprocess call
 		    	else:
 		    	# this asymmetric indent is the only way to avoid a strange bug - any other indent pattern is deemed too little or too much
-		    		subprocess.call([yamlEntry["command-sequence"].get(commandKeys[j])], shell=True)
+		    		subprocess.call([yamlEntry["commands"][j]], shell=True)
 		    		# loops through all subentries under the 'command-sequence' entry and runs those commands
 		    		# actual system command as above
 
@@ -279,13 +265,16 @@ class referenceHandler:
 		subYaml is the piece of the YAML called 'reference-information-X' where X is some number corresponding to a single reference and all its components
 
 		"""
-		allReferences = subYaml.keys()
-		allReferences.remove("metadata")
+		#allReferences = subYaml.keys()
+		# subYaml NO LONGER HAS KEYS, THIS STATEMENT MAY BE UNCESSESARY NOW
+
+
+		#allReferences.remove("metadata")
 		# creates a list of reference components (the keys for the level below 'reference-information-X')
+		allReferences = subYaml["levels"]["references"]
 
 
-
-		referenceParentLocation = rootDirectory + "/" + subYaml["metadata"]["reference-name"]
+		referenceParentLocation = rootDirectory + "/" + subYaml["metadata"]["name"]
 		# assemble the path of this reference into which components will be put
 		if os.path.exists(referenceParentLocation)==False:
 				#subprocess.call(["mkdir " + referenceParentLocation], shell=True)
@@ -294,16 +283,16 @@ class referenceHandler:
 
 		metadata = subYaml["metadata"]
 		f = open(referenceParentLocation + "/metadata.txt", "w+")
-		f.write("Reference Name: " + metadata["reference-name"] + "\n")
+		f.write("Reference Name: " + metadata["name"] + "\n")
 		f.write("Species: " + metadata["species"] + "\n")
 		f.write("Organization: " + metadata["organization"] + "\n")
 		f.write("Downloaded by: " + metadata["downloader"] + "\n")
 		f.close()
 		# create the metadata file, contents to be expanded upon
 
-
 		for i in allReferences:
-			run.retrieveReference(referenceParentLocation, subYaml[i], i)
+			#run.retrieveReference(referenceParentLocation, subYaml[i], i)
+			run.retrieveReference(referenceParentLocation, i, i["component"])
 			# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
 			# these can be named anything and there can be any number of them
 
@@ -378,12 +367,13 @@ if  __name__ == "__main__":
 		print(yamlPar)
 
 	rootDirectory = configYaml["config-yaml"]["path-settings"]["reference-directory"]
-	referenceKeys = yamlPar["reference-yaml"]["reference-entries"].keys()
+	referenceKeys = yamlPar.keys()
+	#print(yamlPar.keys())
 	# extract the keys under 'reference-entries' named 'reference-information-X'
 	run = referenceHandler(errorBehavior = processLogical(configYaml["config-yaml"]["runtime-settings"]["break-on-error"]))
-	print(referenceKeys)
+	#print(referenceKeys)
 	for k in range(0, len(referenceKeys)):
-		run.processEntry(rootDirectory, yamlPar["reference-yaml"]["reference-entries"].get(referenceKeys[k]))
+		run.processEntry(rootDirectory, yamlPar.get(referenceKeys[k]))
 		# run processEntry for each subheading
 	os.chdir(home)
 	if(arguments.command == "local"):

@@ -20,7 +20,7 @@ def get_full_menu(file_path):
     df.columns = ["a", "b"]
 
     #rearange data
-    res = df.set_index(['a'])['b'].apply(pd.Series).stack()
+    res = df.set_index(["a"])["b"].apply(pd.Series).stack()
     res = res.reset_index()
     res.columns = ["a", "b", "c"]
     res["d"] = res["a"].apply(lambda x: x.split(".")[-1])
@@ -61,6 +61,6 @@ def pretty_print(menu):
     tt_data = [list(menu)]
     for row in menu.iterrows():
         tt_data.append(list(row[1]))
-    tab = terminaltables.SingleTable(tt_data, title="RefChef Menu")
+    tab = terminaltables.SingleTable(tt_data, title=u" \U0001F436" + " RefChef Menu ")
 
     print(tab.table)

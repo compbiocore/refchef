@@ -23,6 +23,7 @@ setuptools.setup(
         "python-dotenv",
         "PyYAML",
         "PyGithub",
+        "pandas",
         "terminaltables"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],

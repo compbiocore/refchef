@@ -19,6 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
+        "argparse",
         "python-dotenv",
         "PyYAML",
         "PyGithub",
@@ -26,5 +27,5 @@ setuptools.setup(
         "terminaltables"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
-    scripts=["scripts/cook"]
+    scripts=["scripts/refchef-cook", "scripts/refchef-menu"]
 )

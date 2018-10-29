@@ -1,13 +1,21 @@
 #!/usr/env/bin python
 
 import os
+import argparse
 from refchef.table_functions import *
 
-dir_ = "tests/data"
-file_ = "example.yml"
+parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
 
-file_path = os.path.join(dir_, file_)
+parser.add_argument("--input", "-i", type=str, help="Path of input file.")
+parser.add_argument("--filter", "-k", type=str, help="Field to filter menu on.")
+parser.add_argument("--value", "-v", type=str, help="Value to pass to filter.")
+parser.add_argument("--regex", "-r", help="Whether value passed to filter is a regex expression.", action="store_true")
 
-t = get_full_menu(file_path=file_path)
 
-pretty_print(t)
+args = parser.parse_args()
+
+menu = get_full_menu(file_path=args.input)
+
+filtered = filter_menu(menu, args.filter, args.value)
+
+pretty_print(filtered)

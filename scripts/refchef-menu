@@ -1,5 +1,11 @@
 #!/usr/env/bin python
+"""
+RefChef Menu - Genome References Management Software
+-----------------------------------------------------
+This scrpit is used to print a table with information
+about the available references in the system.
 
+"""
 import os
 import argparse
 from refchef.table_functions import *
@@ -7,8 +13,7 @@ from refchef.table_functions import *
 parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
 
 parser.add_argument("--input", "-i", type=str, help="Path of input file.")
-parser.add_argument("--filter", "-k", type=str, help="Field to filter menu on.")
-parser.add_argument("--value", "-v", type=str, help="Value to pass to filter.")
+parser.add_argument("--filter", type=str, help="Field:value pair to filter menu on.")
 parser.add_argument("--regex", "-r",
                     help="Whether value passed to filter is a regex expression.",
                     action="store_true")
@@ -17,8 +22,9 @@ parser.add_argument("--regex", "-r",
 args = parser.parse_args()
 menu = get_full_menu(file_path=args.input)
 
-if (args.filter is not None and args.value is not None):
-    filtered = filter_menu(menu, args.filter, args.value)
+if (args.filter is not None):
+    field, value = args.filter.split(":")
+    filtered = filter_menu(menu, field, value)
     pretty_print(filtered)
 else:
     pretty_print(menu)

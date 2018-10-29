@@ -9,13 +9,16 @@ parser = argparse.ArgumentParser(description='Get and filter references availabl
 parser.add_argument("--input", "-i", type=str, help="Path of input file.")
 parser.add_argument("--filter", "-k", type=str, help="Field to filter menu on.")
 parser.add_argument("--value", "-v", type=str, help="Value to pass to filter.")
-parser.add_argument("--regex", "-r", help="Whether value passed to filter is a regex expression.", action="store_true")
+parser.add_argument("--regex", "-r",
+                    help="Whether value passed to filter is a regex expression.",
+                    action="store_true")
 
 
 args = parser.parse_args()
-
 menu = get_full_menu(file_path=args.input)
 
-filtered = filter_menu(menu, args.filter, args.value)
-
-pretty_print(filtered)
+if (args.filter is not None and args.value is not None):
+    filtered = filter_menu(menu, args.filter, args.value)
+    pretty_print(filtered)
+else:
+    pretty_print(menu)

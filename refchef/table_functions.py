@@ -33,6 +33,7 @@ def get_full_menu(file_path):
 
     #create matadata table
     metadata = table[table["e"] == "metadata"][["c", "d", "f"]].pivot(index="f", columns="d")
+    metadata.columns = metadata.columns.droplevel()
 
     #create levels table
     levels = (pd.DataFrame(table[table["e"] == "levels"][["c.component", "f", "d"]]

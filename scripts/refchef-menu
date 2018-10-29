@@ -1,0 +1,13 @@
+#!/usr/env/bin python
+
+import os
+from refchef.table_functions import *
+
+dir_ = "tests/data"
+file_ = "example.yml"
+
+file_path = os.path.join(dir_, file_)
+
+t = get_full_menu(file_path=file_path)
+
+pretty_print(t)

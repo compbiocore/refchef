@@ -1,3 +1,13 @@
+import json
+import pandas as pd
+from pandas.io.json import json_normalize
+import terminaltables
+import yaml
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
+
 def get_full_menu(file_path):
     """Reads yaml file and converts to a table format"""
 
@@ -32,8 +42,9 @@ def get_full_menu(file_path):
               .set_index("f"))
 
     #create full table (menu)
-    menu = metadata.join(types, how="right")
+    menu = metadata.join(levels, how="right")
     menu.columns = ["downloader", "name", "organization", "species", "type", "component"]
+    menu = menu.reset_index().drop(columns="f")
 
     return menu
 
@@ -43,3 +54,12 @@ def filter_menu(menu, key, value):
 
     filtered = menu[menu[key] == value]
     return filtered
+
+
+def pretty_print(menu):
+    tt_data = [list(menu)]
+    for row in menu.iterrows():
+        tt_data.append(list(row[1]))
+    tab = terminaltables.SingleTable(tt_data, title="RefChef Menu")
+
+    print(tab.table)

@@ -11,7 +11,7 @@ import collections
 from collections import OrderedDict, defaultdict
 
 def test_ordered_load():
-    data = ordered_load(open("data/example.yml"))
+    data = ordered_load(open("tests/data/example.yml"))
     assert type(data).__name__ == "OrderedDict"
     # ordered_load reads in a YAML as an ordered dictionary, so its type should be OrderedDict
 

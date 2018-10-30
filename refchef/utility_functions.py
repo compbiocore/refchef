@@ -7,11 +7,8 @@ import sys
 import datetime
 import collections
 from collections import OrderedDict, defaultdict
-import shutil
-#from inspect import getouterframes, currentframe
-#import yamlordereddictloader
-import yamlloader
-import urllib2
+
+
 
 def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
     '''

@@ -9,11 +9,6 @@ import sys
 import datetime
 import collections
 from collections import OrderedDict, defaultdict
-import shutil
-#from inspect import getouterframes, currentframe
-#import yamlordereddictloader
-import yamlloader
-import urllib2
 
 def test_ordered_load():
     data = ordered_load(open("data/example.yml"))

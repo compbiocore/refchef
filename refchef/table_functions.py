@@ -49,17 +49,23 @@ def get_full_menu(file_path):
 
     return menu
 
-
 def filter_menu(menu, key, value):
-    """Filters table based on key-value pair passed"""
+    """Filters table based on key-value pair passed."""
 
     filtered = menu[menu[key] == value]
     return filtered
 
 def split_filter(string):
+    """Simple function to split on semicolon and return tuple."""
     return string.split(":")
 
 def multiple_filter(menu, string):
+    """Filter table by passing multiple filter options
+    Arguments
+    menu: pandas DataFrame
+    string: comma-separated string representing filter options as:
+        "field:value,field2:value2,fieldn:valuen"
+    """
     if "," in string:
         l = string.split(",")
         for pair in l:
@@ -72,6 +78,7 @@ def multiple_filter(menu, string):
     return filtered
 
 def pretty_print(menu):
+    """Print table with puppy emoji"""
     tt_data = [list(menu)]
     for row in menu.iterrows():
         tt_data.append(list(row[1]))

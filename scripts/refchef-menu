@@ -23,8 +23,9 @@ args = parser.parse_args()
 menu = get_full_menu(file_path=args.input)
 
 if (args.filter is not None):
-    field, value = args.filter.split(":")
-    filtered = filter_menu(menu, field, value)
+    #field, value = args.filter.split(":")
+    #filtered = filter_menu(menu, field, value)
+    filtered = multiple_filter(menu, args.filter)
     pretty_print(filtered)
 else:
     pretty_print(menu)

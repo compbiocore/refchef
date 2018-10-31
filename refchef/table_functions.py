@@ -56,6 +56,20 @@ def filter_menu(menu, key, value):
     filtered = menu[menu[key] == value]
     return filtered
 
+def split_filter(string):
+    return string.split(":")
+
+def multiple_filter(menu, string):
+    if "," in string:
+        l = string.split(",")
+        for pair in l:
+            field, value = split_filter(pair)
+            filtered = filter_menu(menu, field, value)
+    else:
+        field, value = split_filter(string)
+        filtered = filter_menu(menu, field, value)
+
+    return filtered
 
 def pretty_print(menu):
     tt_data = [list(menu)]

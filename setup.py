@@ -21,7 +21,8 @@ setuptools.setup(
     install_requires=[
         "python-dotenv",
         "PyYAML",
-        "PyGithub"],
+        "PyGithub",
+	"yamlloader"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/cook"]

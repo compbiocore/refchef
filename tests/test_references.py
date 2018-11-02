@@ -10,6 +10,8 @@ import sys
 import datetime
 import collections
 from collections import OrderedDict, defaultdict
+import yamlloader
+
 
 def test_references():
 	data = ordered_load(open("tests/data/test_master.yaml"))

@@ -11,7 +11,7 @@ import shutil
 #from inspect import getouterframes, currentframe
 #import yamlordereddictloader
 import yamlloader
-import urllib2
+#import urllib2
 
 def new_append(origin, destination):
 	"""

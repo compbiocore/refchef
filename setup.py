@@ -22,8 +22,7 @@ setuptools.setup(
         "python-dotenv",
         "PyYAML",
         "PyGithub",
-	"yamlloader",
-	"urllib2"],
+	"yamlloader"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/cook"]

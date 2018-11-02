@@ -12,6 +12,21 @@ import collections
 from collections import OrderedDict, defaultdict
 import yamlloader
 
+def processLogical(text):
+	"""
+	Turn text into the corresponding logical.
+
+    Arguments:
+    text - text to be coerced to a logical, if a corresponding logical exists
+	"""
+	text = str(text)
+	if(text == "true" or text == "True" or text == "TRUE" or text == "T" or text == "t" or text == "1"):
+		return True
+	elif(text == "false" or text == "False" or text == "FALSE" or text == "F" or text == "f" or text == "0"):
+		return False
+	else:
+		print("Input has no logical analogue.")
+		return(text)
 
 def test_references():
 	data = ordered_load(open("tests/data/test_master.yaml"))

@@ -12,6 +12,7 @@ import collections
 from collections import OrderedDict, defaultdict
 import yamlloader
 
+@pytest.fixture
 def processLogical(text):
 	"""
 	Turn text into the corresponding logical.

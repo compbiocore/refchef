@@ -1,3 +1,4 @@
+import os
 import json
 import pandas as pd
 from pandas.io.json import json_normalize
@@ -7,6 +8,19 @@ try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
+
+def read_yaml(file_path):
+    """Simple function to read yaml file"""
+    with open(file_path) as yml:
+        dict_ = yaml.load(yml)
+    return dict_
+
+def read_config():
+    """Simple function to read config file"""
+    home = os.path.expanduser("~")
+    config = os.path.join(home, ".refchef.config")
+
+    return read_yaml(config)
 
 def get_full_menu(file_path):
     """Reads yaml file and converts to a table format"""

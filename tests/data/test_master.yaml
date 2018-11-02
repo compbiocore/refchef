@@ -1,0 +1,15 @@
+ucsc_mm9_chr1:
+  metadata:
+    name: ucsc_mm9_chr1
+    species: mouse
+    organization: ucsc
+    downloader: aleith
+  levels:
+    references:
+      - component: primary
+        retrieve: true
+        commands:
+          - wget 'http://hgdownload.cse.ucsc.edu/goldenPath/mm9/chromosomes/chr1.fa.gz'
+          - md5 *.fa.gz > postdownload_checksums.md5
+          - gunzip *.gz
+          - md5 *.fa > final_checksums.md5

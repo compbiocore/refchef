@@ -16,7 +16,7 @@ import yamlloader
 def test_references():
 	data = ordered_load(open("tests/data/test_master.yaml"))
 	rootDirectory = "tests/data/"
-	referenceKeys = data.keys()
+	referenceKeys = list(data.keys())
 	run = referenceHandler(errorBehavior = False)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, data.get(referenceKeys[k]))

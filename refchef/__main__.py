@@ -82,7 +82,7 @@ if  __name__ == "__main__":
 		print(yamlPar)
 
 	rootDirectory = configYaml["config-yaml"]["path-settings"]["reference-directory"]
-	referenceKeys = yamlPar.keys()
+	referenceKeys = list(yamlPar.keys())
 	#print(yamlPar.keys())
 	# extract the keys under 'reference-entries' named 'reference-information-X'
 	run = referenceHandler(errorBehavior = processLogical(configYaml["config-yaml"]["runtime-settings"]["break-on-error"]))

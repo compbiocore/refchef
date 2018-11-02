@@ -85,7 +85,7 @@ class referenceHandler:
 			commands = yamlEntry["commands"]
 
 			for j in range(0,len(commands)):
-					if processLogical(configYaml["config-yaml"]["runtime-settings"]["verbose"]) == True:
+				if processLogical(configYaml["config-yaml"]["runtime-settings"]["verbose"]) == True:
 					print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["commands"][j] + "\n")
 					subprocess.call([yamlEntry["commands"][j]], shell=True)
 					# this line is an actual system command so needs to stay as a subprocess call

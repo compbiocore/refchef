@@ -86,14 +86,13 @@ class referenceHandler:
 
 			for j in range(0,len(commands)):
 					if processLogical(configYaml["config-yaml"]["runtime-settings"]["verbose"]) == True:
-						print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["commands"][j] + "\n")
-		    			subprocess.call([yamlEntry["commands"][j]], shell=True)
-		    			# this line is an actual system command so needs to stay as a subprocess call
-		    	else:
-		    	# this asymmetric indent is the only way to avoid a strange bug - any other indent pattern is deemed too little or too much
-		    		subprocess.call([yamlEntry["commands"][j]], shell=True)
-		    		# loops through all subentries under the 'command-sequence' entry and runs those commands
-		    		# actual system command as above
+					print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["commands"][j] + "\n")
+					subprocess.call([yamlEntry["commands"][j]], shell=True)
+					# this line is an actual system command so needs to stay as a subprocess call
+				else:
+					subprocess.call([yamlEntry["commands"][j]], shell=True)
+					# loops through all subentries under the 'command-sequence' entry and runs those commands
+					# actual system command as above
 
 
 

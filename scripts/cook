@@ -6,12 +6,33 @@ RefChef - Genome References Management Software
 import argparse
 import sys
 
-parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("--version", "-v", action="store_true")
+# Create argument parser
+parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
+subs = parser.add_subparsers(dest='command')
 
-subparsers = parser.add_subparsers()
+
+local_parser = subs.add_parser('local')
+local_parser.add_argument('-e', '--execute', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
+local_parser.add_argument('--master', type=str, required = True, help = 'Denotes the Master YAML')
+local_parser.add_argument('--new', type=str, help = 'Denotes the new YAML')
+local_parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for testing)', action="store_true")
+# check for --master and --new FIRST to determine the mode, then check --execute to determine what to do
+# do not allow running both the --new and the --master in one command
+# if --new exists and --execute is TRUE, run the --new and append --new to --master (subject to --skip in testing)
+# if --new exists and --execute is FALSE, do not run anything and just append --new to --master (subject to --skip in testing)
+# if --new does not exist and --execute is TRUE, run the --master
+# if --new does not exist and --execute is FALSE, exit with an error, as this combination is pointless
+
+remote_parser = subs.add_parser('remote')
+remote_parser.add_argument('--url', type=str, required = True, help = 'Denotes the URL of the remote file')
+remote_parser.add_argument('--download', help = 'Download a copy of the file to the working directory', action="store_true")
+
+
+
+
+# Parse arguments
+arguments = parser.parse_args()
 
 print("Test cook")
 
-from refchef import config
-from refchf import github_functions
+from refchef import *

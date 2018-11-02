@@ -102,7 +102,7 @@ class referenceHandler:
 			f.close()
 			# create provinence file with timestamp entry
 		else:
-			print "\n"
+			print("\n")
 			print("\033[1m" + "\nSkipping " + componentName + " without retrieval\n"+ "\033[0m")
 
 

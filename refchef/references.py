@@ -145,6 +145,6 @@ class referenceHandler:
 
 		for i in allReferences:
 			#run.retrieveReference(referenceParentLocation, subYaml[i], i)
-			run.retrieveReference(referenceParentLocation, i, i["component"])
+			self.retrieveReference(referenceParentLocation, i, i["component"])
 			# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
 			# these can be named anything and there can be any number of them

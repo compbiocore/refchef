@@ -15,11 +15,13 @@ import yamlloader
 
 def new_append(origin, destination):
 	"""
-	origin and destination are the new filename and the master filename respectively.
-
 	The function checks to see if a given key in origin exists in destination, adds it if not.
 
 	Open before calling this, close after it ends.
+
+	Arguments:
+	origin - the file path of the new YAML file to be appended to an existing YAML file
+	destination - the file path of an existing YAML file to which a new YAML file will be appended
 	"""
 	# Load in the YAMLs
 	masterYaml = ordered_load(open(destination))
@@ -58,9 +60,12 @@ class referenceHandler:
 
 		Then, create a 'metadata.txt' file, presently containing a timestamp for the download operation.
 
-		do other things to be determined
-
 		Finally, create md5 checksums for all files in their final post-processed state.
+
+		Arguments:
+		rootSubDirectory - the filepath of the root directory plus the reference name
+		yamlEntry - the list associated with a single reference component
+		componentName - the name of the reference component
 		"""
 
 		#yamlEntry.keys()[0] is the top-level key i.e. the name of the reference subunit e.g. 'est' or 'primary-reference'
@@ -109,10 +114,9 @@ class referenceHandler:
 	def processEntry(self, rootDirectory, subYaml):
 		"""Process a given reference entry.  Each reference entry has metadata and at least one reference component.
 
-		rootDirectory is the root directory for all references specified in the YAML, as specified in the 'configuration' subentry
-
-		subYaml is the piece of the YAML called 'reference-information-X' where X is some number corresponding to a single reference and all its components
-
+		Arguments:
+		rootDirectory - the root directory for all references specified in the YAML, as specified in the 'configuration' subentry
+		subYaml - the piece of the YAML called 'reference-information-X' where X is some number corresponding to a single reference and all its components
 		"""
 		#allReferences = subYaml.keys()
 		# subYaml NO LONGER HAS KEYS, THIS STATEMENT MAY BE UNCESSESARY NOW

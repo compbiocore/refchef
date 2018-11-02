@@ -33,6 +33,9 @@ def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
 def processLogical(text):
 	"""
 	Turn text into the corresponding logical.
+
+    Arguments:
+    text - text to be coerced to a logical, if a corresponding logical exists
 	"""
 	text = str(text)
 	if(text == "true" or text == "True" or text == "TRUE" or text == "T" or text == "t" or text == "1"):

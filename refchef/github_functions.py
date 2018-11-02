@@ -15,7 +15,10 @@ import urllib2
 
 def update_repository(master):
 	"""
-	Update a github repository
+	Update a github repository.
+
+	Arguments:
+	master - the master YAML to be pushed to github
 	"""
 	configYaml = ordered_load(open("config.yaml"))
 	gitPath = configYaml["config-yaml"]["path-settings"]["github-directory"] + "/" + configYaml["config-yaml"]["path-settings"]["remote-repository"].split("/")[1]
@@ -32,6 +35,10 @@ def update_repository(master):
 def process_remote_file(url, download):
 	"""
 	Process a Master YAML stored on a github repository
+
+	Arguments:
+	url - the URL of a remote YAML file located on github
+	download - a logical denoting whether or not the remote YAML file should be downloaded
 	"""
 	url = str(url)
 	file = urllib2.urlopen(url)

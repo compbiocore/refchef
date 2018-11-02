@@ -1,5 +1,5 @@
 import pytest
-from refchef.table_functions import *
+from refchef.table_utils import *
 
 @pytest.fixture # macro to set up a fixture that will be used in other functions.
 def menu():

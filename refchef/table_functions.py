@@ -68,9 +68,10 @@ def multiple_filter(menu, string):
     """
     if "," in string:
         l = string.split(",")
+        filtered = menu.copy()
         for pair in l:
             field, value = split_filter(pair)
-            filtered = filter_menu(menu, field, value)
+            filtered = filter_menu(filtered, field, value)
     else:
         field, value = split_filter(string)
         filtered = filter_menu(menu, field, value)

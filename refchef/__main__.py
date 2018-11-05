@@ -45,7 +45,13 @@ if  __name__ == "__main__":
 	home = os.getcwd()
 	if not os.path.isfile("config.yaml"):
 		print("\n\nWarning: No config file detected.  Running configuration generator...\nIf you do have a config file, terminate execution and be sure the file is named 'config.yaml' before rerunning.\n")
-		generateConfig()
+		conf = config_file()
+		conf.preamble()
+		if sys.version_info[0] == 2:
+			conf.generate_config_2()
+		elif sys.version_info[0] == 3:
+			conf.generate_config_3()
+		#generateConfig()
 	configYaml = ordered_load(open("config.yaml"))
 	if(arguments.command == "local"):
 		if arguments.new is None:

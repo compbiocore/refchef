@@ -11,6 +11,10 @@ import collections
 from collections import OrderedDict, defaultdict
 import yamlloader
 
+def preamble():
+    test_conf = config_file()
+    test_conf.preamble()
+    assert 1 == 1
 
 def test_generate_config_3(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda x: "yes")

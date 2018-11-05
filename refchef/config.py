@@ -16,6 +16,7 @@ class config_file():
 	def __init__(self, filetype="yaml"):
 		self.filetype = filetype
 
+	@staticmethod
 	def preamble():
 		"""Print out the preamble, which is not version-specific."""
 		print("This interactive prompt will allow you to generate a config file for this tool.")
@@ -23,6 +24,7 @@ class config_file():
 		print("Furthermore, please do not append a trailing '/' to the filepaths.")
 		print("If you leave your response to a prompt empty, that entry will not be generated.")
 
+	@staticmethod
 	def generate_config_2():
 		"""Generate a human-readable configuration YAML for running the software proper.
 
@@ -74,6 +76,7 @@ class config_file():
 		print("Generated config file and timestamped backup.")
 		print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
 
+	@staticmethod
 	def generate_config_3():
 		"""Generate a human-readable configuration YAML for running the software proper.
 
@@ -124,4 +127,3 @@ class config_file():
 		shutil.copyfile("config.yaml",backup_path)
 		print("Generated config file and timestamped backup.")
 		print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
-		

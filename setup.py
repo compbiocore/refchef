@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="refchef",
     version="0.0.1 - alpha",
-    author="Andrew Leith",
+    author="Andrew Leith & Fernando Gelin",
     author_email="aleith@brown.edu",
     description="Genome reference manager.",
     long_description=long_description,
@@ -19,11 +19,14 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
+        "argparse",
         "python-dotenv",
         "PyYAML",
         "PyGithub",
-	"yamlloader"],
+        "yamlloader",
+        "pandas",
+        "terminaltables"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
-    scripts=["scripts/cook"]
+    scripts=["scripts/refchef-cook", "scripts/refchef-menu"]
 )

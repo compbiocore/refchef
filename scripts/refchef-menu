@@ -1,0 +1,40 @@
+#!/usr/env/bin python
+"""
+RefChef Menu - Genome References Management Software
+-----------------------------------------------------
+This scrpit is used to print a table with information
+about the available references in the system.
+
+"""
+import os
+import argparse
+import yaml
+from refchef.table_utils import *
+from refchef.utility_functions import generateConfig
+
+parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
+
+parser.add_argument("--filter", type=str, help="Field:value pair to filter menu on.")
+parser.add_argument("--regex", "-r",
+                    help="Whether value passed to filter is a regex expression.",
+                    action="store_true")
+
+try: #not tested
+    config = read_config()
+except FileNotFoundError:
+    generateConfig()
+    config = read_config()
+
+# TODO:
+# path where local master yaml can be found
+master_path = config["config-yaml"]["path-settings"][""]
+file_path = os.path.join(master_path, "master.yml")
+
+args = parser.parse_args()
+menu = get_full_menu(file_path)
+
+if (args.filter is not None):
+    filtered = multiple_filter(menu, args.filter)
+    pretty_print(filtered)
+else:
+    pretty_print(menu)

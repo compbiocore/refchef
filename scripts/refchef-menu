@@ -10,7 +10,7 @@ import os
 import argparse
 import yaml
 from refchef.table_utils import *
-from refchef.utility_functions import generateConfig
+from refchef.config import *
 
 parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
 
@@ -22,7 +22,9 @@ parser.add_argument("--regex", "-r",
 try: #not tested
     config = read_config()
 except FileNotFoundError:
-    generateConfig()
+    conf = config_file()
+    conf.preamble()
+    conf.generate_config()
     config = read_config()
 
 # TODO:

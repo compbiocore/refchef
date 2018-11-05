@@ -12,7 +12,7 @@ from collections import OrderedDict, defaultdict
 import yamlloader
 
 
-def test_generate_config_3:
+def test_generate_config_3():
     test_conf = config_file()
     test_conf.input = lambda: 'dummy'
     test_conf.generate_config_3()

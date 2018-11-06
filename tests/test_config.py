@@ -20,4 +20,4 @@ def test_generate_config(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda x: "yes")
     test_conf = config_file()
     test_conf.generate_config()
-    assert os.path.exists("config.yaml")
+    assert os.path.exists(os.path.expanduser("~/.refchef.config"))

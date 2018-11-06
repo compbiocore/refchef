@@ -8,10 +8,7 @@ import datetime
 import collections
 from collections import OrderedDict, defaultdict
 import shutil
-#from inspect import getouterframes, currentframe
-#import yamlordereddictloader
 import yamlloader
-#import urllib2
 
 def new_append(origin, destination):
 	"""
@@ -40,13 +37,7 @@ def new_append(origin, destination):
 						masterYaml[i][j][str(s)] = newYaml[i][j][s]
 		else:
 			masterYaml[str(i)] = newYaml.get(i)
-	#f = open("master_test_new.yaml", 'w')
-	#ordered_dump(masterYaml)
-	#yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlordereddictloader.Dumper, indent=4, default_flow_style=False)
 	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=4, default_flow_style=False)
-
-	#f.close()
-	#return(destination)
 
 class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
@@ -67,16 +58,11 @@ class referenceHandler:
 		yamlEntry - the list associated with a single reference component
 		componentName - the name of the reference component
 		"""
-
-		#yamlEntry.keys()[0] is the top-level key i.e. the name of the reference subunit e.g. 'est' or 'primary-reference'
-		#print(yamlEntry)
-		#print(yamlEntry.keys())
 		print("\n\n\n\n\n\n\n")
 		print("made it this far")
 		if processLogical(yamlEntry["retrieve"]) == True:
 		# check to see if the given reference should be retrieved
 			print("\033[1m" + "\nRetrieving " + componentName + "\n"+ "\033[0m")
-
 			componentLocation = rootSubDirectory + "/" + componentName
 			# assemble the path for this component of the reference - separate folders for testing purposes
 			if os.path.exists(componentLocation)==False:
@@ -86,7 +72,6 @@ class referenceHandler:
 
 			os.chdir(componentLocation)
 			# moves to the given reference's directory
-
 			commands = yamlEntry["commands"]
 
 			for j in range(0,len(commands)):
@@ -98,8 +83,6 @@ class referenceHandler:
 					subprocess.call([yamlEntry["commands"][j]], shell=True)
 					# loops through all subentries under the 'command-sequence' entry and runs those commands
 					# actual system command as above
-
-
 
 			f = open("provinence.txt", "w+")
 			f.write("Component Name: " + componentName + "\n")
@@ -118,11 +101,6 @@ class referenceHandler:
 		rootDirectory - the root directory for all references specified in the YAML, as specified in the 'configuration' subentry
 		subYaml - the piece of the YAML called 'reference-information-X' where X is some number corresponding to a single reference and all its components
 		"""
-		#allReferences = subYaml.keys()
-		# subYaml NO LONGER HAS KEYS, THIS STATEMENT MAY BE UNCESSESARY NOW
-
-
-		#allReferences.remove("metadata")
 		# creates a list of reference components (the keys for the level below 'reference-information-X')
 		allReferences = subYaml["levels"]["references"]
 
@@ -144,7 +122,6 @@ class referenceHandler:
 		# create the metadata file, contents to be expanded upon
 
 		for i in allReferences:
-			#run.retrieveReference(referenceParentLocation, subYaml[i], i)
 			self.retrieveReference(referenceParentLocation, i, i["component"])
 			# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
 			# these can be named anything and there can be any number of them

@@ -8,8 +8,6 @@ import datetime
 import collections
 from collections import OrderedDict, defaultdict
 import shutil
-#from inspect import getouterframes, currentframe
-#import yamlordereddictloader
 import yamlloader
 import urllib2
 
@@ -27,7 +25,6 @@ def update_repository(master):
 	subprocess.call(["git pull"], shell=True)
 	os.chdir(startingDir)
 	shutil.copyfile(master, gitPath + "/" + master)
-	#shutil.copyfile("yamlOne.yaml", "/users/aleith/github_pages/yaml-repository/yamlOne.yaml")
 	os.chdir(gitPath)
 	subprocess.call(['git add --all && git commit -m  "refchef autopush" && git push origin master'], shell=True)
 	os.chdir(startingDir)

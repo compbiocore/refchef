@@ -42,7 +42,7 @@ class config_file():
 		print("What is the filepath of the directory to be used as root for the references? (Required)")
 		root_dir = input("> ")
 		if "~" in root_dir:
-			sys.exit("Please try again without using ~.")
+			root_dir = os.path.expanduser(root_dir)
 		if root_dir != "":
 			print("do nothing")
 		else:
@@ -50,7 +50,7 @@ class config_file():
 		print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
 		local_git_dir = input("> ")
 		if "~" in local_git_dir:
-			sys.exit("Please try again without using ~.")
+			local_git_dir = os.path.expanduser(local_git_dir)
 		if local_git_dir != "":
 			print("do nothing")
 		print("What is the " + "\033[1m" + "remote" + "\033[0m" + " Github repo in the format 'USER/REPO'?")

@@ -66,7 +66,6 @@ class referenceHandler:
 			componentLocation = rootSubDirectory + "/" + componentName
 			# assemble the path for this component of the reference - separate folders for testing purposes
 			if os.path.exists(componentLocation)==False:
-				#subprocess.call(["mkdir " + componentLocation], shell=True)
 				os.mkdir(componentLocation)
 				# creates a directory for the component's files if said directory does not yet exist
 
@@ -108,7 +107,6 @@ class referenceHandler:
 		referenceParentLocation = rootDirectory + "/" + subYaml["metadata"]["name"]
 		# assemble the path of this reference into which components will be put
 		if os.path.exists(referenceParentLocation)==False:
-				#subprocess.call(["mkdir " + referenceParentLocation], shell=True)
 				os.makedirs(referenceParentLocation)
 				# create the directory if it doesn't exist yet
 

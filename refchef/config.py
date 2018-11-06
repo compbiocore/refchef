@@ -15,6 +15,21 @@ try:
 except NameError:
     pass
 
+def config_check():
+	"""Check if user has config file, if not, runs generat_config()
+	and returns Config"""
+
+	try: #not tested
+	    config = Config()
+	except FileNotFoundError:
+	    conf = config_file()
+	    conf.preamble()
+	    conf.generate_config()
+	    config = Config()
+
+	return config
+
+
 class config_file():
 	def __init__(self, filetype="yaml"):
 		self.filetype = filetype

@@ -21,3 +21,7 @@ def test_generate_config(monkeypatch):
     test_conf = config_file()
     test_conf.generate_config()
     assert os.path.exists(os.path.expanduser("~/.refchef.config"))
+
+def test_config():
+    c = Config()
+    assert c.reference_dir == 'yes'

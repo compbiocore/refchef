@@ -1,4 +1,3 @@
-import argparse
 import os
 import subprocess
 import yaml
@@ -11,6 +10,7 @@ import shutil
 import yamlloader
 
 from refchef import utils
+from refchef.config import Config
 
 def new_append(origin, destination):
 	"""
@@ -23,8 +23,8 @@ def new_append(origin, destination):
 	destination - the file path of an existing YAML file to which a new YAML file will be appended
 	"""
 	# Load in the YAMLs
-	masterYaml = ordered_load(open(destination))
-	newYaml = ordered_load(open(origin))
+	masterYaml = utils.ordered_load(open(destination))
+	newYaml = utils.ordered_load(open(origin))
 	# Loop over each key in the origin and add it to the destination
 	for i in newYaml.keys():
 		if i in masterYaml.keys():
@@ -39,13 +39,14 @@ def new_append(origin, destination):
 						masterYaml[i][j][str(s)] = newYaml[i][j][s]
 		else:
 			masterYaml[str(i)] = newYaml.get(i)
-	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=4, default_flow_style=False)
+	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=2, default_flow_style=False)
+
 
 class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
 		self.filetype = filetype
 		self.errorBehavior = errorBehavior
-		self.config = utils.read_config()
+		self.config = Config()
 
 	def retrieveReference(self, rootSubDirectory, yamlEntry, componentName):
 		"""Create a folder named for the reference component, then download and process the reference files in that folder.
@@ -74,7 +75,7 @@ class referenceHandler:
 
 			commands = yamlEntry["commands"]
 			for j in range(0,len(commands)):
-				if utils.processLogical(self.config["config-yaml"]["runtime-settings"]["verbose"]) == True:
+				if utils.processLogical(self.config.verbose) == True:
 					print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["commands"][j] + "\n")
 				subprocess.call(utils.add_path([yamlEntry["commands"][j]][0], componentLocation), shell=True)
 				# loops through all subentries under the 'command-sequence' entry and runs those commands

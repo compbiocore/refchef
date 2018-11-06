@@ -9,6 +9,7 @@ import collections
 from collections import OrderedDict, defaultdict
 import shutil
 import yamlloader
+from refchef import utils
 try:
     input = raw_input
 except NameError:
@@ -79,3 +80,14 @@ class config_file():
 		# shutil.copyfile(config_file_path,backup_path)
 		print("Generated config file and timestamped backup.")
 		print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
+
+
+class Config:
+	def __init__(self):
+		dict_ = utils.read_yaml(os.path.expanduser("~/.refchef.config"))
+		self.reference_dir = dict_["config-yaml"]["path-settings"]["reference-directory"]
+		self.github_dir = dict_["config-yaml"]["path-settings"]["github-directory"]
+		self.remote = dict_["config-yaml"]["path-settings"]["remote-repository"]
+		self.log = dict_["config-yaml"]["log-settings"]["log"]
+		self.break_on_error = dict_["config-yaml"]["runtime-settings"]["break-on-error"]
+		self.verbose = dict_["config-yaml"]["runtime-settings"]["verbose"]

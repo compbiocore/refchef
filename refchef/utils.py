@@ -14,13 +14,6 @@ def read_yaml(file_path):
         dict_ = yaml.load(yml)
     return dict_
 
-def read_config():
-    """Simple function to read config file"""
-    home = os.path.expanduser("~")
-    config = os.path.join(home, ".refchef.config")
-
-    return read_yaml(config)
-
 def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
     '''
      Load YAML as an Ordered Dict

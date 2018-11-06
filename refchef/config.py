@@ -74,8 +74,8 @@ class config_file():
 		configObject = OrderedDict([('config-yaml', OrderedDict([('path-settings', OrderedDict([('reference-directory', str(root_dir)), ('github-directory', str(local_git_dir)), ('remote-repository', str(remote_git_name))])), ('log-settings', OrderedDict([('log', str(log_setting))])), ('runtime-settings', OrderedDict([('break-on-error', str(break_on_error)), ('verbose', str(verbose))]))]))])
 		config_file_path = os.path.expanduser("~/.refchef.config")
 		yaml.dump(configObject, open(config_file_path, 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=4, default_flow_style=False)
-		current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
-		backup_path = "config_backup_" + current_time + ".yaml"
-		shutil.copyfile(config_file_path,backup_path)
+		# current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
+		# backup_path = "config_backup_" + current_time + ".yaml"
+		# shutil.copyfile(config_file_path,backup_path)
 		print("Generated config file and timestamped backup.")
 		print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")

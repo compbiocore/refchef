@@ -1,6 +1,5 @@
 import pytest
-from refchef.utility_functions import *
-import argparse
+from refchef.utils import *
 import os
 import subprocess
 import yaml
@@ -11,6 +10,7 @@ import collections
 from collections import OrderedDict, defaultdict
 
 def test_ordered_load():
+    print(os.getcwd())
     data = ordered_load(open("tests/data/example.yml"))
     assert type(data).__name__ == "OrderedDict"
     # ordered_load reads in a YAML as an ordered dictionary, so its type should be OrderedDict
@@ -35,3 +35,7 @@ def test_logical():
     assert processLogical(case8) == False
     assert processLogical(case9) == case9
     # processLogical turns text into its logical equivalent if such exists, so case9 should not be converted
+
+def test_add_path():
+    s = "md5 *.fa > final_checksums.md5"
+    assert add_path(s, "test/") == "md5 *.fa > test/final_checksums.md5"

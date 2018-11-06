@@ -10,6 +10,8 @@ from collections import OrderedDict, defaultdict
 import shutil
 import yamlloader
 
+from refchef import utils
+
 def new_append(origin, destination):
 	"""
 	The function checks to see if a given key in origin exists in destination, adds it if not.
@@ -43,6 +45,7 @@ class referenceHandler:
 	def __init__(self, filetype="yaml", errorBehavior="False"):
 		self.filetype = filetype
 		self.errorBehavior = errorBehavior
+		self.config = utils.read_config()
 
 	def retrieveReference(self, rootSubDirectory, yamlEntry, componentName):
 		"""Create a folder named for the reference component, then download and process the reference files in that folder.
@@ -60,30 +63,24 @@ class referenceHandler:
 		"""
 		print("\n\n\n\n\n\n\n")
 		print("made it this far")
-		if processLogical(yamlEntry["retrieve"]) == True:
+		if utils.processLogical(yamlEntry["retrieve"]) == True:
 		# check to see if the given reference should be retrieved
 			print("\033[1m" + "\nRetrieving " + componentName + "\n"+ "\033[0m")
-			componentLocation = rootSubDirectory + "/" + componentName
+			componentLocation = os.path.join(rootSubDirectory, componentName)
 			# assemble the path for this component of the reference - separate folders for testing purposes
 			if os.path.exists(componentLocation)==False:
 				os.mkdir(componentLocation)
 				# creates a directory for the component's files if said directory does not yet exist
 
-			os.chdir(componentLocation)
-			# moves to the given reference's directory
 			commands = yamlEntry["commands"]
-
 			for j in range(0,len(commands)):
-				if processLogical(configYaml["config-yaml"]["runtime-settings"]["verbose"]) == True:
+				if utils.processLogical(self.config["config-yaml"]["runtime-settings"]["verbose"]) == True:
 					print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["commands"][j] + "\n")
-					subprocess.call([yamlEntry["commands"][j]], shell=True)
-					# this line is an actual system command so needs to stay as a subprocess call
-				else:
-					subprocess.call([yamlEntry["commands"][j]], shell=True)
-					# loops through all subentries under the 'command-sequence' entry and runs those commands
-					# actual system command as above
+				subprocess.call(utils.add_path([yamlEntry["commands"][j]][0], componentLocation), shell=True)
+				# loops through all subentries under the 'command-sequence' entry and runs those commands
+				# actual system command as above
 
-			f = open("provinence.txt", "w+")
+			f = open(os.path.join(componentLocation, "provinence.txt"), "w+")
 			f.write("Component Name: " + componentName + "\n")
 			f.write("Downloaded on: " + datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M")) + "\n")
 			f.close()
@@ -103,23 +100,24 @@ class referenceHandler:
 		# creates a list of reference components (the keys for the level below 'reference-information-X')
 		allReferences = subYaml["levels"]["references"]
 
-
-		referenceParentLocation = rootDirectory + "/" + subYaml["metadata"]["name"]
+		referenceParentLocation = os.path.join(rootDirectory, subYaml["metadata"]["name"])
 		# assemble the path of this reference into which components will be put
-		if os.path.exists(referenceParentLocation)==False:
+		if os.path.exists(referenceParentLocation) == False:
 				os.makedirs(referenceParentLocation)
 				# create the directory if it doesn't exist yet
 
 		metadata = subYaml["metadata"]
-		f = open(referenceParentLocation + "/metadata.txt", "w+")
+		f = open(os.path.join(referenceParentLocation, "metadata.txt"), "w+")
 		f.write("Reference Name: " + metadata["name"] + "\n")
 		f.write("Species: " + metadata["species"] + "\n")
 		f.write("Organization: " + metadata["organization"] + "\n")
 		f.write("Downloaded by: " + metadata["downloader"] + "\n")
 		f.close()
+
 		# create the metadata file, contents to be expanded upon
 
 		for i in allReferences:
 			self.retrieveReference(referenceParentLocation, i, i["component"])
+
 			# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
 			# these can be named anything and there can be any number of them

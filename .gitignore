@@ -7,3 +7,5 @@ refchef/__pycache__
 .eggs
 .pytest_cache
 tests/__pycache__
+tests/data/ucsc_mm9_chr1
+*.md5

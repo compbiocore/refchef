@@ -8,7 +8,18 @@ import datetime
 import collections
 from collections import OrderedDict, defaultdict
 
+def read_yaml(file_path):
+    """Simple function to read yaml file"""
+    with open(file_path) as yml:
+        dict_ = yaml.load(yml)
+    return dict_
 
+def read_config():
+    """Simple function to read config file"""
+    home = os.path.expanduser("~")
+    config = os.path.join(home, ".refchef.config")
+
+    return read_yaml(config)
 
 def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
     '''
@@ -45,3 +56,14 @@ def processLogical(text):
 	else:
 		print("Input has no logical analogue.")
 		return(text)
+
+def add_path(string, path):
+	"""Adds complete path to shell commands
+	Arguments: shell command retrieved from yaml file (string)"""
+	if ">" in string:
+		s = string.split(" > ")
+		command = s[0]
+		file_name = os.path.join(path, s[1])
+		return command + " > " + file_name
+	else:
+		return string

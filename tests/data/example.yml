@@ -31,14 +31,12 @@ ucsc_hg19_concatenate:
       - component: primary
         retrieve: true
         commands:
-          - wget
-          - md5
+          - touch testannotation.txt
     indices:
-      - component:
-        retrieve:
+      - component: primary
+        retrieve: true
         commands:
-          - cmd:
-            uuid:
+          - touch testindex.txt
 ucsc_hg18_concatenate:
   metadata:
     name: ucsc_hg18_concatenate

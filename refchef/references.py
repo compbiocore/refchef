@@ -46,10 +46,10 @@ def new_append(origin, destination, config_location):
 
 
 class referenceHandler:
-	def __init__(self, filetype="yaml", errorBehavior="False"):
+	def __init__(self, conf, filetype="yaml", errorBehavior="False"):
 		self.filetype = filetype
 		self.errorBehavior = errorBehavior
-		self.config = Config()
+		self.config = conf
 
 	def retrieveReference(self, rootSubDirectory, yamlEntry, componentName):
 		"""Create a folder named for the reference component, then download and process the reference files in that folder.

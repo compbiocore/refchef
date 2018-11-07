@@ -20,10 +20,10 @@ def test_references(conf):
 	run = referenceHandler(conf, errorBehavior = False)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, data.get(referenceKeys[k]))
-	assert os.path.isfile("tests/data/ucsc_mm9_chr1/primary/final_checksums.md5")
+	assert os.path.isfile("tests/data/ucsc_mm9_chr1/primary/chr1.fa.gz")
 
 
-def test_new_append():
+def test_new_append(conf):
 	f1 = "test_master.yaml"
 	f2 = "example.yml"
-	new_append(f1,f2,"tests/data")
+	new_append(f1,f2,conf)

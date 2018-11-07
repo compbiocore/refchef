@@ -7,7 +7,7 @@ try:
 except NameError:
     pass
 
-def config_check(filepath):
+def config_check(filepath=os.getenv("HOME")):
 	"""Check if user has config file, if not, runs generat_config()
 	and returns Config"""
 

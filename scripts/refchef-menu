@@ -10,6 +10,7 @@ import os
 import argparse
 import yaml
 from refchef.table_utils import *
+from refchef.utils import *
 from refchef.config import *
 
 parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
@@ -20,10 +21,10 @@ parser.add_argument("--regex", "-r",
                     action="store_true")
 
 
-
 args = parser.parse_args()
 conf = Config(os.path.join(os.getenv("HOME")))
-menu = read_menu(conf.reference_dir)
+master = read_menu(conf.reference_dir)
+menu = get_full_menu(master)
 
 if (args.filter is not None):
     filtered = multiple_filter(menu, args.filter)

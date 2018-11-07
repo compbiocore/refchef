@@ -7,7 +7,8 @@ from refchef.config import Config
 def menu():
     conf = Config("tests/data")
     file_path = conf.reference_dir
-    menu = read_menu(file_path)
+    master = read_menu(file_path)
+    menu = get_full_menu(master)
     return menu
 
 def test_split_filter():
@@ -17,7 +18,7 @@ def test_split_filter():
     assert t[1] == "2"
 
 def test_table_columns(menu): #takes the fixture created above as an argument.
-    assert menu.shape == (7,6)
+    assert menu.shape == (6,6)
     assert list(menu) == ['downloader', 'name', 'organization', 'species', 'type', 'component']
 
 def test_filter(menu):

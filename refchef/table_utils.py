@@ -11,7 +11,7 @@ except ImportError:
 
 from refchef import config
 from refchef.github_utils import read_menu_from_github
-from refchef import utils
+from refchef.utils import *
 
 def get_full_menu(master):
     """Reads yaml file and converts to a table format"""
@@ -93,9 +93,9 @@ def read_menu_from_local(file_path):
     """Looks for master.yml in config.reference_dir
     stops if it doesn't find anything, returns menu if master.yml is present"""
     try:
-        master = utils.read_yaml(os.path.join(file_path, "master.yml"))
+        master = read_yaml(os.path.join(file_path, "master.yml"))
     except:
-        master = utils.read_yaml(os.path.join(file_path, "master.yaml"))
+        master = read_yaml(os.path.join(file_path, "master.yaml"))
 
     return master
 
@@ -108,4 +108,4 @@ def read_menu(file_path):
         print("Master YAML not found in your current path. Reading from GitHub.")
         master = read_menu_from_github()
 
-    return get_full_menu(master)
+    return master

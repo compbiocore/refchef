@@ -6,7 +6,7 @@ import yamlloader
 import github
 
 from refchef import config
-from refchef.utils import save_yaml, ordered_load
+from refchef.utils import *
 
 
 def update_repository(master):

@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import yaml
 import yamlloader
@@ -54,6 +55,8 @@ def processLogical(text):
 		print("Input has no logical analogue.")
 		return(text)
 
+
+#TODO split this function to handle platform and path separatly
 def add_path(string, path):
 	"""Adds complete path to shell commands
 	Arguments: shell command retrieved from yaml file (string)"""
@@ -62,5 +65,14 @@ def add_path(string, path):
 		command = s[0]
 		file_name = os.path.join(path, s[1])
 		return command + " > " + file_name
+
+	elif "wget" in string:
+		s = string.split("wget ")
+		location = s[-1]
+		filename = location.split("/")[-1]
+		if sys.platform == 'darwin':
+			return "curl -o " + os.path.join(path, filename) + " " + location
+		elif sys.platform == 'linux':
+			return "wget -O " + os.path.join(path, filename) + " " + location
 	else:
 		return string

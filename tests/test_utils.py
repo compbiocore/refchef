@@ -1,5 +1,4 @@
 import pytest
-from refchef.utils import *
 import os
 import subprocess
 import yaml
@@ -8,6 +7,15 @@ import sys
 import datetime
 import collections
 from collections import OrderedDict, defaultdict
+
+from refchef.utils import *
+from refchef.table_utils import *
+from refchef.config import Config
+
+@pytest.fixture
+def conf():
+    conf = Config("tests/data")
+    return conf
 
 def test_ordered_load():
     print(os.getcwd())
@@ -39,3 +47,7 @@ def test_logical():
 def test_add_path():
     s = "md5 *.fa > final_checksums.md5"
     assert add_path(s, "test/") == "md5 *.fa > test/final_checksums.md5"
+
+def test_read_menu_from_local(conf):
+     a = read_menu_from_local(conf.reference_dir)
+     assert type(a) == dict

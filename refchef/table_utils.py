@@ -11,16 +11,13 @@ except ImportError:
 
 from refchef import config
 from refchef.github_utils import read_menu_from_github
+from refchef import utils
 
-def get_full_menu(file_path):
+def get_full_menu(master):
     """Reads yaml file and converts to a table format"""
 
-    #read in yaml file
-    with open(file_path) as f:
-        data = yaml.load(f)
-
     #json normalize data (to expand dict to table)
-    df = json_normalize(data).T.reset_index()
+    df = json_normalize(master).T.reset_index()
     df.columns = ["a", "b"]
 
     #rearange data
@@ -95,22 +92,20 @@ def pretty_print(menu):
 def read_menu_from_local(file_path):
     """Looks for master.yml in config.reference_dir
     stops if it doesn't find anything, returns menu if master.yml is present"""
-    config = config.config_check()
-
     try:
-        file_path = os.path.join(config.reference_dir, "master.yml")
+        master = utils.read_yaml(os.path.join(file_path, "master.yml"))
     except:
-        file_path = os.path.join(config.reference_dir, "master.yaml")
+        master = utils.read_yaml(os.path.join(file_path, "master.yaml"))
 
-    menu = get_full_menu(file_path)
+    return master
 
-def get_menu(file_path):
+def read_menu(file_path):
     """Looks for master.yml in config.reference_dir, if file not found,
     retrieves it from GitHub"""
     try:
-        menu = read_menu_from_local()
+        master = read_menu_from_local(file_path)
     except FileNotFoundError:
         print("Master YAML not found in your current path. Reading from GitHub.")
-        menu = read_menu_from_github()
+        master = read_menu_from_github()
 
-    menu = get_full_menu(file_path)
+    return get_full_menu(master)

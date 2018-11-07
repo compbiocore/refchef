@@ -1,10 +1,13 @@
 import pytest
 from refchef.table_utils import *
 from refchef.utils import *
+from refchef.config import Config
 
 @pytest.fixture # macro to set up a fixture that will be used in other functions.
 def menu():
-    menu = get_full_menu("tests/data/example.yml")
+    conf = Config("tests/data")
+    file_path = conf.reference_dir
+    menu = read_menu(file_path)
     return menu
 
 def test_split_filter():

@@ -15,17 +15,17 @@ try:
 except NameError:
     pass
 
-def config_check():
+def config_check(filepath):
 	"""Check if user has config file, if not, runs generat_config()
 	and returns Config"""
 
 	try: #not tested
-	    config = Config()
+	    config = Config(filepath)
 	except FileNotFoundError:
 	    conf = config_file()
 	    conf.preamble()
-	    conf.generate_config()
-	    config = Config()
+	    conf.generate_config(filepath)
+	    config = Config(filepath)
 
 	return config
 

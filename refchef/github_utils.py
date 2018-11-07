@@ -10,9 +10,10 @@ from collections import OrderedDict, defaultdict
 import shutil
 import yamlloader
 # import urllib2
-from github import Github
+import github
 
 from refchef import config
+from refchef.utils import save_yaml
 
 def update_repository(master):
 	"""
@@ -52,9 +53,20 @@ def process_remote_file(url, download):
 	return(data)
 
 
-# TODO: Finish function below:
-def read_menu_from_github():
+def read_menu_from_github(save=False):
 	"""Read master.yaml from GitHub"""
 	conf = config.Config()
 	token = os.getenv("GITHUB_TOKEN")
-	return conf.git_remote, token
+	g = github.Github(token)
+	repo = g.get_repo(conf.git_remote)
+	try:
+		master = repo.get_contents("master.yml")
+	except github.GithubException.UnknownObjectException:
+		master = repo.get_contents("master.yaml")
+
+	master_dict = yaml.load(master.decoded_content)
+
+	if save:
+		save_yaml(master_dict, config.reference_dir)
+	else:
+		return master_dict

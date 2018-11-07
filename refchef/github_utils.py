@@ -1,19 +1,13 @@
-import argparse
 import os
-import subprocess
 import yaml
-import time
-import sys
-import datetime
-import collections
-from collections import OrderedDict, defaultdict
 import shutil
 import yamlloader
 # import urllib2
 import github
 
 from refchef import config
-from refchef.utils import save_yaml
+from refchef.utils import save_yaml, ordered_load
+
 
 def update_repository(master):
 	"""

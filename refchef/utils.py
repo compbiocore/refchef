@@ -1,12 +1,7 @@
-import argparse
 import os
 import subprocess
 import yaml
 import yamlloader
-import time
-import sys
-import datetime
-import collections
 from collections import OrderedDict, defaultdict
 
 def read_yaml(file_path):

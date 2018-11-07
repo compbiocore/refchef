@@ -1,14 +1,6 @@
-import argparse
 import os
 import subprocess
-import yaml
-import time
-import sys
-import datetime
-import collections
 from collections import OrderedDict, defaultdict
-import shutil
-import yamlloader
 from refchef import utils
 try:
     input = raw_input

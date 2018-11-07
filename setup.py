@@ -25,8 +25,7 @@ setuptools.setup(
         "PyGithub",
         "yamlloader",
         "pandas",
-        "terminaltables",
-        "PyGithub"],
+        "terminaltables"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/refchef-cook", "scripts/refchef-menu"]

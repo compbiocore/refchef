@@ -7,6 +7,7 @@ import subprocess
 import yaml
 import time
 import sys
+import shutil
 import datetime
 import collections
 from collections import OrderedDict, defaultdict
@@ -25,6 +26,7 @@ def test_generate_config(monkeypatch):
     test_conf = config_file()
     test_conf.generate_config("tests/data/.refchef.config")
     assert os.path.exists(os.path.expanduser("tests/data/.refchef.config"))
+    shutil.copy("tests/data/.refchef.config", os.path.expanduser("~/.refchef-config"))
 
 def test_config():
     c = Config("tests/data")

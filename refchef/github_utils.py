@@ -53,9 +53,8 @@ def process_remote_file(url, download):
 	return(data)
 
 
-def read_menu_from_github(save=False):
+def read_menu_from_github(conf, save=False):
 	"""Read master.yaml from GitHub"""
-	conf = config.Config()
 	token = os.getenv("GITHUB_TOKEN")
 	g = github.Github(token)
 	repo = g.get_repo(conf.git_remote)

@@ -9,15 +9,15 @@ try:
 except ImportError:
     from yaml import Loader, Dumper
 
-def get_full_menu(file_path):
+from refchef import config
+from refchef.github_utils import read_menu_from_github
+from refchef import utils
+
+def get_full_menu(master):
     """Reads yaml file and converts to a table format"""
 
-    #read in yaml file
-    with open(file_path) as f:
-        data = yaml.load(f)
-
     #json normalize data (to expand dict to table)
-    df = json_normalize(data).T.reset_index()
+    df = json_normalize(master).T.reset_index()
     df.columns = ["a", "b"]
 
     #rearange data
@@ -87,3 +87,25 @@ def pretty_print(menu):
     tab = terminaltables.SingleTable(tt_data, title=u" \U0001F436" + " RefChef Menu ")
 
     print(tab.table)
+
+
+def read_menu_from_local(file_path):
+    """Looks for master.yml in config.reference_dir
+    stops if it doesn't find anything, returns menu if master.yml is present"""
+    try:
+        master = utils.read_yaml(os.path.join(file_path, "master.yml"))
+    except:
+        master = utils.read_yaml(os.path.join(file_path, "master.yaml"))
+
+    return master
+
+def read_menu(file_path):
+    """Looks for master.yml in config.reference_dir, if file not found,
+    retrieves it from GitHub"""
+    try:
+        master = read_menu_from_local(file_path)
+    except FileNotFoundError:
+        print("Master YAML not found in your current path. Reading from GitHub.")
+        master = read_menu_from_github()
+
+    return get_full_menu(master)

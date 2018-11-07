@@ -9,3 +9,4 @@ refchef/__pycache__
 tests/__pycache__
 tests/data/ucsc_mm9_chr1
 *.md5
+.refchef.config

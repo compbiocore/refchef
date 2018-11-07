@@ -15,6 +15,21 @@ try:
 except NameError:
     pass
 
+def config_check(filepath):
+	"""Check if user has config file, if not, runs generat_config()
+	and returns Config"""
+
+	try: #not tested
+	    config = Config(filepath)
+	except FileNotFoundError:
+	    conf = config_file()
+	    conf.preamble()
+	    conf.generate_config(filepath)
+	    config = Config(filepath)
+
+	return config
+
+
 class config_file():
 	def __init__(self, filetype="yaml"):
 		self.filetype = filetype
@@ -29,12 +44,12 @@ class config_file():
 
 
 	@staticmethod
-	def generate_config():
+	def generate_config(filepath=os.path.join(os.getenv("HOME"), ".refchef.config")):
 		"""Generate a human-readable configuration YAML for running the software proper.
 
 		This version of generateConfig() uses an ordered dictionary to generate its YAML.
 
-		This version is for Python 3 and uses input()."""
+		"""
 		print("\033[1m" + "This operation will overwrite any existing config.yaml.  Type 'yes' to proceed, or anything else to exit." + "\033[0m")
 		continue_prompt = input("> ")
 		if continue_prompt != "yes":
@@ -73,21 +88,20 @@ class config_file():
 		if verbose == "":
 			verbose = "False"
 		configObject = OrderedDict([('config-yaml', OrderedDict([('path-settings', OrderedDict([('reference-directory', str(root_dir)), ('github-directory', str(local_git_dir)), ('remote-repository', str(remote_git_name))])), ('log-settings', OrderedDict([('log', str(log_setting))])), ('runtime-settings', OrderedDict([('break-on-error', str(break_on_error)), ('verbose', str(verbose))]))]))])
-		config_file_path = os.path.expanduser("~/.refchef.config")
-		yaml.dump(configObject, open(config_file_path, 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=4, default_flow_style=False)
-		# current_time = datetime.datetime.now().strftime(("%Y-%m-%d_%H:%M"))
-		# backup_path = "config_backup_" + current_time + ".yaml"
-		# shutil.copyfile(config_file_path,backup_path)
+
+		utils.save_yaml(configObject, filepath)
+
 		print("Generated config file and timestamped backup.")
 		print("To use this backup in the future, simply copy it to a file named 'config.yaml'.")
 
 
 class Config:
-	def __init__(self):
-		dict_ = utils.read_yaml(os.path.expanduser("~/.refchef.config"))
+	def __init__(self, location=os.getenv("HOME")):
+		self.location = location
+		dict_ = utils.read_yaml(os.path.join(location, '.refchef.config'))
 		self.reference_dir = dict_["config-yaml"]["path-settings"]["reference-directory"]
-		self.github_dir = dict_["config-yaml"]["path-settings"]["github-directory"]
-		self.remote = dict_["config-yaml"]["path-settings"]["remote-repository"]
+		self.git_local = dict_["config-yaml"]["path-settings"]["github-directory"]
+		self.git_remote = dict_["config-yaml"]["path-settings"]["remote-repository"]
 		self.log = dict_["config-yaml"]["log-settings"]["log"]
 		self.break_on_error = dict_["config-yaml"]["runtime-settings"]["break-on-error"]
 		self.verbose = dict_["config-yaml"]["runtime-settings"]["verbose"]

@@ -19,21 +19,9 @@ parser.add_argument("--regex", "-r",
                     help="Whether value passed to filter is a regex expression.",
                     action="store_true")
 
-try: #not tested
-    config = read_config()
-except FileNotFoundError:
-    conf = config_file()
-    conf.preamble()
-    conf.generate_config()
-    config = read_config()
 
-# TODO:
-# path where local master yaml can be found
-master_path = config["config-yaml"]["path-settings"][""]
-file_path = os.path.join(master_path, "master.yml")
 
 args = parser.parse_args()
-menu = get_full_menu(file_path)
 
 if (args.filter is not None):
     filtered = multiple_filter(menu, args.filter)

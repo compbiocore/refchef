@@ -12,7 +12,7 @@ import yamlloader
 from refchef import utils
 from refchef.config import Config
 
-def new_append(origin, destination):
+def new_append(origin, destination, config_location):
 	"""
 	The function checks to see if a given key in origin exists in destination, adds it if not.
 
@@ -23,8 +23,9 @@ def new_append(origin, destination):
 	destination - the file path of an existing YAML file to which a new YAML file will be appended
 	"""
 	# Load in the YAMLs
-	masterYaml = utils.ordered_load(open(destination))
-	newYaml = utils.ordered_load(open(origin))
+	config = Config(config_location)
+	masterYaml = utils.ordered_load(open(os.path.join(config.reference_dir, destination)))
+	newYaml = utils.ordered_load(open(os.path.join(config.reference_dir, origin)))
 	# Loop over each key in the origin and add it to the destination
 	for i in newYaml.keys():
 		if i in masterYaml.keys():
@@ -39,14 +40,13 @@ def new_append(origin, destination):
 						masterYaml[i][j][str(s)] = newYaml[i][j][s]
 		else:
 			masterYaml[str(i)] = newYaml.get(i)
-	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=2, default_flow_style=False)
-
+	utils.save_yaml(masterYaml, os.path.join(config.reference_dir, destination))
 
 class referenceHandler:
-	def __init__(self, filetype="yaml", errorBehavior="False"):
+	def __init__(self, conf, filetype="yaml", errorBehavior="False"):
 		self.filetype = filetype
 		self.errorBehavior = errorBehavior
-		self.config = Config()
+		self.config = conf
 
 	def retrieveReference(self, rootSubDirectory, yamlEntry, componentName):
 		"""Create a folder named for the reference component, then download and process the reference files in that folder.
@@ -100,6 +100,10 @@ class referenceHandler:
 		"""
 		# creates a list of reference components (the keys for the level below 'reference-information-X')
 		allReferences = subYaml["levels"]["references"]
+		if "annotations" in subYaml["levels"]:
+			all_annotations = subYaml["levels"]["annotations"]
+		if "indices" in subYaml["levels"]:
+			all_indices = subYaml["levels"]["indices"]
 
 		referenceParentLocation = os.path.join(rootDirectory, subYaml["metadata"]["name"])
 		# assemble the path of this reference into which components will be put
@@ -119,6 +123,13 @@ class referenceHandler:
 
 		for i in allReferences:
 			self.retrieveReference(referenceParentLocation, i, i["component"])
-
-			# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
-			# these can be named anything and there can be any number of them
+		if "annotations" in subYaml["levels"]:
+			if len(all_annotations) > 0:
+				for j in all_annotations:
+					self.retrieveReference(referenceParentLocation, j, j["component"])
+		if "indices" in subYaml["levels"]:
+			if len(all_indices) > 0:
+				for k in all_indices:
+					self.retrieveReference(referenceParentLocation, k, k["component"])
+		# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
+		# these can be named anything and there can be any number of them

@@ -100,8 +100,10 @@ class referenceHandler:
 		"""
 		# creates a list of reference components (the keys for the level below 'reference-information-X')
 		allReferences = subYaml["levels"]["references"]
-		all_annotations = subYaml["levels"]["annotations"]
-		all_indices = subYaml["levels"]["indices"]
+		if "annotations" in subYaml["levels"]:
+			all_annotations = subYaml["levels"]["annotations"]
+		if "indices" in subYaml["levels"]:
+			all_indices = subYaml["levels"]["indices"]
 
 		referenceParentLocation = os.path.join(rootDirectory, subYaml["metadata"]["name"])
 		# assemble the path of this reference into which components will be put

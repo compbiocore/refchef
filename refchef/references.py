@@ -100,6 +100,8 @@ class referenceHandler:
 		"""
 		# creates a list of reference components (the keys for the level below 'reference-information-X')
 		allReferences = subYaml["levels"]["references"]
+		all_annotations = subYaml["levels"]["annotations"]
+		all_indices = subYaml["levels"]["indices"]
 
 		referenceParentLocation = os.path.join(rootDirectory, subYaml["metadata"]["name"])
 		# assemble the path of this reference into which components will be put
@@ -119,6 +121,9 @@ class referenceHandler:
 
 		for i in allReferences:
 			self.retrieveReference(referenceParentLocation, i, i["component"])
-
+		for j in all_annotations:
+			self.retrieveReference(referenceParentLocation, j, j["component"])
+		for k in all_indices:
+			self.retrieveReference(referenceParentLocation, k, k["component"])
 			# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
 			# these can be named anything and there can be any number of them

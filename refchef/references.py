@@ -121,9 +121,11 @@ class referenceHandler:
 
 		for i in allReferences:
 			self.retrieveReference(referenceParentLocation, i, i["component"])
-		for j in all_annotations:
-			self.retrieveReference(referenceParentLocation, j, j["component"])
-		for k in all_indices:
-			self.retrieveReference(referenceParentLocation, k, k["component"])
-			# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
+		if len(all_annotations) > 0:
+			for j in all_annotations:
+				self.retrieveReference(referenceParentLocation, j, j["component"])
+		if len(all_indices) > 0:
+			for k in all_indices:
+				self.retrieveReference(referenceParentLocation, k, k["component"])
+				# retrieve each component of the reference e.g. 'primary reference', 'est', 'gtf', etc
 			# these can be named anything and there can be any number of them

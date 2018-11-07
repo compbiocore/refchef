@@ -42,9 +42,6 @@ def new_append(origin, destination, config_location):
 			masterYaml[str(i)] = newYaml.get(i)
 	utils.save_yaml(masterYaml, os.path.join(config.reference_dir, destination))
 
-	#yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=2, default_flow_style=False)
-
-
 class referenceHandler:
 	def __init__(self, conf, filetype="yaml", errorBehavior="False"):
 		self.filetype = filetype

@@ -2,6 +2,7 @@ import argparse
 import os
 import subprocess
 import yaml
+import yamlloader
 import time
 import sys
 import datetime
@@ -13,6 +14,14 @@ def read_yaml(file_path):
     with open(file_path) as yml:
         dict_ = yaml.load(yml)
     return dict_
+
+def save_yaml(object, file_path):
+	"""Saves dict object as yaml file in provided path"""
+	yaml.dump(object,
+			  open(file_path, 'w'),
+			  Dumper=yamlloader.ordereddict.CDumper,
+			  indent=2,
+			  default_flow_style=False)
 
 def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
     '''

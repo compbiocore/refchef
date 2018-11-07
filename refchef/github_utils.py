@@ -9,7 +9,10 @@ import collections
 from collections import OrderedDict, defaultdict
 import shutil
 import yamlloader
-import urllib2
+# import urllib2
+from github import Github
+
+from refchef import config
 
 def update_repository(master):
 	"""
@@ -47,3 +50,11 @@ def process_remote_file(url, download):
 		with open(filename, 'w') as output:
   			output.write(file.read())
 	return(data)
+
+
+# TODO: Finish function below:
+def read_menu_from_github():
+	"""Read master.yaml from GitHub"""
+	conf = config.Config()
+	token = os.getenv("GITHUB_TOKEN")
+	return conf.git_remote, token

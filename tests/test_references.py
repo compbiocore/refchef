@@ -19,6 +19,6 @@ def test_references():
 
 
 def test_new_append():
-	f1 = "tests/data/test_master.yaml"
-	f2 = "tests/data/example.yml"
-	new_append(f1,f2)
+	f1 = "test_master.yaml"
+	f2 = "example.yml"
+	new_append(f1,f2,"tests/data")

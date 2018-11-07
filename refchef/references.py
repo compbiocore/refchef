@@ -12,7 +12,7 @@ import yamlloader
 from refchef import utils
 from refchef.config import Config
 
-def new_append(origin, destination):
+def new_append(origin, destination, config_location):
 	"""
 	The function checks to see if a given key in origin exists in destination, adds it if not.
 
@@ -23,8 +23,9 @@ def new_append(origin, destination):
 	destination - the file path of an existing YAML file to which a new YAML file will be appended
 	"""
 	# Load in the YAMLs
-	masterYaml = utils.ordered_load(open(destination))
-	newYaml = utils.ordered_load(open(origin))
+	config = Config(config_location)
+	masterYaml = utils.ordered_load(open(os.path.join(config.reference_dir, destination)))
+	newYaml = utils.ordered_load(open(os.path.join(config.reference_dir, origin)))
 	# Loop over each key in the origin and add it to the destination
 	for i in newYaml.keys():
 		if i in masterYaml.keys():
@@ -39,7 +40,9 @@ def new_append(origin, destination):
 						masterYaml[i][j][str(s)] = newYaml[i][j][s]
 		else:
 			masterYaml[str(i)] = newYaml.get(i)
-	yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=2, default_flow_style=False)
+	utils.save_yaml(masterYaml, os.path.join(config.reference_dir, destination))
+
+	#yaml.dump(masterYaml, open('temp.yaml', 'w'), Dumper=yamlloader.ordereddict.CDumper, indent=2, default_flow_style=False)
 
 
 class referenceHandler:

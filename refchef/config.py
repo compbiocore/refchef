@@ -44,7 +44,7 @@ class config_file():
 
 
 	@staticmethod
-	def generate_config(filepath="~/.refchef.config"):
+	def generate_config(filepath=os.path.join(os.getenv("HOME"), ".refchef.config")):
 		"""Generate a human-readable configuration YAML for running the software proper.
 
 		This version of generateConfig() uses an ordered dictionary to generate its YAML.
@@ -96,9 +96,9 @@ class config_file():
 
 
 class Config:
-	def __init__(self, location="~/"):
+	def __init__(self, location=os.getenv("HOME")):
 		self.location = location
-		dict_ = utils.read_yaml(os.path.join(os.path.expanduser(location), '.refchef.config'))
+		dict_ = utils.read_yaml(os.path.join(location, '.refchef.config'))
 		self.reference_dir = dict_["config-yaml"]["path-settings"]["reference-directory"]
 		self.git_local = dict_["config-yaml"]["path-settings"]["github-directory"]
 		self.git_remote = dict_["config-yaml"]["path-settings"]["remote-repository"]

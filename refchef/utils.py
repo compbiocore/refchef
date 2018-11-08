@@ -60,12 +60,6 @@ def processLogical(text):
 def add_path(string, path):
 	"""Adds complete path to shell commands
 	Arguments: shell command retrieved from yaml file (string)"""
-	if "md5" in string:
-		if sys.platform == 'darwin':
-			pass
-		else:
-			string = string.replace("md5", "md5sum")
-
 	if ">" in string:
 		s = string.split(" > ")
 		command = s[0]

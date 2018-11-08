@@ -72,7 +72,7 @@ def add_path(string, path):
 		filename = location.split("/")[-1]
 		if sys.platform == 'darwin':
 			return "curl -o " + os.path.join(path, filename) + " " + location
-		elif sys.platform == 'linux':
+		else:
 			return "wget -O " + os.path.join(path, filename) + " " + location
 	else:
 		return string

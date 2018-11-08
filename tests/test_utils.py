@@ -48,6 +48,12 @@ def test_add_path():
     s = "md5 *.fa > final_checksums.md5"
     assert add_path(s, "test/") == "md5 *.fa > test/final_checksums.md5"
 
+    t = read_yaml("tests/data/test_master.yaml")
+    if sys.platform == 'darwin':
+        assert add_path(t["ucsc_mm9_chr1"]["levels"]["references"][0]["commands"][0], "test/") == 'curl -o test/chr1.fa.gz https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz'
+    else:
+        assert add_path(t["ucsc_mm9_chr1"]["levels"]["references"][0]["commands"][0], "test/") == 'wget -O test/chr1.fa.gz https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz'
+
 def test_read_menu_from_local(conf):
      a = read_menu_from_local(conf.reference_dir)
      assert type(a) == dict

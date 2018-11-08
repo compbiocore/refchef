@@ -1,17 +1,16 @@
-matrix: #allows to set up tests/deploys in different languages/environments.
-  include: #includes all stages of build
-    - stage: test
-      os:
-        - osx
-        - linux
-      language: python
-      python:
-        - "3.6"
-      sudo: false
-      script:
-        - python setup.py test
+language: python
+os:
+  - osx
+  - linux
+python:
+  - "3.6"
+sudo: false
+script:
+  - python setup.py test
 
-    - stage: deploy # this block builds and deploys the docs, it's in Python.
+jobs:
+  include:
+    - stage: deploy docs
       language: python
       install:
         - pip install mkdocs==1

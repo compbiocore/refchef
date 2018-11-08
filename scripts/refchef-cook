@@ -11,7 +11,6 @@ from refchef.table_utils import read_menu
 from refchef.references import *
 import glob
 
-
 parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
 
 parser.add_argument('-e', '--execute', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
@@ -28,13 +27,14 @@ conf = config.config_check()
 # Read menu (master.yaml)
 master = read_menu(conf.reference_dir)
 # Get full path of master yaml
-master_path = glob.glob(os.path.join(conf.reference_dir, "master*"))[0]
+master_path = "master.yaml"
 
 # If new argument, append that to master and reload master.
 if arguments.new is not None:
-	new_append(arguments.new, master_path)
+	new_append(arguments.new, master_path, conf)
 	master = read_menu(conf.reference_dir)
 
+installed_references = [r.split("/")[-1] for r in glob.glob(conf.reference_dir + "/*")]
 # Get keys from master yaml
 ref_keys = list(master.keys())
 
@@ -42,4 +42,5 @@ if arguments.execute:
 	run = referenceHandler(conf, errorBehavior = processLogical(conf.break_on_error))
 	#print(referenceKeys)
 	for k in range(0, len(ref_keys)):
-		run.processEntry(conf.reference_dir, master.get(ref_keys[k]))
+		if ref_keys[k] not in installed_references:
+			run.processEntry(conf.reference_dir, master.get(ref_keys[k]))

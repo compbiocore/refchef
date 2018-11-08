@@ -1,0 +1,45 @@
+reference_test1:
+  metadata:
+    name: reference_test1
+    species: mouse
+    organization: ucsc
+    downloader: aleith
+  levels:
+    references:
+    - component: primary
+      retrieve: true
+      commands:
+      - curl https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5 *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5 *.fa > final_checksums.md5
+reference_test2:
+  metadata:
+    name: reference_test2
+    species: human
+    organization: ucsc
+    downloader: fgelin
+  levels:
+    references:
+    - component: primary
+      retrieve: true
+      commands:
+      - curl https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5 *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5 *.fa > final_checksums.md5
+reference_test3:
+  metadata:
+    name: reference_test3
+    species: human
+    organization: ucsc
+    downloader: fgelin
+  levels:
+    references:
+    - component: primary
+      retrieve: true
+      commands:
+      - curl https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5 *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5 *.fa > final_checksums.md5

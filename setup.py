@@ -26,7 +26,8 @@ setuptools.setup(
         "yamlloader",
         "pandas",
         "terminaltables",
-        "mock"],
+        "mock",
+        "future"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/refchef-cook", "scripts/refchef-menu"]

@@ -9,7 +9,7 @@ ucsc_mm9_chr1:
       - component: primary
         retrieve: true
         commands:
-          # - wget https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+          - wget https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
           - md5 *.fa.gz > postdownload_checksums.md5
           - gunzip *.gz
           - md5 *.fa > final_checksums.md5

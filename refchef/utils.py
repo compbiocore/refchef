@@ -60,12 +60,6 @@ def processLogical(text):
 def add_path(string, path):
 	"""Adds complete path to shell commands
 	Arguments: shell command retrieved from yaml file (string)"""
-	if "md5" in string:
-		if sys.platform == 'darwin':
-			pass
-		else:
-			string = string.replace("md5", "md5sum")
-
 	if ">" in string:
 		s = string.split(" > ")
 		command = s[0]
@@ -80,10 +74,12 @@ def add_path(string, path):
 		s = string.split("wget ")
 		location = s[-1]
 		filename = location.split("/")[-1]
-		if sys.platform == 'darwin':
-			return "curl -o " + os.path.join(path, filename) + " " + location
-		else:
-			return "wget -O " + os.path.join(path, filename) + " " + location
+		return "wget -O " + os.path.join(path, filename) + " " + location
+	elif "curl" in string:
+		s = string.split("curl ")
+		location = s[-1]
+		filename = location.split("/")[-1]
+		return "curl -o " + os.path.join(path, filename) + " " + location
 	elif " *" in string:
 		s = string.split(" *")
 		return s[0] + " " + os.path.join(path, "*" + s[1])

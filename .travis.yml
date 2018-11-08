@@ -1,9 +1,9 @@
-os:
-  - osx
-  - linux
 matrix: #allows to set up tests/deploys in different languages/environments.
   include: #includes all stages of build
     - stage: test
+      os:
+        - osx
+        - linux
       language: python
       python:
         - "3.6"

@@ -46,7 +46,10 @@ def test_logical():
 
 def test_add_path():
     s = "md5 *.fa > final_checksums.md5"
-    assert add_path(s, "test/") == "md5 test/*.fa > test/final_checksums.md5"
+    if sys.platform == 'darwin':
+        assert add_path(s, "test/") == "md5 test/*.fa > test/final_checksums.md5"
+    else:
+        assert add_path(s, "test/") == "md5sum test/*.fa > test/final_checksums.md5"
 
     s2 = "gunzip *.gz"
     assert add_path(s2, "test/") == "gunzip test/*.gz"

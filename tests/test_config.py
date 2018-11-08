@@ -39,9 +39,7 @@ def test_generate_config(monkeypatch):
                              ('runtime-settings',
                              OrderedDict([('break-on-error', "yes"), ('verbose', "yes")]))]))])
         save_yaml(configObject, os.path.expanduser("tests/data/.refchef.config"))
-
-
-
+        assert os.path.exists(os.path.expanduser("tests/data/.refchef.config"))
 
 
 def test_config():

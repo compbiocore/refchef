@@ -1,5 +1,8 @@
 import pytest
-from unittest.mock import MagicMock
+try:
+    from unittest.mock import MagicMock
+except ImportError:
+    from mock import MagicMock
 import os
 import sys
 import shutil

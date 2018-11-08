@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/compbiocore/refchef",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Programming Language :: Python :: 2",
+        "Programming Language :: Python ",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
@@ -25,7 +25,8 @@ setuptools.setup(
         "PyGithub",
         "yamlloader",
         "pandas",
-        "terminaltables"],
+        "terminaltables",
+        "mock"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/refchef-cook", "scripts/refchef-menu"]

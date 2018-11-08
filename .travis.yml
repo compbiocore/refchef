@@ -4,7 +4,7 @@ os:
   - linux
 python:
   - "2.7"
-  - "3.5"
+  - "3.4"
 sudo: false
 script:
   - python setup.py test
@@ -12,7 +12,10 @@ script:
 jobs:
   include:
     - stage: deploy docs
+      os: linux
       language: python
+      python:
+        - "3.4"
       install:
         - pip install mkdocs==1
         - pip install mkdocs-material==3.0.3

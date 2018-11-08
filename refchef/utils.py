@@ -47,16 +47,16 @@ def processLogical(text):
     text - text to be coerced to a logical, if a corresponding logical exists
 	"""
 	text = str(text)
-	if(text == "true" or text == "True" or text == "TRUE" or text == "T" or text == "t" or text == "1"):
+	if(text == "true" or text == "True" or text == "TRUE" or text == "T" or text == "t" or text == "1" or text.lower() == 'yes'):
 		return True
-	elif(text == "false" or text == "False" or text == "FALSE" or text == "F" or text == "f" or text == "0"):
+	elif(text == "false" or text == "False" or text == "FALSE" or text == "F" or text == "f" or text == "0" or text.lower() == 'no'):
 		return False
 	else:
 		print("Input has no logical analogue.")
 		return(text)
 
 
-#TODO split this function to handle platform and path separatly
+#TODO split this function to handle platform and path separatly. Need to handle this more gracefully.
 def add_path(string, path):
 	"""Adds complete path to shell commands
 	Arguments: shell command retrieved from yaml file (string)"""
@@ -64,8 +64,12 @@ def add_path(string, path):
 		s = string.split(" > ")
 		command = s[0]
 		file_name = os.path.join(path, s[1])
-		return command + " > " + file_name
-
+		new_s = command + " > " + file_name
+		if "*" in new_s:
+			new_s_split = new_s.split(" *")
+			return new_s_split[0] + " " + os.path.join(path, "*" + new_s_split[1])
+		else:
+			return new_s
 	elif "wget" in string:
 		s = string.split("wget ")
 		location = s[-1]
@@ -74,5 +78,8 @@ def add_path(string, path):
 			return "curl -o " + os.path.join(path, filename) + " " + location
 		else:
 			return "wget -O " + os.path.join(path, filename) + " " + location
+	elif " *" in string:
+		s = string.split(" *")
+		return s[0] + " " + os.path.join(path, "*" + s[1])
 	else:
 		return string

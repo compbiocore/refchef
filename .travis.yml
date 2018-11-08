@@ -1,21 +1,17 @@
 language: python
 os:
   - linux
-dist: trusty
 sudo: false
 python:
   - "2.7"
-  - "3.4"
+  - "3.7"
 script:
   - python setup.py test
 
 jobs:
   include:
     - stage: deploy docs
-      os: linux
       language: python
-      python:
-        - "3.4"
       install:
         - pip install mkdocs==1
         - pip install mkdocs-material==3.0.3

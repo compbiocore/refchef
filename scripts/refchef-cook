@@ -15,7 +15,6 @@ import glob
 parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
 
 parser.add_argument('-e', '--execute', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
-# parser.add_argument('--master', type=str, required = True, help = 'Denotes the Master YAML')
 parser.add_argument('--new', type=str, help = 'Denotes the new YAML')
 parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for testing)', action="store_true")
 

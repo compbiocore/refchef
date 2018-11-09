@@ -12,3 +12,4 @@ tests/data/ucsc_mm9_chr1
 .refchef.config
 *.pyc
 reference_test*
+.cache

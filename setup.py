@@ -14,9 +14,9 @@ setuptools.setup(
     url="https://github.com/compbiocore/refchef",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Programming Language :: Python ",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 2 :: 3",
+        "License :: OSI Approved :: GLP 3.0",
+        "Operating System :: Mac OS :: Linux",
     ],
     install_requires=[
         "argparse",

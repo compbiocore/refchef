@@ -21,7 +21,7 @@ config-yaml:
 
 ### `refchef-cook`  
 This command will read a `master.yaml` located in the `github-directory` path from the config file. The `master.yaml` file contains a list of references, as well as metadata, and commands necessary to download them (see example below).  
-The `master.yaml` file stores all the information about a reference that is downloaded or will be downloaded. When `refchef-cook -e` is executed, the references in the master file that are not installed in the path provided in the config file will be downloaded. 
+The `master.yaml` file stores all the information about a reference that is downloaded or will be downloaded. When `refchef-cook -e` is executed, the references in the master file that are not installed in the path provided in the config file will be downloaded.
 
 Arguments:  
 `--execute, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  

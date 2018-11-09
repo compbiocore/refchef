@@ -18,7 +18,7 @@ config-yaml:
     verbose: 'yes'
 ```
 
-### `refchef-cook`:  
+### `refchef-cook`  
 This command will read a `master.yaml` located in the `github-directory` path from the config file. The `master.yaml` file contains a list of references, as well as metadata, and commands necessary to download them (see example below).  
 Arguments:  
 `--exectue, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
@@ -26,10 +26,10 @@ Arguments:
 `--update, -u`: whether to update the remote git repository with the new `master.yaml`.
 
 Example run:  
-    1 - This will read in `new.yaml` file, append to `master.yaml` and update the remote GitHub repository.
-    `refchef-cook -e --new new.yaml --update`  
+  1 - This will read in `new.yaml` file, append to `master.yaml` and update the remote GitHub repository.
+    `refchef-cook -e --new new.yaml --update`.
 
-    2 - This will process `master.yaml` only and won't update the remote GitHub repository:  
+  2 - This will process `master.yaml` only and won't update the remote GitHub repository:  
     `refchef-cook -e`
 
 

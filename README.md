@@ -112,11 +112,11 @@ Example:
 
 `refchef-menu`
 
-![menu](assets/menu-full.png)
+![menu](docs/assets/menu-full.png)
 
 `refchef-menu --filter species:human`
 
-![menu](assets/menu-filtered.png)
+![menu](docs/assets/menu-filtered.png)
 
 
 

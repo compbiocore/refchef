@@ -22,8 +22,8 @@ parser.add_argument("--regex", "-r",
 
 
 args = parser.parse_args()
-conf = Config(os.path.join(os.getenv("HOME")))
-master = read_menu(conf.reference_dir)
+conf = config.config_check()
+master = read_menu(conf)
 menu = get_full_menu(master)
 
 if (args.filter is not None):

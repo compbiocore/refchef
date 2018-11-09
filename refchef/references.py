@@ -18,8 +18,8 @@ def new_append(origin, destination, conf):
 	destination - the file path of an existing YAML file to which a new YAML file will be appended
 	"""
 	# Load in the YAMLs
-	masterYaml = utils.ordered_load(open(os.path.join(conf.reference_dir, destination)))
-	newYaml = utils.ordered_load(open(os.path.join(conf.reference_dir, origin)))
+	masterYaml = utils.ordered_load(open(os.path.join(conf.git_local, destination)))
+	newYaml = utils.ordered_load(open(origin))
 	# Loop over each key in the origin and add it to the destination
 	for i in newYaml.keys():
 		if i in masterYaml.keys():
@@ -34,7 +34,8 @@ def new_append(origin, destination, conf):
 						masterYaml[i][j][str(s)] = newYaml[i][j][s]
 		else:
 			masterYaml[str(i)] = newYaml.get(i)
-	utils.save_yaml(masterYaml, os.path.join(conf.reference_dir, destination))
+			print(masterYaml.keys())
+	utils.save_yaml(masterYaml, os.path.join(conf.git_local, destination))
 
 class referenceHandler:
 	def __init__(self, conf, filetype="yaml", errorBehavior="False"):

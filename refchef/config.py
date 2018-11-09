@@ -16,7 +16,7 @@ def config_check(filepath=os.getenv("HOME")):
 	except FileNotFoundError:
 	    conf = config_file()
 	    conf.preamble()
-	    conf.generate_config(filepath)
+	    conf.generate_config()
 	    config = Config(filepath)
 
 	return config
@@ -39,7 +39,7 @@ class config_file():
 	def generate_config(filepath=os.path.join(os.getenv("HOME"), ".refchef.config")):
 		"""Generate a human-readable configuration YAML for running the software proper.
 
-		This version of generateConfig() uses an ordered dictionary to generate its YAML.
+		This version of generate_config() uses an ordered dictionary to generate its YAML.
 
 		"""
 		print("\033[1m" + "This operation will overwrite any existing config.yaml.  Type 'yes' to proceed, or anything else to exit." + "\033[0m")
@@ -49,16 +49,14 @@ class config_file():
 		print("\033[1m" + "Filepaths" + "\033[0m")
 		print("What is the filepath of the directory to be used as root for the references? (Required)")
 		root_dir = input("> ")
-		if "~" in root_dir:
-			root_dir = os.path.expanduser(root_dir)
+		root_dir = os.path.expanduser(root_dir)
 		if root_dir != "":
 			print("do nothing")
 		else:
 			sys.exit("Required option omitted; exiting.")
 		print("What is the " + "\033[1m" + "local" + "\033[0m" + " Github repository directory (parent directory of cloned repos)?")
 		local_git_dir = input("> ")
-		if "~" in local_git_dir:
-			local_git_dir = os.path.expanduser(local_git_dir)
+		local_git_dir = os.path.expanduser(local_git_dir)
 		if local_git_dir != "":
 			print("do nothing")
 		print("What is the " + "\033[1m" + "remote" + "\033[0m" + " Github repo in the format 'USER/REPO'?")
@@ -81,6 +79,7 @@ class config_file():
 			verbose = "False"
 		configObject = OrderedDict([('config-yaml', OrderedDict([('path-settings', OrderedDict([('reference-directory', str(root_dir)), ('github-directory', str(local_git_dir)), ('remote-repository', str(remote_git_name))])), ('log-settings', OrderedDict([('log', str(log_setting))])), ('runtime-settings', OrderedDict([('break-on-error', str(break_on_error)), ('verbose', str(verbose))]))]))])
 
+		print(filepath)
 		utils.save_yaml(configObject, filepath)
 
 		print("Generated config file and timestamped backup.")

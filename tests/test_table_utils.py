@@ -6,8 +6,7 @@ from refchef.config import Config
 @pytest.fixture # macro to set up a fixture that will be used in other functions.
 def menu():
     conf = Config("tests/data")
-    file_path = conf.reference_dir
-    master = read_menu(file_path)
+    master = read_menu(conf)
     menu = get_full_menu(master)
     return menu
 

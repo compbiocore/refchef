@@ -29,6 +29,6 @@ def test_references(conf):
 
 
 def test_new_append(conf):
-	f1 = "test_master.yaml"
+	f1 = "tests/data/test_master.yaml"
 	f2 = "example.yml"
 	new_append(f1,f2,conf)

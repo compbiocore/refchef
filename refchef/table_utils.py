@@ -99,13 +99,13 @@ def read_menu_from_local(file_path):
 
     return master
 
-def read_menu(file_path):
+def read_menu(conf):
     """Looks for master.yml in config.reference_dir, if file not found,
     retrieves it from GitHub"""
     try:
-        master = read_menu_from_local(file_path)
+        master = read_menu_from_local(conf.git_local)
     except FileNotFoundError:
         print("Master YAML not found in your current path. Reading from GitHub.")
-        master = read_menu_from_github()
+        master = read_menu_from_github(conf)
 
     return master

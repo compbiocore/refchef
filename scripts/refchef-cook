@@ -9,6 +9,7 @@ from refchef import config
 from refchef.utils import *
 from refchef.table_utils import read_menu
 from refchef.references import *
+from refchef.github_utils import *
 import glob
 
 parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
@@ -25,14 +26,14 @@ arguments = parser.parse_args()
 conf = config.config_check()
 
 # Read menu (master.yaml)
-master = read_menu(conf.reference_dir)
+master = read_menu(conf)
 # Get full path of master yaml
 master_path = "master.yaml"
 
 # If new argument, append that to master and reload master.
 if arguments.new is not None:
 	new_append(arguments.new, master_path, conf)
-	master = read_menu(conf.reference_dir)
+	master = read_menu(conf)
 
 installed_references = [r.split("/")[-1] for r in glob.glob(conf.reference_dir + "/*")]
 # Get keys from master yaml
@@ -44,3 +45,5 @@ if arguments.execute:
 	for k in range(0, len(ref_keys)):
 		if ref_keys[k] not in installed_references:
 			run.processEntry(conf.reference_dir, master.get(ref_keys[k]))
+
+update_repository(conf)

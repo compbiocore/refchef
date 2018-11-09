@@ -60,5 +60,5 @@ def test_add_path():
         assert add_path(t["reference_test1"]["levels"]["references"][0]["commands"][0], "test/") == 'wget -O test/chr1.fa.gz https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz'
 
 def test_read_menu_from_local(conf):
-     a = read_menu_from_local(conf.reference_dir)
+     a = read_menu_from_local(conf.git_local)
      assert type(a) == dict

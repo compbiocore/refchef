@@ -9,21 +9,21 @@ from refchef import config
 from refchef.utils import *
 
 
-def update_repository(master):
+def update_repository(conf):
 	"""
 	Update a github repository.
 
 	Arguments:
 	master - the master YAML to be pushed to github
 	"""
-	configYaml = ordered_load(open("config.yaml"))
-	gitPath = configYaml["config-yaml"]["path-settings"]["github-directory"] + "/" + configYaml["config-yaml"]["path-settings"]["remote-repository"].split("/")[1]
+	# configYaml = ordered_load(open("config.yaml"))
+	gitPath = conf.git_local #configYaml["config-yaml"]["path-settings"]["github-directory"] + "/" + configYaml["config-yaml"]["path-settings"]["remote-repository"].split("/")[1]
 	startingDir = os.getcwd()
 	os.chdir(gitPath)
 	subprocess.call(["git pull"], shell=True)
-	os.chdir(startingDir)
-	shutil.copyfile(master, gitPath + "/" + master)
-	os.chdir(gitPath)
+	# os.chdir(startingDir)
+	# shutil.copyfile(master, gitPath + "/" + master)
+	# os.chdir(gitPath)
 	subprocess.call(['git add --all && git commit -m  "refchef autopush" && git push origin master'], shell=True)
 	os.chdir(startingDir)
 
@@ -53,8 +53,8 @@ def read_menu_from_github(conf, save=False):
 	g = github.Github(token)
 	repo = g.get_repo(conf.git_remote)
 	try:
-		master = repo.get_contents("master.yml")
-	except github.GithubException.UnknownObjectException:
+		master = repo.get_contents("master.yaml")
+	except github.GithubException:
 		master = repo.get_contents("master.yaml")
 
 	master_dict = yaml.load(master.decoded_content)

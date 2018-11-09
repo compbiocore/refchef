@@ -22,7 +22,11 @@ To install using **Anaconda Python**:
 
 ### Development
 To install a **development version** from the current directory:  
-`pip install -e .`
+```bash
+git clone https://github.com/compbiocore/refchef.git
+cd refchef
+pip install -e .
+```
 
 Run unit tests as:
 `python setup.py test`

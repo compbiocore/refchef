@@ -19,7 +19,11 @@ To install using **Anaconda Python**:
 
 ### Development
 To install a **development version** from the current directory:  
-`pip install -e .`
+```bash
+git clone https://github.com/compbiocore/refchef.git
+cd refchef
+pip install -e .
+```
 
 Run unit tests as:
 `python setup.py test`
@@ -52,13 +56,15 @@ config-yaml:
 ### `refchef-cook`:  
 This command will read a `master.yaml` located in the `github-directory` path from the config file. The `master.yaml` file contains a list of references, as well as metadata, and commands necessary to download them (see example below).  
 Arguments:  
-- `-e, --exectue`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
-- `--new`: path to a new yaml file containing other references to be downloaded and appended to the `master.yaml`.
+`--exectue, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
+`--new, -n`: path to a new yaml file containing other references to be downloaded and appended to the `master.yaml`.  
+`--update, -u`: whether to update the remote git repository with the new `master.yaml`.
 
 Example run:  
-    `refchef-cook -e --new new.yaml`  
+    1 - This will read in `new.yaml` file, append to `master.yaml` and update the remote GitHub repository.
+    `refchef-cook -e --new new.yaml --update`  
 
-Or if only `master.yaml` should be processed:  
+    2 - This will process `master.yaml` only and won't update the remote GitHub repository:  
     `refchef-cook -e`
 
 
@@ -98,19 +104,20 @@ reference_test2:
 
 
 ### `refchef-menu`
-This command provides a way for the user to list all references present in the system, based on `master.yaml`, as well as filter the list of references based on metadata options.
-Arguments:
-- `--filter`: used to filter references based on metadata. Takes a pair key:value, or a list of pairs separated by comma: key:value,key2:value2,key3:value3...
+This command provides a way for the user to list all references present in the system, based on `master.yaml`, as well as filter the list of references based on metadata options.  
+Arguments:  
+`--filter`: used to filter references based on metadata. Takes a pair key:value, or a list of pairs separated by comma: `key:value,key2:value2,key3:value3...`
 
 Example:
 
 `refchef-menu`
 
-![menu](menu-full.png)
+![menu](assets/menu-full.png)
 
 `refchef-menu --filter species:human`
 
-![menu](menu-filtered.png)
+![menu](assets/menu-filtered.png)
+
 
 
 #### Contact

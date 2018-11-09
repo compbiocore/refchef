@@ -75,8 +75,8 @@ Example:
 
 `refchef-menu`
 
-![menu](menu-full.png)
+![menu](assets/menu-full.png)
 
 `refchef-menu --filter species:human`
 
-![menu](menu-filtered.png)
+![menu](assets/menu-filtered.png)

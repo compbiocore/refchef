@@ -1,4 +1,4 @@
-![](refchef-logo.png)
+![](assets/refchef-logo.png)
 
 ### RefChef - Genomic Reference Management Tool
 
@@ -30,7 +30,9 @@ Run unit tests as:
 ### Set up `.env` file with GitHub Access Token
 Sensitive environment variables are stored in the .env file. This file is included in .gitignore intentionally, so that it is never committed.
 - Create a `.env` file and copy into it the contents of `.env.template`
-- Get your [GitHub Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) and add to the `.env` file.
+- Get your [GitHub Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) and add to the `.env` file.  
+
+![](assets/github_token.png)
 
 
 #### Contact

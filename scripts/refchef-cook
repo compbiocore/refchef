@@ -15,8 +15,9 @@ import glob
 parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
 
 parser.add_argument('-e', '--execute', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
-parser.add_argument('--new', type=str, help = 'Denotes the new YAML')
-parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for testing)', action="store_true")
+parser.add_argument('--new', '-n', type=str, help = 'Denotes the new YAML')
+parser.add_argument('--update', '-u', action='store_true')
+parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for testing)', action='store_true')
 
 # Parse arguments
 arguments = parser.parse_args()
@@ -45,4 +46,5 @@ if arguments.execute:
 		if ref_keys[k] not in installed_references:
 			run.processEntry(conf.reference_dir, master.get(ref_keys[k]))
 
-update_repository(conf)
+if arguments.update:
+	update_repository(conf)

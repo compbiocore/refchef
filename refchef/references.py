@@ -57,8 +57,6 @@ class referenceHandler:
 		yamlEntry - the list associated with a single reference component
 		componentName - the name of the reference component
 		"""
-		print("\n\n\n\n\n\n\n")
-		print("made it this far")
 		if utils.processLogical(yamlEntry["retrieve"]) == True:
 		# check to see if the given reference should be retrieved
 			print("\033[1m" + "\nRetrieving " + componentName + "\n"+ "\033[0m")

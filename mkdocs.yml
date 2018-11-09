@@ -1,4 +1,4 @@
-site_name:        Computational Biology Core - Brown University
+site_name:        RefChef
 site_author:      Andrew Leith
 repo_url:         https://github.com/compbiocore/refchef
 site_description: RefChef
@@ -24,7 +24,5 @@ markdown_extensions:
 
 nav:
   - Home: 'index.md'
-  - Manual: 'manual.md'
-  - Walkthrough: 'walkthrough.md'
   - Usage: 'usage.md'
   - Changelog: 'changelog.md'

@@ -1,33 +1,82 @@
-# Brown CBC's RefChef Usage Guide
+### Usage
 
-At present, this documentation exists to describe the software in its current state to aid in the development process.  It will therefore usually lag one version behind the software itself, so some of the information presented herein may be incorrect/outdated.
+RefChef comes with two main commands (`refchef-cook` and `refchef-menu`).
+When using either of the commands, you'll be prompted to create a `.refchef-config` file. Alternatively,
+you can create the config file in your home directory.
 
-For a more hands-on introduction to this software via walkthrough with code and sample files, please see the 'Sample Workflow / Walkthrough' page linked in the sidebar and on the homepage.
+Here's an example of `.refchef.config`
+```yaml
+config-yaml:
+  path-settings:
+    reference-directory: ~/data/references_dir # directory where references will be downloaded and processed.
+    github-directory: ~/data/git_local # local git repository where `master.yaml` is located.
+    remote-repository: user/repo # remote user and repository for version control of `master.yaml`
+  log-settings:
+    log: 'yes'
+  runtime-settings:
+    break-on-error: 'yes'
+    verbose: 'yes'
+```
 
-### Master YAML / New YAML Scheme Overview
+### `refchef-cook`:  
+This command will read a `master.yaml` located in the `github-directory` path from the config file. The `master.yaml` file contains a list of references, as well as metadata, and commands necessary to download them (see example below).  
+Arguments:  
+`-e, --exectue`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
+`--new`: path to a new yaml file containing other references to be downloaded and appended to the `master.yaml`.
 
-In the broadest possible sense, this tool can accommodate either one or two YAMLs.  It must always be given a 'Master YAML' - that is to say, a comprehensive list of references and their associated commands and metadata.  The Master YAML (hereafter simply 'the Master') is, essentially, a manifest of all references on the entire system (meant to be continually updated when further references are added).  The tool can also be given a 'New YAML' alongside the Master containing additional references.  Both of these files have the same formatting, but a New YAML corresponds to references that are being newly added to a system where some references are already present as tabulated in the Master.  Providing both the Master and a New YAML causes the New YAML's reference section to be appended to Master, ensuring the manifest remains comprehensive.
+Example run:  
+    `refchef-cook -e --new new.yaml`  
 
-### YAML Structure
+Or if only `master.yaml` should be processed:  
+    `refchef-cook -e`
 
-Please see the following screenshot for an example YAML file, then refer to the description below the image for an explanation of its properties.
 
-<p>example.yaml</p>
-<img src="../assets/refactored_yaml_screenshot.png">
+Example `master.yaml`
+```yaml
+reference_test1:
+  metadata:
+    name: reference_test1
+    species: mouse
+    organization: ucsc
+    downloader: aleith
+  levels:
+    references:
+      - component: primary
+        retrieve: true
+        commands:
+          - curl https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+          - md5 *.fa.gz > postdownload_checksums.md5
+          - gunzip *.gz
+          - md5 *.fa > final_checksums.md5
+reference_test2:
+  metadata:
+    name: reference_test2
+    species: human
+    organization: ucsc
+    downloader: fgelin
+  levels:
+    references:
+      - component: primary
+        retrieve: true
+        commands:
+          - curl https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+          - md5 *.fa.gz > postdownload_checksums.md5
+          - gunzip *.gz
+          - md5 *.fa > final_checksums.md5
+```
 
-There are several important features of this file structure that should be noted.
 
-#### Top-Level Subheadings
+### `refchef-menu`
+This command provides a way for the user to list all references present in the system, based on `master.yaml`, as well as filter the list of references based on metadata options.  
+Arguments:  
+`--filter`: used to filter references based on metadata. Takes a pair key:value, or a list of pairs separated by comma: `key:value,key2:value2,key3:value3...`
 
-The reference subheadings constitute the vast majority of the YAML.  These subheading fully describe all of the references documented within the YAML, along with the commands used in their acquisition.  We will describe the contents of one such subheading's structure from the image - the most complicated one, 'ucsc-hg19-concatenate'.
+Example:
 
-**Per-Reference Subheadings**
+`refchef-menu`
 
-Within 'ucsc-hg19-concatenate', there are several subheadings.  One of these, 'metadata', is required for all references.  The others, which can have any name and be as numerous as is needed, each describe one type of feature for a specified reference.  If that appears confusing at first glance, please continue reading.
+![menu](menu-full.png)
 
-The 'metadata' subheading includes important pieces of metadata that the user must record for a given reference.  'reference-name' is a field that is used to name the directory created by the software for that reference's files (which can be the same as, or different than, the respective yaml key), while the rest are merely recorded for the sake of completeness.  At this time, three such pieces of metadata are supported: 'species', denoting the organism's species; 'organization', indicating which organization created the reference (e.g. UCSC); and 'downloader', indicating which user ran the software on this reference.  In addition to being tabulated in the YAML, this metadata is written to a file and included in the reference's root directory with the component subfolders.
+`refchef-menu --filter species:human`
 
-The other subheadings each refer to a component of the reference in question.  They include two subheadings of their own: 'retrieve', which tells the program whether or not to run the associated commands, and 'command-sequence', which lists out all of the commands involved in the download and processing of the reference component.  In the depicted example, 'ucsc-hg19-concatenate', the UCSC version of hg19 with all of its separate chromosome files concatenated, has two components: the main genome fasta ('primary-reference') and a list of ESTs assocated with that version of the genome ('est').  These component subheadings can have any name and will be placed in a subdirectory bearing that designation, as seen below:
-
-<p>example.yaml</p>
-<img src="../assets/hg19_parent_directory.png">
+![menu](menu-filtered.png)

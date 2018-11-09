@@ -4,7 +4,8 @@ RefChef comes with two main commands (`refchef-cook` and `refchef-menu`).
 When using either of the commands, you'll be prompted to create a `.refchef-config` file. Alternatively,
 you can create the config file in your home directory.
 
-Here's an example of `.refchef.config`
+Here's an example of `.refchef.config`. The config file will set the basic requirements of refchef. It stores the name of the directories where the references will be saved, the local git repository path as well as the remote (this is where the `master.yaml` is stored). In addition you can set up log and runtime options.
+
 ```yaml
 config-yaml:
   path-settings:
@@ -20,8 +21,10 @@ config-yaml:
 
 ### `refchef-cook`  
 This command will read a `master.yaml` located in the `github-directory` path from the config file. The `master.yaml` file contains a list of references, as well as metadata, and commands necessary to download them (see example below).  
+The `master.yaml` file stores all the information about a reference that is downloaded or will be downloaded. When `refchef-cook -e` is executed, the references in the master file that are not installed in the path provided in the config file will be downloaded. 
+
 Arguments:  
-`--exectue, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
+`--execute, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
 `--new, -n`: path to a new yaml file containing other references to be downloaded and appended to the `master.yaml`.  
 `--update, -u`: whether to update the remote git repository with the new `master.yaml`.
 

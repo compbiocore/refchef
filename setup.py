@@ -30,7 +30,10 @@ setuptools.setup(
         "terminaltables",
         "mock",
         "future",
-        "coveralls"],
+        "pytest>=3.5",
+        "coverage>=4.4",
+        "pytest-cov>=2.0"
+        ],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/refchef-cook", "scripts/refchef-menu"]

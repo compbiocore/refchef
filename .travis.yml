@@ -9,7 +9,7 @@ script:
   - python setup.py test
 
 after_success:
-  - pip install python-coveralls
+  - pip install coveralls
   - coveralls
 
 jobs:

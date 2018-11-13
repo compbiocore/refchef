@@ -1,6 +1,6 @@
 repo:             refchef
 site_name:        RefChef
-site_author:      Andrew Leith
-site_description: RefChef is a reference management tool used to: (1) document the exact steps undertaken in the retrieval of genomic references; (2) maintain the associated metadata; (3) provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references.
+site_author:      Andrew Leith, Fernando Gelin
+site_description: "RefChef is a reference management tool used to: (1) document the exact steps undertaken in the retrieval of genomic references; (2) maintain the associated metadata; (3) provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references."
 docs_url:         https://compbiocore.github.io/refchef
 type:             software    # required. choose one of [software, tutorial, workshop, documentation]

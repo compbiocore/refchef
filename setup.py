@@ -14,9 +14,11 @@ setuptools.setup(
     url="https://github.com/compbiocore/refchef",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Programming Language :: Python :: 2 :: 3",
-        "License :: OSI Approved :: GLP 3.0",
-        "Operating System :: Mac OS :: Linux",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+        "Operating System :: MacOS",
+        "Operating System :: Unix"
     ],
     install_requires=[
         "argparse",
@@ -27,7 +29,8 @@ setuptools.setup(
         "pandas",
         "terminaltables",
         "mock",
-        "future"],
+        "future",
+        "coveralls"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/refchef-cook", "scripts/refchef-menu"]

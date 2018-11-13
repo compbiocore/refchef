@@ -30,7 +30,7 @@ setuptools.setup(
         "terminaltables",
         "mock",
         "future",
-        "pytest>=3.5",
+        "pytest>=3",
         "coverage>=4.4",
         "pytest-cov>=2.0"
         ],

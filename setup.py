@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="refchef",
-    version="0.0.2",
+    version="0.0.3",
     author="Andrew Leith & Fernando Gelin",
     author_email="aleith@brown.edu",
     description="Genome reference manager.",
@@ -20,20 +20,20 @@ setuptools.setup(
         "Operating System :: MacOS",
         "Operating System :: Unix"
     ],
-    install_requires=[
-        "argparse",
-        "python-dotenv",
-        "PyYAML",
-        "PyGithub",
-        "yamlloader",
-        "pandas",
-        "terminaltables",
-        "mock",
-        "future",
-        "pytest>=3",
-        "coverage>=4.4",
-        "pytest-cov>=2.0"
-        ],
+    # install_requires=[
+    #     "argparse",
+    #     "python-dotenv",
+    #     "pyyaml",
+    #     "pygithub",
+    #     "yamlloader",
+    #     "pandas",
+    #     "terminaltables",
+    #     "mock",
+    #     "future",
+    #     "pytest>=3",
+    #     "coverage>=4.4",
+    #     "pytest-cov>=2.0"
+    #     ],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     scripts=["scripts/refchef-cook", "scripts/refchef-menu"]

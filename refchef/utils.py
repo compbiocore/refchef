@@ -70,16 +70,7 @@ def add_path(string, path):
 			return new_s_split[0] + " " + os.path.join(path, "*" + new_s_split[1])
 		else:
 			return new_s
-	elif "wget" in string:
-		s = string.split("wget ")
-		location = s[-1]
-		filename = location.split("/")[-1]
-		return "wget -O " + os.path.join(path, filename) + " " + location
-	elif "curl" in string:
-		s = string.split("curl ")
-		location = s[-1]
-		filename = location.split("/")[-1]
-		return "curl -o " + os.path.join(path, filename) + " " + location
+
 	elif " *" in string:
 		s = string.split(" *")
 		return s[0] + " " + os.path.join(path, "*" + s[1])

@@ -8,10 +8,14 @@ python:
 script:
   - python setup.py test
 
-after_success:
+install:
   - pip install coveralls
-  - coveralls
 
+after_success:
+    - if [[ $ENV == python=3.4* ]]; then
+          coveralls;
+      fi
+      
 jobs:
   include:
     - stage: deploy docs

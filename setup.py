@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="refchef",
-    version="0.0.1",
+    version="0.0.2",
     author="Andrew Leith & Fernando Gelin",
     author_email="aleith@brown.edu",
     description="Genome reference manager.",

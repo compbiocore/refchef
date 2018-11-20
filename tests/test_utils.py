@@ -44,21 +44,6 @@ def test_logical():
     assert processLogical(case9) == case9
     # processLogical turns text into its logical equivalent if such exists, so case9 should not be converted
 
-def test_add_path():
-    s = "md5 *.fa > final_checksums.md5"
-    assert add_path(s, "test/") == "md5 test/*.fa > test/final_checksums.md5"
-
-
-    s2 = "gunzip *.gz"
-    assert add_path(s2, "test/") == "gunzip test/*.gz"
-
-
-    t = read_yaml("tests/data/master.yaml")
-    if sys.platform == 'darwin':
-        assert add_path(t["reference_test1"]["levels"]["references"][0]["commands"][0], "test/") == 'curl -o test/chr1.fa.gz https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz'
-    else:
-        assert add_path(t["reference_test1"]["levels"]["references"][0]["commands"][0], "test/") == 'wget -O test/chr1.fa.gz https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz'
-
 def test_read_menu_from_local(conf):
      a = read_menu_from_local(conf.git_local)
      assert type(a) == dict

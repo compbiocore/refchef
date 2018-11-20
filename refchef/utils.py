@@ -54,25 +54,3 @@ def processLogical(text):
 	else:
 		print("Input has no logical analogue.")
 		return(text)
-
-
-#TODO split this function to handle platform and path separatly. Need to handle this more gracefully.
-def add_path(string, path):
-	"""Adds complete path to shell commands
-	Arguments: shell command retrieved from yaml file (string)"""
-	if ">" in string:
-		s = string.split(" > ")
-		command = s[0]
-		file_name = os.path.join(path, s[1])
-		new_s = command + " > " + file_name
-		if "*" in new_s:
-			new_s_split = new_s.split(" *")
-			return new_s_split[0] + " " + os.path.join(path, "*" + new_s_split[1])
-		else:
-			return new_s
-
-	elif " *" in string:
-		s = string.split(" *")
-		return s[0] + " " + os.path.join(path, "*" + s[1])
-	else:
-		return string

@@ -67,12 +67,14 @@ class referenceHandler:
 				# creates a directory for the component's files if said directory does not yet exist
 
 			commands = yamlEntry["commands"]
+			os.chdir(componentLocation)
 			for j in range(0,len(commands)):
 				if utils.processLogical(self.config.verbose) == True:
-					print("\033[1m" + "Now executing command: " + "\033[0m" + utils.add_path(yamlEntry["commands"][j], self.config.reference_dir) + "\n")
-				subprocess.call(utils.add_path([yamlEntry["commands"][j]][0], componentLocation), shell=True)
+					print("\033[1m" + "Now executing command: " + "\033[0m" + yamlEntry["commands"][j] + "\n")
+				subprocess.call([yamlEntry["commands"][j]][0], shell=True)
 				# loops through all subentries under the 'command-sequence' entry and runs those commands
 				# actual system command as above
+			os.chdir(rootSubDirectory)
 
 			f = open(os.path.join(componentLocation, "provinence.txt"), "w+")
 			f.write("Component Name: " + componentName + "\n")

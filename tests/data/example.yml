@@ -33,7 +33,7 @@ ucsc_hg19_concatenate:
       commands:
       - touch testannotation.txt
     indices:
-    - component: primary
+    - uuid:
       retrieve: true
       commands:
       - touch testindex.txt

@@ -19,12 +19,12 @@ def test_references(conf):
 	else:
 		shutil.copy("tests/data/master_linux.yaml", "tests/data/master.yaml")
 	data = ordered_load(open("tests/data/master.yaml"))
-	rootDirectory = os.path.join(os.getenv('HOME'), 'compbiocore/refchef', 'tests/data')
+	rootDirectory = os.path.join(os.getenv('HOME'), 'build/compbiocore/refchef', 'tests/data')
 	referenceKeys = list(data.keys())
 	run = referenceHandler(conf, errorBehavior = False)
 	for k in range(0, len(referenceKeys)):
 		run.processEntry(rootDirectory, data.get(referenceKeys[k]))
-	os.chdir(os.path.join(os.getenv('HOME'), 'compbiocore/refchef'))
+	os.chdir(os.path.join(os.getenv('HOME'), 'build/compbiocore/refchef'))
 	assert os.path.isfile("tests/data/reference_test1/primary/chr1.fa")
 
 def test_new_append(conf):

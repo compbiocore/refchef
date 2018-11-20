@@ -18,7 +18,6 @@ def conf():
     return conf
 
 def test_ordered_load():
-    print(os.getcwd())
     data = ordered_load(open("tests/data/example.yml"))
     assert type(data).__name__ == "OrderedDict"
     # ordered_load reads in a YAML as an ordered dictionary, so its type should be OrderedDict
@@ -45,5 +44,5 @@ def test_logical():
     # processLogical turns text into its logical equivalent if such exists, so case9 should not be converted
 
 def test_read_menu_from_local(conf):
-     a = read_menu_from_local(conf.git_local)
-     assert type(a) == dict
+    a = read_menu_from_local(conf.git_local)
+    assert type(a) == dict

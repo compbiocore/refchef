@@ -20,21 +20,21 @@ setuptools.setup(
         "Operating System :: MacOS",
         "Operating System :: Unix"
     ],
-    # install_requires=[
-    #     "argparse",
-    #     "python-dotenv",
-    #     "pyyaml",
-    #     "pygithub",
-    #     "yamlloader",
-    #     "pandas",
-    #     "terminaltables",
-    #     "mock",
-    #     "future",
-    #     "pytest>=3",
-    #     "coverage>=4.4",
-    #     "pytest-cov>=2.0"
-    #     ],
-    # setup_requires=["pytest-runner"],
-    # tests_require=["pytest"],
+    install_requires=[
+        "argparse",
+        "python-dotenv",
+        "pyyaml",
+        "pygithub",
+        "yamlloader",
+        "pandas",
+        "terminaltables",
+        "mock",
+        "future",
+        "pytest>=3",
+        "coverage>=4.4",
+        "pytest-cov>=2.0"
+        ],
+    setup_requires=["pytest-runner"],
+    tests_require=["pytest"],
     scripts=["scripts/refchef-cook", "scripts/refchef-menu"]
 )

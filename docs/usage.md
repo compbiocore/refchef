@@ -4,6 +4,10 @@ RefChef comes with two main commands (`refchef-cook` and `refchef-menu`).
 When using either of the commands, you'll be prompted to create a `.refchef-config` file. Alternatively,
 you can create the config file in your home directory.
 
+#### User workflow diagram
+
+![Diagram](assets/refchef-diagram.png)
+
 Here's an example of `.refchef.config`. The config file will set the basic requirements of refchef. It stores the name of the directories where the references will be saved, the local git repository path as well as the remote (this is where the `master.yaml` is stored). In addition you can set up log and runtime options.
 
 ```yaml

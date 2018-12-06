@@ -6,6 +6,11 @@ try:
     input = raw_input
 except NameError:
     pass
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
 
 def config_check(filepath=os.getenv("HOME")):
 	"""Check if user has config file, if not, runs generat_config()

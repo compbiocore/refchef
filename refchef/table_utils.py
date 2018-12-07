@@ -8,6 +8,10 @@ try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
 
 from refchef import config
 from refchef.github_utils import read_menu_from_github

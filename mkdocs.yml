@@ -6,6 +6,8 @@ site_url: https://compbiocore.github.io/ #this is the main site!
 
 theme:
   name: material
+  feature:
+    tabs: true
   palette:
     primary: 'blue grey'
     accent: 'indigo'
@@ -24,5 +26,6 @@ markdown_extensions:
 
 nav:
   - Home: 'index.md'
+  - Installation: 'installation.md'
   - Usage: 'usage.md'
   - Changelog: 'changelog.md'

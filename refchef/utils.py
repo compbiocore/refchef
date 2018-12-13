@@ -3,7 +3,8 @@ import sys
 import subprocess
 import yaml
 import yamlloader
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict, defaultdict, Mapping
+from future.utils import iteritems
 
 def read_yaml(file_path):
     """Simple function to read yaml file"""
@@ -18,6 +19,27 @@ def save_yaml(object, file_path):
 			  Dumper=yamlloader.ordereddict.CDumper,
 			  indent=2,
 			  default_flow_style=False)
+
+def update(d, u):
+	"""Updates dictionary recursively"""
+    for k, v in iteritems(u):
+        if isinstance(v, Mapping):
+            d[k] = update(d.get(k, {}), v)
+        else:
+            d[k] = v
+    return d
+
+
+def append_yaml(origin, destination):
+	"""Reads two yaml files, append the first to the second."""
+    ori = utils.read_yaml(destination)
+    dest = utils.read_yaml(origin)
+
+    appended = utils.update(ori, dest)
+
+    utils.save_yaml(appended, destination)
+
+
 
 def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
     '''

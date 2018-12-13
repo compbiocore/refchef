@@ -9,7 +9,7 @@ from refchef import config
 from refchef.utils import *
 from refchef.table_utils import read_menu
 from refchef.references import *
-from refchef.github_utils import *
+import refchef.github_utils as gh
 import glob
 
 parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
@@ -53,20 +53,20 @@ else:
 		conf = config.Config(**arg_dict)
 	except:
 		print("""No configuration file found. Try passing a .ini or .yaml file to --config (-c),
-				 or at least the output direcorty (--outdir, -o) and the path to the local git directory
+				 or at least the output directory (--outdir, -o) and the path to the local git directory
 				 for this project (--git_local, -gl). For more details: refchef-cook --help, or see the
 				 documentation at https://compbiocore.github.io/refchef
-			""")
+			  """)
 
 
 # Read menu (master.yaml)
 master = read_menu(conf)
-# Get full path of master yaml
-master_path = "master.yaml"
 
 # If new argument, append that to master and reload master.
 if arguments.new is not None:
-	new_append(arguments.new, master_path, conf)
+	origin = arguments.new
+	destination = os.path.join(conf.git_local, 'master.yaml')
+	utils.append_yaml(origin, destination)
 	master = read_menu(conf)
 
 installed_references = [r.split("/")[-1] for r in glob.glob(conf.reference_dir + "/*")]
@@ -86,9 +86,9 @@ if arguments.execute:
 	commit(git_dir, work_tree)
 
 ## Git Steps
-if arguments.git == 'push'
-	pull(git_dir, work_tree)
-	commit(git_dir, work_tree)
-	push(git_dir, work_tree)
+if arguments.git == 'push':
+	gh.pull(git_dir, work_tree)
+	gh.commit(git_dir, work_tree)
+	gh.push(git_dir, work_tree)
 else if arguments.git == 'commit':
-	commit(git_dir, work_tree)
+	gh.commit(git_dir, work_tree)

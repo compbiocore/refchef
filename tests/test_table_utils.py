@@ -1,11 +1,12 @@
 import pytest
 from refchef.table_utils import *
 from refchef.utils import *
-from refchef.config import Config
+from refchef import config
 
 @pytest.fixture # macro to set up a fixture that will be used in other functions.
 def menu():
-    conf = Config("tests/data")
+    d = config.yaml("tests/data/cfg.yaml")
+    conf = config.Config(**d)
     master = read_menu(conf)
     menu = get_full_menu(master)
     return menu

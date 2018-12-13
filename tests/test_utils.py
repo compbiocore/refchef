@@ -10,11 +10,12 @@ from collections import OrderedDict, defaultdict
 
 from refchef.utils import *
 from refchef.table_utils import *
-from refchef.config import Config
+from refchef import config
 
 @pytest.fixture
 def conf():
-    conf = Config("tests/data")
+    d = config.yaml("tests/data/cfg.yaml")
+    conf = config.Config(**d)
     return conf
 
 def test_ordered_load():

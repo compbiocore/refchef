@@ -16,3 +16,4 @@ reference_test*
 dist
 build
 .coverage
+site

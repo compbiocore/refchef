@@ -1,0 +1,10 @@
+config-yaml:
+  path-settings:
+    reference-directory: tests/data
+    github-directory: tests/data
+    remote-repository: fernandogelin/refchef-test
+  log-settings:
+    log: 'yes'
+  runtime-settings:
+    break-on-error: 'yes'
+    verbose: 'yes'

@@ -7,11 +7,13 @@ import yamlloader
 import shutil
 from refchef.references import *
 from refchef.utils import *
+from refchef import config
 
 @pytest.fixture
 def conf():
-    conf = Config("tests/data")
-    return conf
+    d = config.yaml("tests/data/cfg.yaml")
+    conf = config.Config(**d)
+	return conf
 
 def test_references(conf):
 	if sys.platform == 'darwin':

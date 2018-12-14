@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-import yaml
+import oyaml as yaml
 
 # load dotenv in the base root
 APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to application_top

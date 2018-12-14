@@ -1,7 +1,7 @@
 import pytest
 import os
 import subprocess
-import yaml
+import oyaml as yaml
 from collections import OrderedDict, defaultdict
 import yamlloader
 import shutil

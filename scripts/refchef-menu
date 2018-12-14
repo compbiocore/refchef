@@ -8,7 +8,7 @@ about the available references in the system.
 """
 import os
 import argparse
-import yaml
+import oyaml as yaml
 from refchef.table_utils import *
 from refchef.utils import *
 from refchef.config import *

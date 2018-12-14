@@ -1,7 +1,7 @@
 import pytest
 import os
 import subprocess
-import yaml
+import oyaml as yaml
 import time
 import sys
 import datetime
@@ -18,8 +18,8 @@ def conf():
     conf = config.Config(**d)
     return conf
 
-def test_ordered_load():
-    data = ordered_load(open("tests/data/example.yml"))
+def test_read_yaml():
+    data = read_yaml("tests/data/example.yml")
     assert type(data).__name__ == "OrderedDict"
     # ordered_load reads in a YAML as an ordered dictionary, so its type should be OrderedDict
 

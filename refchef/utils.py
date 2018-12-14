@@ -1,7 +1,7 @@
 import os
 import sys
 import subprocess
-import yaml
+import oyaml as yaml
 import yamlloader
 from collections import OrderedDict, defaultdict, Mapping
 from future.utils import iteritems
@@ -13,15 +13,15 @@ def read_yaml(file_path):
     return dict_
 
 def save_yaml(object, file_path):
-	"""Saves dict object as yaml file in provided path"""
-	yaml.dump(object,
-			  open(file_path, 'w'),
-			  Dumper=yamlloader.ordereddict.CDumper,
-			  indent=2,
-			  default_flow_style=False)
+    """Saves dict object as yaml file in provided path"""
+    yaml.dump(object,
+              open(file_path, 'w'),
+              Dumper=yamlloader.ordereddict.CDumper,
+              indent=2,
+              default_flow_style=False)
 
 def update(d, u):
-	"""Updates dictionary recursively"""
+    """Updates dictionary recursively"""
     for k, v in iteritems(u):
         if isinstance(v, Mapping):
             d[k] = update(d.get(k, {}), v)
@@ -31,7 +31,7 @@ def update(d, u):
 
 
 def append_yaml(origin, destination):
-	"""Reads two yaml files, append the first to the second."""
+    """Reads two yaml files, append the first to the second."""
     ori = utils.read_yaml(destination)
     dest = utils.read_yaml(origin)
 
@@ -40,39 +40,39 @@ def append_yaml(origin, destination):
     utils.save_yaml(appended, destination)
 
 
-
-def ordered_load(stream, loader=yaml.SafeLoader, object_pairs_hook=OrderedDict):
-    '''
-     Load YAML as an Ordered Dict
-    :param stream:
-    :param loader:
-    :param object_pairs_hook:
-    :return:
-    Borrowed shamelessly from http://codegist.net/code/python2-yaml/
-    '''
-    class OrderedLoader(loader):
-        pass
-    def construct_mapping(loader, node):
-        loader.flatten_mapping(node)
-        return object_pairs_hook(loader.construct_pairs(node))
-    OrderedLoader.add_constructor(
-        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        construct_mapping
-    )
-    return yaml.load(stream, OrderedLoader)
-
 def processLogical(text):
-	"""
-	Turn text into the corresponding logical.
+    """
+    Turn text into the corresponding logical.
 
     Arguments:
     text - text to be coerced to a logical, if a corresponding logical exists
-	"""
-	text = str(text)
-	if(text == "true" or text == "True" or text == "TRUE" or text == "T" or text == "t" or text == "1" or text.lower() == 'yes'):
-		return True
-	elif(text == "false" or text == "False" or text == "FALSE" or text == "F" or text == "f" or text == "0" or text.lower() == 'no'):
-		return False
-	else:
-		print("Input has no logical analogue.")
-		return(text)
+    """
+    text = str(text)
+    if(text == "true" or text == "True" or text == "TRUE" or text == "T" or text == "t" or text == "1" or text.lower() == 'yes'):
+        return True
+    elif(text == "false" or text == "False" or text == "FALSE" or text == "F" or text == "f" or text == "0" or text.lower() == 'no'):
+        return False
+    else:
+        print("Input has no logical analogue.")
+        return(text)
+
+
+def singular(str_):
+    if str_ == 'annotations':
+        return 'annotation'
+    elif str_ == 'references':
+        return 'reference'
+    elif str_ == 'indices':
+        return 'index'
+
+class cd:
+    """Context manager for changing the current working directory"""
+    def __init__(self, newPath):
+        self.newPath = os.path.expanduser(newPath)
+
+    def __enter__(self):
+        self.savedPath = os.getcwd()
+        os.chdir(self.newPath)
+
+    def __exit__(self, etype, value, traceback):
+        os.chdir(self.savedPath)

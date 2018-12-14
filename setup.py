@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="refchef",
-    version="0.0.6",
+    version="0.1.0",
     author="Andrew Leith & Fernando Gelin",
     author_email="aleith@brown.edu",
     description="Genome reference manager.",
@@ -23,7 +23,7 @@ setuptools.setup(
     install_requires=[
         "argparse",
         "python-dotenv",
-        "pyyaml",
+        "oyaml",
         "pygithub",
         "yamlloader",
         "pandas",

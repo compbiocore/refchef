@@ -1,5 +1,5 @@
 import os
-import yaml
+import oyaml as yaml
 import shutil
 import yamlloader
 # import urllib2

@@ -7,7 +7,12 @@ from refchef import config
 def menu():
     d = config.yaml("tests/data/cfg.yaml")
     conf = config.Config(**d)
-    master = read_menu(conf)
+
+    if sys.platform == 'darwin':
+        file_name = 'master_osx.yaml'
+    else:
+        file_name = 'master_linux.yaml'
+    master = read_yaml(os.path.join(conf.git_local, file_name))
     menu = get_full_menu(master)
     return menu
 
@@ -33,7 +38,7 @@ def test_filter(menu):
 
 def test_multiple_filter(menu):
     s1 = "species:human"
-    s2 = "species:human,type:references"
+    s2 = "species:mouse,type:references"
 
     f1 = multiple_filter(menu, s1)
     assert f1.shape == (1,6)
@@ -41,10 +46,11 @@ def test_multiple_filter(menu):
         assert i == "human"
 
     f2 = multiple_filter(menu, s2)
+    print(f2)
     assert f2.shape == (1,6)
 
     for i in list(f2["species"]):
-        assert i == "human"
+        assert i == "mouse"
 
     for i in list(f2["type"]):
         assert i == "references"

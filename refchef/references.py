@@ -8,10 +8,10 @@ import uuid
 from refchef import utils
 from refchef.utils import cd
 
-def execute(conf):
+def execute(conf, file_name):
     """Process all steps to create directories, fetch files, and update yaml for
        references/indices/annotations"""
-    yaml_file = os.path.join(conf.git_local, 'master.yaml')
+    yaml_file = os.path.join(conf.git_local, file_name)
     yaml_dict = utils.read_yaml(yaml_file)
     keys = list(yaml_dict.keys())
 

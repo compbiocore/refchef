@@ -4,7 +4,7 @@ import shutil
 import yamlloader
 # import urllib2
 import github
-
+from dotenv import load_dotenv
 from refchef import config
 from refchef.utils import *
 
@@ -51,6 +51,7 @@ def push(git_dir, work_tree):
 def read_menu_from_github(conf, save=False):
 	"""Read master.yaml from GitHub"""
 	token = os.getenv("GITHUB_TOKEN")
+	print(token)
 	g = github.Github(token)
 	repo = g.get_repo(conf.git_remote)
 	try:

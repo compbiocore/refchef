@@ -32,15 +32,15 @@ def update(d, u):
 
 def append_yaml(origin, destination):
     """Reads two yaml files, append the first to the second."""
-    ori = utils.read_yaml(destination)
-    dest = utils.read_yaml(origin)
+    ori = read_yaml(destination)
+    dest = read_yaml(origin)
 
-    appended = utils.update(ori, dest)
+    appended = update(ori, dest)
 
-    utils.save_yaml(appended, destination)
+    save_yaml(appended, destination)
 
 
-def processLogical(text):
+def process_logical(text):
     """
     Turn text into the corresponding logical.
 

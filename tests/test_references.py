@@ -2,6 +2,7 @@ import pytest
 import os
 import subprocess
 import oyaml as yaml
+import uuid
 from collections import OrderedDict, defaultdict
 import yamlloader
 import shutil
@@ -13,23 +14,100 @@ from refchef import config
 def conf():
     d = config.yaml("tests/data/cfg.yaml")
     conf = config.Config(**d)
-	return conf
+    return conf
 
-def test_references(conf):
-	if sys.platform == 'darwin':
-		shutil.copy("tests/data/master_osx.yaml", "tests/data/master.yaml")
-	else:
-		shutil.copy("tests/data/master_linux.yaml", "tests/data/master.yaml")
-	data = ordered_load(open("tests/data/master.yaml"))
-	rootDirectory = os.path.join(os.getenv('HOME'), 'build/compbiocore/refchef', 'tests/data')
-	referenceKeys = list(data.keys())
-	run = referenceHandler(conf, errorBehavior = False)
-	for k in range(0, len(referenceKeys)):
-		run.processEntry(rootDirectory, data.get(referenceKeys[k]))
-	os.chdir(os.path.join(os.getenv('HOME'), 'build/compbiocore/refchef'))
-	assert os.path.isfile("tests/data/reference_test1/primary/chr1.fa")
+@pytest.fixture
+def dir():
+    path_ = os.path.expanduser("tests/data/test_a/test_a")
+    return path_
 
-def test_new_append(conf):
-	f1 = "tests/data/test_master.yaml"
-	f2 = "example.yml"
-	new_append(f1,f2,conf)
+@pytest.fixture
+def master():
+    if sys.platform == 'darwin':
+        file_name = 'master_osx.yaml'
+    else:
+        file_name = 'master_linux.yaml'
+    return file_name
+
+def test_create_reference_directories(conf, dir):
+    create_reference_directories(conf.reference_dir, 'test_a', 'test_a')
+    assert os.path.exists(dir)
+
+def test_fetch(dir):
+    commands = ['touch test.txt', 'echo test > test.txt', 'md5 test.txt > final_checksums.md5']
+    fetch(commands, dir)
+
+    with open(os.path.join(dir, 'test.txt'), 'r') as f:
+        line = f.readline()
+    assert line == 'test\n'
+
+def test_get_filenames(conf, dir):
+    files = get_filenames(dir)
+    assert len(files) == 2
+    assert files[1] == 'test.txt'
+
+def test_add_uuid(dir):
+    uuid_test = add_uuid(dir)
+    assert type(uuid_test) == str
+    assert str(uuid_test) == 'a1949ec6-b1c8-33fe-9326-46ef7d597027'
+
+def test_execute(conf, master):
+
+    execute(conf, master)
+
+    path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary')
+
+    files = get_filenames(path_1)
+    assert len(files) == 4
+    assert files == ['chr1.fa', 'metadata.txt','postdownload_checksums.md5','final_checksums.md5']
+
+    path_ = os.path.join(conf.git_local, master)
+    yaml_dict = utils.read_yaml(path_)
+
+    assert yaml_dict['reference_test1']['levels']['references'][0]['complete']['status'] == True
+    id_ = uuid.UUID(yaml_dict['reference_test1']['levels']['references'][0]['uuid'])
+    assert type(id_) == uuid.UUID
+    assert yaml_dict['reference_test1']['levels']['references'][0]['location'] == path_1
+    assert yaml_dict['reference_test1']['levels']['references'][0]['files'] == files
+
+def test_create_metadata(conf, master, dir):
+    path_ = os.path.join(conf.git_local, master)
+    yaml_dict = utils.read_yaml(path_)
+
+    create_metadata_file(yaml_dict['reference_test1']['metadata'], dir)
+
+    with open(os.path.join(dir, 'metadata.txt'), 'r') as f:
+        lines = f.readlines()
+
+    assert os.path.exists(os.path.join(dir, 'metadata.txt'))
+    assert len(lines) == 6
+
+def test_get_reference_by_uuid(conf, master):
+    path_ = os.path.join(conf.git_local, master)
+    yaml_dict = utils.read_yaml(path_)
+    path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary')
+
+    loc = get_reference_by_uuid(yaml_dict, '8040b09f-3844-3c42-b765-1f6a32614895')
+
+    assert loc == path_1
+
+def test_index_ref_link(conf, master):
+    if sys.platform == 'darwin':
+        file_name = 'new_osx.yaml'
+    else:
+        file_name = 'new_linux.yaml'
+    ori = os.path.join(conf.git_local, file_name)
+    des = os.path.join(conf.git_local, master)
+    append_yaml(ori, des)
+
+    execute(conf, master)
+    path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary', 'bwa_index')
+
+    assert os.path.islink(path_1)
+
+def test_remove_folders(conf):
+    p1 = os.path.join(conf.reference_dir, 'index_1')
+    p2 = os.path.join(conf.reference_dir, 'reference_test1')
+    p3 = os.path.join(conf.reference_dir, 'test_a')
+    for p in [p1, p2, p3]:
+        shutil.rmtree(p)

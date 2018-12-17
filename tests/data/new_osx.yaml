@@ -1,14 +1,15 @@
-reference_test1:
+index_1:
   metadata:
-    name: reference_test1
-    species: mouse
+    name: index_test1
+    species: human
     organization: ucsc
     downloader: fgelin
   levels:
-    references:
-    - component: primary
+    indices:
+    - component: bwa_index
       complete:
         status: false
+      src: 8040b09f-3844-3c42-b765-1f6a32614895
       commands:
       - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
       - md5 *.fa.gz > postdownload_checksums.md5

@@ -4,6 +4,7 @@ import oyaml as yaml
 import datetime
 import glob
 import uuid
+import sys
 
 from refchef import utils
 from refchef.utils import cd

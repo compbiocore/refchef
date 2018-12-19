@@ -77,8 +77,8 @@ def add_uuid(path_):
     """Reads final_checksums.md5 and returns id."""
     with open(os.path.join(path_, 'final_checksums.md5'), 'r') as f:
         line = f.readline().replace('\n','')
-        # id_ = line.split(" = ")[1]
-    return line # str(uuid.uuid3(uuid.NAMESPACE_DNS, id_))
+        id_ = line.split(" = ")[1]
+    return str(uuid.uuid3(uuid.NAMESPACE_DNS, id_))
 
 def create_metadata_file(metadata, path_):
     """Creates metadata.txt file."""

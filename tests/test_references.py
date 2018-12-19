@@ -49,6 +49,9 @@ def test_get_filenames(conf, dir):
 
 def test_add_uuid(dir):
     assert 'final_checksums.md5' in get_filenames(dir)
+    with open(os.path.join(dir, 'final_checksums.md5'), 'r') as f:
+        l = f.readlines()
+        assert l == 'test'
     uuid_test = add_uuid(dir)
 
     assert type(uuid_test) == str

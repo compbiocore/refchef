@@ -34,7 +34,11 @@ def test_create_reference_directories(conf, dir):
     assert os.path.exists(dir)
 
 def test_fetch(dir):
-    commands = ['touch test.txt', 'echo test > test.txt', 'md5 test.txt > final_checksums.md5']
+    if sys.platform == 'darwin':
+        md5_command = 'md5'
+    else:
+        md5_command = 'md5sum'
+    commands = ['touch test.txt', 'echo test > test.txt', '{} test.txt > final_checksums.md5'.format(md5_command)]
     fetch(commands, dir)
 
     with open(os.path.join(dir, 'test.txt'), 'r') as f:
@@ -49,9 +53,6 @@ def test_get_filenames(conf, dir):
 
 def test_add_uuid(dir):
     assert 'final_checksums.md5' in get_filenames(dir)
-    with open(os.path.join(dir, 'final_checksums.md5'), 'r') as f:
-        l = f.readlines()
-        assert l == 'test'
     uuid_test = add_uuid(dir)
 
     assert type(uuid_test) == str

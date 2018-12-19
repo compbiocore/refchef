@@ -30,6 +30,7 @@ setuptools.setup(
         "terminaltables",
         "mock",
         "future",
+        "configparser",
         "pytest>=3",
         "coverage>=4.4",
         "pytest-cov>=2.0"

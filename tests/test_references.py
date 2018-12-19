@@ -48,9 +48,14 @@ def test_get_filenames(conf, dir):
     assert 'final_checksums.md5' in files
 
 def test_add_uuid(dir):
+    assert 'final_checksums.md5' in get_filenames(dir)
     uuid_test = add_uuid(dir)
     assert type(uuid_test) == str
     assert str(uuid_test) == 'a1949ec6-b1c8-33fe-9326-46ef7d597027'
+
+def test_is_uuid(str_):
+    assert is_uuid('a1949ec6-b1c8-33fe-9326-46ef7d597027') == True
+    assert is_uuid('not_an_uuid') == False
 
 def test_execute(conf, master):
 
@@ -107,10 +112,3 @@ def test_index_ref_link(conf, master):
     path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary', 'bwa_index')
 
     assert os.path.islink(path_1)
-
-def test_remove_folders(conf):
-    p1 = os.path.join(conf.reference_dir, 'index_1')
-    p2 = os.path.join(conf.reference_dir, 'reference_test1')
-    p3 = os.path.join(conf.reference_dir, 'test_a')
-    for p in [p1, p2, p3]:
-        shutil.rmtree(p)

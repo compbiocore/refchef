@@ -50,10 +50,12 @@ def test_get_filenames(conf, dir):
 def test_add_uuid(dir):
     assert 'final_checksums.md5' in get_filenames(dir)
     uuid_test = add_uuid(dir)
-    assert type(uuid_test) == str
-    assert str(uuid_test) == 'a1949ec6-b1c8-33fe-9326-46ef7d597027'
+    assert uuid_test == 'test'
 
-def test_is_uuid(str_):
+    # assert type(uuid_test) == str
+    # assert str(uuid_test) == 'a1949ec6-b1c8-33fe-9326-46ef7d597027'
+
+def test_is_uuid():
     assert is_uuid('a1949ec6-b1c8-33fe-9326-46ef7d597027') == True
     assert is_uuid('not_an_uuid') == False
 

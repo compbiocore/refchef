@@ -44,7 +44,8 @@ def test_fetch(dir):
 def test_get_filenames(conf, dir):
     files = get_filenames(dir)
     assert len(files) == 2
-    assert files[1] == 'test.txt'
+    assert 'test.txt' in files
+    assert 'final_checksums.md5' in files
 
 def test_add_uuid(dir):
     uuid_test = add_uuid(dir)
@@ -59,7 +60,9 @@ def test_execute(conf, master):
 
     files = get_filenames(path_1)
     assert len(files) == 4
-    assert files == ['chr1.fa', 'metadata.txt','postdownload_checksums.md5','final_checksums.md5']
+    fnames = ['chr1.fa', 'metadata.txt','postdownload_checksums.md5','final_checksums.md5']
+    for f in fnames:
+        assert f in files
 
     path_ = os.path.join(conf.git_local, master)
     yaml_dict = utils.read_yaml(path_)

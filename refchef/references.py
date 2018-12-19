@@ -76,7 +76,7 @@ def get_filenames(path_):
 def add_uuid(path_):
     """Reads final_checksums.md5 and returns id."""
     with open(os.path.join(path_, 'final_checksums.md5'), 'r') as f:
-        line = f.read().splitlines()[0]
+        line = f.readline().replace('\n','')
         id_ = line.split(" = ")[1]
     return str(uuid.uuid3(uuid.NAMESPACE_DNS, id_))
 

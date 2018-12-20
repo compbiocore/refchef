@@ -10,13 +10,13 @@ except NameError:
 
 
 class Config:
-	def __init__(self, reference_dir, git_local, git_remote, log, break_on_error, verbose):
+	def __init__(self, reference_dir, git_local, git_remote, log):
 		self.reference_dir = os.path.expanduser(reference_dir)
 		self.git_local = os.path.expanduser(git_local)
 		self.git_remote = git_remote
 		self.log = log
-		self.break_on_error = break_on_error
-		self.verbose = verbose
+		# self.break_on_error = break_on_error
+		# self.verbose = verbose
 
 def yaml(path):
 	dict_ = utils.read_yaml(path)
@@ -26,8 +26,8 @@ def yaml(path):
 	d['git_local'] = dict_['config-yaml']['path-settings']['git-directory']
 	d['git_remote'] = dict_['config-yaml']['path-settings']['remote-repository']
 	d['log'] = dict_['config-yaml']['log-settings']['log']
-	d['break_on_error'] = dict_['config-yaml']['runtime-settings']['break-on-error']
-	d['verbose'] = dict_['config-yaml']['runtime-settings']['verbose']
+	# d['break_on_error'] = dict_['config-yaml']['runtime-settings']['break-on-error']
+	# d['verbose'] = dict_['config-yaml']['runtime-settings']['verbose']
 
 	return d
 
@@ -41,7 +41,7 @@ def ini(path):
 	d['git_local'] = config.get('path-settings', 'git-directory')
 	d['git_remote'] = config.get('path-settings', 'remote-repository')
 	d['log'] = config.get('log-settings', 'log')
-	d['break_on_error'] = config.get('runtime-settings', 'break-on-error')
-	d['verbose'] = config.get('runtime-settings', 'verbose')
+	# d['break_on_error'] = config.get('runtime-settings', 'break-on-error')
+	# d['verbose'] = config.get('runtime-settings', 'verbose')
 
 	return d

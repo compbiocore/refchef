@@ -18,15 +18,12 @@ parser = argparse.ArgumentParser(description='Controls how to run the reference 
 
 parser.add_argument('--execute', '-e', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
 parser.add_argument('--new', '-n', type=str, help = 'Denotes the new YAML')
-parser.add_argument('--git', '-g', choices=['commit', 'push'])
-parser.add_argument('--skip', help = 'Skip appending the new YAML (mainly for testing)', action='store_true')
+parser.add_argument('--git', '-g', choices=['commit', 'push'], help='Git commands to use. Use `commit` if no `--git_remote` is passed.')
 parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
 parser.add_argument('--outdir', '-o', type=str, default=False, help='Directory where references will be saved.')
 parser.add_argument('--git_local', '-gl', type=str, default=False, help='Local git directory, where master.yaml will be located.')
 parser.add_argument('--git_remote', '-gr', type=str, default=False, help='Remote Git repository.')
-parser.add_argument('--verbose', '-v', action='store_true', help='Verbose mode.')
 parser.add_argument('--logs', '-l', action='store_true', help='Logging mode on/off.')
-parser.add_argument('--break_on_error', '-b', action='store_true', help='Break on error')
 
 
 # Parse arguments
@@ -37,8 +34,7 @@ arg_dict = {'reference_dir': arguments.outdir,
             'git_local': arguments.git_local,
             'git_remote': arguments.git_remote,
             'log': arguments.logs,
-            'verbose': arguments.verbose,
-            'break_on_error': arguments.break_on_error}
+            'verbose': arguments.verbose}
 
 conf = False
 

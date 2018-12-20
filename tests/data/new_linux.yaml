@@ -1,7 +1,7 @@
 index_1:
   metadata:
     name: index_test1
-    species: human
+    species: mouse
     organization: ucsc
     downloader: fgelin
   levels:

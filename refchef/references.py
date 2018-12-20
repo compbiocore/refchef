@@ -5,6 +5,7 @@ import datetime
 import glob
 import uuid
 import sys
+import logging
 
 from refchef import utils
 from refchef.utils import cd
@@ -27,9 +28,11 @@ def execute(conf, file_name):
                     if entry['complete']['status'] == False:
                         component = yaml_dict[k]['levels'][level][i]['component']
 
-                        print(u" \U0001F436 RefChef... getting {0}: {1}, component: {2}".format(utils.singular(level),
+                        to_print = u" \U0001F436 RefChef... getting {0}: {1}, component: {2}".format(utils.singular(level),
                                                                                                 k,
-                                                                                                component))
+                                                                                                component)
+                        logging.info(to_print)
+                        print(to_print)
 
                         # Fetch references
                         fetch(entry['commands'], path_)
@@ -51,6 +54,9 @@ def execute(conf, file_name):
     # Check if index has and uuid in src and creates a symlink
     index_ref_link(yaml_dict)
     # save updated master.yaml files
+    logging.info("References processed: {0}".format(keys))
+    logging.info("Location of references: {0}".format(conf.reference_dir))
+
     utils.save_yaml(yaml_dict, yaml_file)
 
 def create_reference_directories(reference_dir, key, component):

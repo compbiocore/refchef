@@ -40,12 +40,12 @@ def get_full_menu(master):
     levels = table[table["e"] == "levels"][["c.component", "c.files", "c.location", "c.uuid", "f", "d"]]
 
     levels.rename(columns={"f":"name"}, inplace=True)
-    m = metadata.reset_index().drop(columns="f")['c']
+    m = metadata.reset_index().drop(columns=["f"], level="d")['c']
     #create full table (menu)
     menu = m.merge(levels)
     menu.columns = ["downloader", "name", "organization", "species", "component", "files", "location", "uuid", "type"]
 
-    menu = menu[["type", "name", "organization", "component", "downloader", "files", "location", "uuid"]]
+    menu = menu[["type", "name", "species", "organization", "component", "downloader", "files", "location", "uuid"]]
     return menu
 
 def filter_menu(menu, key, value):

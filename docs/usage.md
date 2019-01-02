@@ -1,5 +1,3 @@
-### Usage
-
 RefChef comes with two main commands (`refchef-cook` and `refchef-menu`). `refchef-cook` will read the recipes and execute the commands that will retrieve the references, indices, or annotations. `refchef-menu` provides an easy way to summarize the items already on the system.
 
 #### User workflow diagram

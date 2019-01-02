@@ -1,6 +1,3 @@
-
-### Installation
-
 To install from PyPI using **pip**:  
 `pip install refchef`
 

@@ -3,11 +3,18 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open('refchef/__init__.py', 'r') as fd:
+    version = re.search(
+        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+        fd.read(),
+        re.MULTILINE
+    ).group(1)
+
 setuptools.setup(
     name="refchef",
-    version="0.1.0",
+    version=version,
     author="Andrew Leith & Fernando Gelin",
-    author_email="aleith@brown.edu",
+    author_email="cbc-help@brown.edu",
     description="Genome reference manager.",
     long_description=long_description,
     long_description_content_type="text/markdown",

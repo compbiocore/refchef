@@ -4,7 +4,7 @@ RefChef comes with two main commands (`refchef-cook` and `refchef-menu`). `refch
 
 #### User workflow diagram
 
-![Diagram](assets/refchef-diagram.png)
+![Diagram](assets/refchef-diagram.svg)
 
 RefChef comes with two main scripts. `refchef-cook` will parse `master.yaml`, execute the commands listed (download and process reference files), commit, and push the `master.yaml` using git. `refchef-menu` is used to list the references already downloaded and processed. It also provides an easy way to find a reference uuid for use when processing new indices.
 Both scripts can take a `--config (-c)` argument with the path for a config file, that can be one of the following formats:

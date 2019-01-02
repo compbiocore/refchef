@@ -23,6 +23,7 @@ Run unit tests as:
 Sensitive environment variables are stored in the .env file. This file is included in .gitignore intentionally, so that it is never committed.
 - Create a `.env` file and copy into it the contents of `.env.template`
 - Get your [GitHub Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) and add to the `.env` file.  
+- Make sure to add the GH_TOKEN variable to the environment of the CI provider you use.
 
 ![](assets/github_token.png)
 

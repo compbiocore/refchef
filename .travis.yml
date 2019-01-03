@@ -13,6 +13,10 @@ install:
 
 after_success:
   - coveralls
+  - git config --global user.name "semantic-release (via TravisCI)"
+  - git config --global user.email "semantic-release@travis"
+  - pip install python-semantic-release
+  - semantic-release publish
 
 jobs:
   include:
@@ -29,11 +33,6 @@ jobs:
         - curl https://api.github.com/repos/compbiocore/cbc-documentation-templates/contents/files/cbc-logo.svg\?access_token\=$GITHUB_TOKEN > logo.json
         - jq -r '.content' < logo.json | base64 --decode > docs/images/cbc-logo.svg
         - mkdocs build --verbose --clean --strict
-      after_success:
-        - git config --global user.name "semantic-release (via TravisCI)"
-        - git config --global user.email "semantic-release@travis"
-        - pip install python-semantic-release
-        - semantic-release publish
       deploy:
        provider: pages
        skip_cleanup: true

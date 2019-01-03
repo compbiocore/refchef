@@ -1,7 +1,7 @@
 import setuptools
 import re
 
-with open("README.md", "r") as fh:
+with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 with open('refchef/__init__.py', 'r') as fd:
@@ -18,7 +18,6 @@ setuptools.setup(
     author_email="cbc-help@brown.edu",
     description="Genome reference manager.",
     long_description=long_description,
-    long_description_content_type="text/markdown",
     url="https://github.com/compbiocore/refchef",
     packages=setuptools.find_packages(),
     classifiers=[

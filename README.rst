@@ -1,7 +1,7 @@
 RefChef
 ~~~~~~~
 
-|Travis| |Coverage| |Docs| |License| |PyPi| ---
+|Travis| |Coverage| |Docs| |License| |PyPi|
 
 RefChef is a reference management tool used to (1) document the exact
 steps undertaken in the retrieval of genomic references, (2) maintain

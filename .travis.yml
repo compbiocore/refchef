@@ -17,7 +17,7 @@ after_success:
   - git config --global user.email "semantic-release@travis"
   - pip install typing
   - pip install python-semantic-release
-  - semantic-release publish
+  - semantic-release --minor publish
 
 jobs:
   include:

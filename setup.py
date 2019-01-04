@@ -44,5 +44,5 @@ setuptools.setup(
         ],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
-    scripts=["scripts/refchef-cook", "scripts/refchef-menu"]
+    scripts=["scripts/refchef-cook", "scripts/refchef-menu", "scripts/refchef-serve"]
 )

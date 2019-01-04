@@ -34,7 +34,7 @@ def table():
     items = get_items(master)
 
     context = {'title': 'RefChef References',
-               'description': 'List of references available at this station.',
+               'description': 'List of references available.',
                'items': items}
 
     return render_template('table.html', **context)

@@ -19,7 +19,7 @@ parser.add_argument("--filter", type=str, help="Field:value pair to filter menu 
 # parser.add_argument("--regex", "-r",
 #                     help="Whether value passed to filter is a regex expression.",
 #                     action="store_true")
-parser.add_argument('--master', '-master', type=str, help='Path do to master.yaml')
+parser.add_argument('--master', '-m', type=str, help='Path do to master.yaml')
 parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
 parser.add_argument('--full', action='store_true', help='Whether to show full table, including location and names of files.')
 # Parse arguments

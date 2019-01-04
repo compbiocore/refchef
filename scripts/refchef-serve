@@ -1,0 +1,42 @@
+from flask import Flask, render_template
+import os
+import argparse
+from refchef.table_utils import *
+from refchef.utils import *
+from refchef.serve import get_items
+from refchef import config
+
+parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
+
+parser.add_argument('--master', '-m', type=str, help='Path do to master.yaml')
+parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
+
+arguments = parser.parse_args()
+
+if arguments.config:
+    try:
+        d = config.yaml(arguments.config)
+    except:
+        d = config.ini(arguments.config)
+    conf = config.Config(**d)
+
+    path_ = os.path.join(conf.git_local, 'master.yaml')
+
+if arguments.master:
+    path_ = os.path.expanduser(arguments.master)
+
+
+app = Flask(__name__)
+
+@app.route("/")
+def table():
+    master = read_yaml(path_)
+    items = get_items(master)
+
+    context = {'title': 'RefChef References',
+               'description': 'List of references available.',
+               'items': items}
+
+    return render_template('table.html', **context)
+
+app.run()

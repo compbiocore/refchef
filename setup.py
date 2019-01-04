@@ -29,6 +29,7 @@ setuptools.setup(
     ],
     install_requires=[
         "argparse",
+        "flask",
         "python-dotenv",
         "oyaml",
         "pygithub",

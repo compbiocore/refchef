@@ -8,26 +8,48 @@ about the available references in the system.
 """
 import os
 import argparse
-import yaml
+import oyaml as yaml
 from refchef.table_utils import *
 from refchef.utils import *
-from refchef.config import *
+from refchef import config
 
 parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
 
 parser.add_argument("--filter", type=str, help="Field:value pair to filter menu on.")
-parser.add_argument("--regex", "-r",
-                    help="Whether value passed to filter is a regex expression.",
-                    action="store_true")
+# parser.add_argument("--regex", "-r",
+#                     help="Whether value passed to filter is a regex expression.",
+#                     action="store_true")
+parser.add_argument('--master', '-master', type=str, help='Path do to master.yaml')
+parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
+parser.add_argument('--full', action='store_true', help='Whether to show full table, including location and names of files.')
+# Parse arguments
+arguments = parser.parse_args()
+
+if arguments.config:
+    try:
+        d = config.yaml(arguments.config)
+    except:
+        d = config.ini(arguments.config)
+    conf = config.Config(**d)
+
+    master = read_yaml(os.path.join(conf.git_local, 'master.yaml'))
+
+if arguments.master:
+    master = read_yaml(os.path.expanduser(arguments.master))
 
 
-args = parser.parse_args()
-conf = config.config_check()
-master = read_menu(conf)
 menu = get_full_menu(master)
 
-if (args.filter is not None):
-    filtered = multiple_filter(menu, args.filter)
-    pretty_print(filtered)
+if (arguments.filter is not None):
+    filtered = multiple_filter(menu, arguments.filter)
+    if arguments.full:
+        pretty_print(filtered)
+    else:
+        partial = filtered.drop(columns=['location', 'files'])
+        pretty_print(partial)
 else:
-    pretty_print(menu)
+    if arguments.full:
+        pretty_print(menu)
+    else:
+        partial = menu.drop(columns=['location', 'files'])
+        pretty_print(partial)

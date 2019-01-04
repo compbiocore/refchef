@@ -1,12 +1,18 @@
 import pytest
 from refchef.table_utils import *
 from refchef.utils import *
-from refchef.config import Config
+from refchef import config
 
 @pytest.fixture # macro to set up a fixture that will be used in other functions.
 def menu():
-    conf = Config("tests/data")
-    master = read_menu(conf)
+    d = config.yaml("tests/data/cfg.yaml")
+    conf = config.Config(**d)
+
+    if sys.platform == 'darwin':
+        file_name = 'master_osx.yaml'
+    else:
+        file_name = 'master_linux.yaml'
+    master = read_yaml(os.path.join(conf.git_local, file_name))
     menu = get_full_menu(master)
     return menu
 
@@ -17,33 +23,33 @@ def test_split_filter():
     assert t[1] == "2"
 
 def test_table_columns(menu): #takes the fixture created above as an argument.
-    assert menu.shape == (2,6)
-    assert list(menu) == ['downloader', 'name', 'organization', 'species', 'type', 'component']
+    assert menu.shape == (1,9)
 
 def test_filter(menu):
-    filtered = filter_menu(menu, "species", "human")
-    assert filtered.shape == (1,6)
+    filtered = filter_menu(menu, "species", "mouse")
+    assert filtered.shape == (1,9)
     for i in list(filtered["species"]):
-        assert i == "human"
+        assert i == "mouse"
 
     filtered2 = filter_menu(menu, "type", "references")
     for i in list(filtered2["type"]):
         assert i == "references"
 
 def test_multiple_filter(menu):
-    s1 = "species:human"
-    s2 = "species:human,type:references"
+    s1 = "species:mouse"
+    s2 = "species:mouse,type:references"
 
     f1 = multiple_filter(menu, s1)
-    assert f1.shape == (1,6)
+    assert f1.shape == (1,9)
     for i in list(f1["species"]):
-        assert i == "human"
+        assert i == "mouse"
 
     f2 = multiple_filter(menu, s2)
-    assert f2.shape == (1,6)
+    print(f2)
+    assert f2.shape == (1,9)
 
     for i in list(f2["species"]):
-        assert i == "human"
+        assert i == "mouse"
 
     for i in list(f2["type"]):
         assert i == "references"

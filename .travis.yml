@@ -4,7 +4,7 @@ os:
 sudo: false
 python:
   - "2.7"
-  - "3.4"
+  - "3.6"
 script:
   - python setup.py test
 
@@ -13,6 +13,11 @@ install:
 
 after_success:
   - coveralls
+  - git config --global user.name "semantic-release (via TravisCI)"
+  - git config --global user.email "semantic-release@travis"
+  - pip install typing
+  - pip install python-semantic-release
+  - semantic-release --minor publish
 
 jobs:
   include:
@@ -32,7 +37,7 @@ jobs:
       deploy:
        provider: pages
        skip_cleanup: true
-       github_token: $GITHUB_TOKEN
+       github_token: $GH_TOKEN
        local_dir: site
        on:
          branch: master

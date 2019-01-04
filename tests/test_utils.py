@@ -1,7 +1,7 @@
 import pytest
 import os
 import subprocess
-import yaml
+import oyaml as yaml
 import time
 import sys
 import datetime
@@ -10,15 +10,21 @@ from collections import OrderedDict, defaultdict
 
 from refchef.utils import *
 from refchef.table_utils import *
-from refchef.config import Config
+from refchef import config
 
 @pytest.fixture
 def conf():
-    conf = Config("tests/data")
+    d = config.yaml("tests/data/cfg.yaml")
+    conf = config.Config(**d)
     return conf
 
-def test_ordered_load():
-    data = ordered_load(open("tests/data/example.yml"))
+def test_read_yaml():
+    if sys.platform == 'darwin':
+        file_name = 'new_osx.yaml'
+    else:
+        file_name = 'new_linux.yaml'
+    p = os.path.join('tests/data', file_name)
+    data = read_yaml(p)
     assert type(data).__name__ == "OrderedDict"
     # ordered_load reads in a YAML as an ordered dictionary, so its type should be OrderedDict
 
@@ -32,17 +38,13 @@ def test_logical():
     case7 = "FALSE"
     case8 = "0"
     case9 = "illogical"
-    assert processLogical(case1) == True
-    assert processLogical(case2) == True
-    assert processLogical(case3) == True
-    assert processLogical(case4) == True
-    assert processLogical(case5) == False
-    assert processLogical(case6) == False
-    assert processLogical(case7) == False
-    assert processLogical(case8) == False
-    assert processLogical(case9) == case9
-    # processLogical turns text into its logical equivalent if such exists, so case9 should not be converted
-
-def test_read_menu_from_local(conf):
-    a = read_menu_from_local(conf.git_local)
-    assert type(a) == dict
+    assert process_logical(case1) == True
+    assert process_logical(case2) == True
+    assert process_logical(case3) == True
+    assert process_logical(case4) == True
+    assert process_logical(case5) == False
+    assert process_logical(case6) == False
+    assert process_logical(case7) == False
+    assert process_logical(case8) == False
+    assert process_logical(case9) == case9
+    # process_logical turns text into its logical equivalent if such exists, so case9 should not be converted

@@ -3,12 +3,15 @@ import json
 import pandas as pd
 from pandas.io.json import json_normalize
 import terminaltables
-import yaml
+import oyaml as yaml
 try:
+<<<<<<< HEAD
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
 try:
+=======
+>>>>>>> master
     FileNotFoundError
 except NameError:
     FileNotFoundError = IOError
@@ -38,20 +41,18 @@ def get_full_menu(master):
 
     #create matadata table
     metadata = table[table["e"] == "metadata"][["c", "d", "f"]].pivot(index="f", columns="d")
-    metadata.columns = metadata.columns.droplevel()
+    # metadata.columns = metadata.columns.droplevel()
 
     #create levels table
-    levels = (pd.DataFrame(table[table["e"] == "levels"][["c.component", "f", "d"]]
-                           .groupby(["f", "d"])["c.component"]
-                           .apply(list))
-              .reset_index()
-              .set_index("f"))
+    levels = table[table["e"] == "levels"][["c.component", "c.files", "c.location", "c.uuid", "f", "d"]]
 
+    levels.rename(columns={"f":"name"}, inplace=True)
+    m = metadata.reset_index().drop(columns=["f"], level="d")['c']
     #create full table (menu)
-    menu = metadata.join(levels, how="right")
-    menu.columns = ["downloader", "name", "organization", "species", "type", "component"]
-    menu = menu.reset_index().drop(columns="f")
+    menu = m.merge(levels)
+    menu.columns = ["downloader", "name", "organization", "species", "component", "files", "location", "uuid", "type"]
 
+    menu = menu[["type", "name", "species", "organization", "component", "downloader", "files", "location", "uuid"]]
     return menu
 
 def filter_menu(menu, key, value):

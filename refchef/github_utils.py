@@ -1,55 +1,57 @@
 import os
-import yaml
+import oyaml as yaml
 import shutil
 import yamlloader
 # import urllib2
 import github
-
+from dotenv import load_dotenv
 from refchef import config
 from refchef.utils import *
 
+def setup_git(conf):
+	git_dir = os.path.join(conf.git_local, '.git')
+	work_tree = os.path.join(conf.git_local, '')
 
-def update_repository(conf):
-	"""
-	Update a github repository.
+	return git_dir, work_tree
 
-	Arguments:
-	master - the master YAML to be pushed to github
-	"""
-	# configYaml = ordered_load(open("config.yaml"))
-	gitPath = conf.git_local #configYaml["config-yaml"]["path-settings"]["github-directory"] + "/" + configYaml["config-yaml"]["path-settings"]["remote-repository"].split("/")[1]
-	startingDir = os.getcwd()
-	os.chdir(gitPath)
-	subprocess.call(["git pull"], shell=True)
-	# os.chdir(startingDir)
-	# shutil.copyfile(master, gitPath + "/" + master)
-	# os.chdir(gitPath)
-	subprocess.call(['git add --all && git commit -m  "refchef autopush" && git push origin master'], shell=True)
-	os.chdir(startingDir)
 
-def process_remote_file(url, download):
+def pull(git_dir, work_tree):
 	"""
-	Process a Master YAML stored on a github repository
+	Pull changes to master.yaml
 
 	Arguments:
-	url - the URL of a remote YAML file located on github
-	download - a logical denoting whether or not the remote YAML file should be downloaded
+	git_dir: local path to .git file in directory
+	work_tree: path to directory
 	"""
-	url = str(url)
-	file = urllib2.urlopen(url)
-	data = ordered_load(file)
-	if(download):
-		filename = url.split("/")[len(url.split("/")) - 1]
-		file = urllib2.urlopen(url)
-		# must be reassigned, for some reason
-		with open(filename, 'w') as output:
-  			output.write(file.read())
-	return(data)
+	subprocess.call(['git --git-dir={0} --work-tree={1} pull'.format(git_dir, work_tree)], shell=True)
+
+def commit(git_dir, work_tree):
+	"""
+	Commits changes to master.yaml
+
+	Arguments:
+	git_dir: local path to .git file in directory
+	work_tree: path to directory
+	"""
+	subprocess.call(['git --git-dir={0} --work-tree={1} add --all'.format(git_dir, work_tree)], shell=True)
+	subprocess.call(["git --git-dir={0} --work-tree={1} commit -m 'refchef autocommit'".format(git_dir, work_tree)], shell=True)
+
+
+def push(git_dir, work_tree):
+	"""
+	Pushes changes remote repository.
+
+	Arguments:
+	git_dir: local path to .git file in directory
+	work_tree: path to directory
+	"""
+	subprocess.call(["git --git-dir={0} --work-tree={1} push".format(git_dir, work_tree)], shell=True)
 
 
 def read_menu_from_github(conf, save=False):
 	"""Read master.yaml from GitHub"""
 	token = os.getenv("GITHUB_TOKEN")
+	print(token)
 	g = github.Github(token)
 	repo = g.get_repo(conf.git_remote)
 	try:

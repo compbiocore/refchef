@@ -1,4 +1,4 @@
-RefChef comes with the `refchef-serve` script. It takes the argument `--master (-m)` or `--config -c` to find the local `master.yaml` file. RefChef serve will render a web interface with a filterable table containing all references, indices, and annotations downloaded to the local system.
+RefChef comes with the `refchef-serve` script. RefChef Serve uses Flask to create a minimal web interface with a list of references downloaded to the local system. It takes the argument `--master (-m)` or `--config -c` to find the local `master.yaml` file. RefChef serve will render a web interface with a filterable table containing all references, indices, and annotations.
 
 Currently, the table shows only the following fields: reference name, species, organization, component, location of files, files, and UUID.
 

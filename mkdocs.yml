@@ -28,3 +28,4 @@ nav:
   - Home: 'index.md'
   - Installation: 'installation.md'
   - Usage: 'usage.md'
+  - RefChef serve: 'serve.md'

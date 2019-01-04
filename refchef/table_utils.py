@@ -77,6 +77,7 @@ def multiple_filter(menu, string):
 
     return filtered
 
+
 def pretty_print(menu):
     """Print table with puppy emoji"""
     tt_data = [list(menu)]

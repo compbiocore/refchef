@@ -39,7 +39,7 @@ setuptools.setup(
         "mock",
         "future",
         "configparser",
-        "pytest>=3",
+        "pytest>=3.6",
         "coverage>=4.4",
         "pytest-cov>=2.0"
         ],

@@ -24,6 +24,43 @@ Sensitive environment variables are stored in the .env file. This file is includ
 
 ![](assets/github_token.png)
 
+## Contributing
+
+Contributions consistent with the style and quality of existing code are
+welcome. Be sure to follow the guidelines below.
+
+Check the issues page of this repository for available work.
+
+### Committing
+
+
+This project uses [commitizen](https://pypi.org/project/commitizen/)
+to ensure that commit messages remain well-formatted and consistent
+across different contributors.
+
+Before committing for the first time, install commitizen and read
+[Conventional
+Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/).
+
+```bash
+pip install commitizen
+```
+
+To start work on a new change, pull the latest `develop` and create a
+new *topic branch* (e.g. feature-resume-model`,
+`chore-test-update`, `bugfix-bad-bug`).
+
+```bash
+git add .
+```
+
+To commit, run the following command (instead of ``git commit``) and
+follow the directions:
+
+
+```bash
+cz commit
+```
 
 #### Contact
 

@@ -13,11 +13,7 @@ with open('refchef/__init__.py', 'r') as fd:
 
 setuptools.setup(
     name="refchef",
-<<<<<<< HEAD
-    version="0.0.6",
-=======
     version=version,
->>>>>>> master
     author="Andrew Leith & Fernando Gelin",
     author_email="cbc-help@brown.edu",
     description="Genome reference manager.",
@@ -31,7 +27,6 @@ setuptools.setup(
         "Operating System :: MacOS",
         "Operating System :: Unix"
     ],
-<<<<<<< HEAD
     # install_requires=[
     #     "argparse",
     #     "python-dotenv",
@@ -48,24 +43,5 @@ setuptools.setup(
     #     ],
     # setup_requires=["pytest-runner"],
     # tests_require=["pytest"],
-=======
-    install_requires=[
-        "argparse",
-        "python-dotenv",
-        "oyaml",
-        "pygithub",
-        "yamlloader",
-        "pandas",
-        "terminaltables",
-        "mock",
-        "future",
-        "configparser",
-        "pytest>=3",
-        "coverage>=4.4",
-        "pytest-cov>=2.0"
-        ],
-    setup_requires=["pytest-runner"],
-    tests_require=["pytest"],
->>>>>>> master
-    scripts=["scripts/refchef-cook", "scripts/refchef-menu"]
+    scripts=["scripts/refchef-cook", "scripts/refchef-menu", "scripts/refchef-serve"]
 )

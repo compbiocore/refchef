@@ -87,7 +87,7 @@ specify that your issue is with this site's contents
 
 .. |Travis| image:: https://img.shields.io/travis/compbiocore/refchef/master.svg?style=flat-square
    :target: https://travis-ci.org/compbiocore/refchef
-.. |Coverage| image:: https://img.shields.io/coveralls/github/rechef/refchef/master.svg?style=flat-square
+.. |Coverage| image:: https://img.shields.io/coveralls/github/compbiocore/refchef/master.svg?style=flat-square
    :target: https://coveralls.io/github/compbiocore/refchef
 .. |Docs| image:: https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square
    :target: https://compbiocore.github.io/refchef

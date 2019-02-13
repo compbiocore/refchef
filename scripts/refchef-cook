@@ -33,8 +33,7 @@ arguments = parser.parse_args()
 arg_dict = {'reference_dir': arguments.outdir,
             'git_local': arguments.git_local,
             'git_remote': arguments.git_remote,
-            'log': arguments.logs,
-            'verbose': arguments.verbose}
+            'log': arguments.logs}
 
 conf = False
 

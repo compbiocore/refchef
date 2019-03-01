@@ -5,13 +5,6 @@ from pandas.io.json import json_normalize
 import terminaltables
 import oyaml as yaml
 try:
-<<<<<<< HEAD
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
-try:
-=======
->>>>>>> master
     FileNotFoundError
 except NameError:
     FileNotFoundError = IOError

@@ -28,4 +28,5 @@ nav:
   - Home: 'index.md'
   - Installation: 'installation.md'
   - Usage: 'usage.md'
+  - YAML specs: 'specs.md'
   - RefChef serve: 'serve.md'

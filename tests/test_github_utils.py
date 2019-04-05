@@ -18,7 +18,7 @@ def test_setup_git(conf):
 
 def test_read_menu_from_github(conf):
     d = read_menu_from_github(conf)
-    if sys.platform == 'darwin':
+    if sys.version_info.major == 3:
         assert type(d) == collections.OrderedDict
     else:
-        assert type(d) == dict
+        assert type(d) == 'dict'

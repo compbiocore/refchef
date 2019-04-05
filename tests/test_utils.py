@@ -21,14 +21,15 @@ def conf():
 def test_read_yaml():
     if sys.platform == 'darwin':
         file_name = 'new_osx.yaml'
-        p = os.path.join('tests/data', file_name)
-        data = read_yaml(p)
-        assert type(data).__name__ == 'OrderedDict'
     else:
         file_name = 'new_linux.yaml'
-        p = os.path.join('tests/data', file_name)
-        data = read_yaml(p)
+    p = os.path.join('tests/data', file_name)
+    data = read_yaml(p)
+    if sys.version_info.major == 3:
+        assert type(data).__name__ == 'OrderedDict'
+    else:
         assert type(data).__name__ == 'dict'
+
     # ordered_load reads in a YAML as an ordered dictionary, so its type should be OrderedDict
 
 def test_logical():

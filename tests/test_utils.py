@@ -25,10 +25,7 @@ def test_read_yaml():
         file_name = 'new_linux.yaml'
     p = os.path.join('tests/data', file_name)
     data = read_yaml(p)
-    if sys.version_info.major == 3:
-        assert type(data).__name__ == 'OrderedDict'
-    else:
-        assert type(data).__name__ == 'dict'
+    assert type(data).__name__ in  ['OrderedDict', 'dict']
 
     # ordered_load reads in a YAML as an ordered dictionary, so its type should be OrderedDict
 

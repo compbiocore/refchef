@@ -13,43 +13,47 @@ from refchef.table_utils import *
 from refchef.utils import *
 from refchef import config
 
-parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
+def main():
+    parser = argparse.ArgumentParser(description='Get and filter references available in the system.')
 
-parser.add_argument("--filter", type=str, help="Field:value pair to filter menu on.")
-# parser.add_argument("--regex", "-r",
-#                     help="Whether value passed to filter is a regex expression.",
-#                     action="store_true")
-parser.add_argument('--master', '-m', type=str, help='Path do to master.yaml')
-parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
-parser.add_argument('--full', action='store_true', help='Whether to show full table, including location and names of files.')
-# Parse arguments
-arguments = parser.parse_args()
+    parser.add_argument("--filter", type=str, help="Field:value pair to filter menu on.")
+    # parser.add_argument("--regex", "-r",
+    #                     help="Whether value passed to filter is a regex expression.",
+    #                     action="store_true")
+    parser.add_argument('--master', '-m', type=str, help='Path do to master.yaml')
+    parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
+    parser.add_argument('--full', action='store_true', help='Whether to show full table, including location and names of files.')
+    # Parse arguments
+    arguments = parser.parse_args()
 
-if arguments.config:
-    try:
-        d = config.yaml(arguments.config)
-    except:
-        d = config.ini(arguments.config)
-    conf = config.Config(**d)
+    if arguments.config:
+        try:
+            d = config.yaml(arguments.config)
+        except:
+            d = config.ini(arguments.config)
+        conf = config.Config(**d)
 
-    master = read_yaml(os.path.join(conf.git_local, 'master.yaml'))
+        master = read_yaml(os.path.join(conf.git_local, 'master.yaml'))
 
-if arguments.master:
-    master = read_yaml(os.path.expanduser(arguments.master))
+    if arguments.master:
+        master = read_yaml(os.path.expanduser(arguments.master))
 
 
-menu = get_full_menu(master)
+    menu = get_full_menu(master)
 
-if (arguments.filter is not None):
-    filtered = multiple_filter(menu, arguments.filter)
-    if arguments.full:
-        pretty_print(filtered)
+    if (arguments.filter is not None):
+        filtered = multiple_filter(menu, arguments.filter)
+        if arguments.full:
+            pretty_print(filtered)
+        else:
+            partial = filtered.drop(columns=['location', 'files'])
+            pretty_print(partial)
     else:
-        partial = filtered.drop(columns=['location', 'files'])
-        pretty_print(partial)
-else:
-    if arguments.full:
-        pretty_print(menu)
-    else:
-        partial = menu.drop(columns=['location', 'files'])
-        pretty_print(partial)
+        if arguments.full:
+            pretty_print(menu)
+        else:
+            partial = menu.drop(columns=['location', 'files'])
+            pretty_print(partial)
+            
+if __name__ == '__main__':
+    main()

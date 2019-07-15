@@ -9,6 +9,7 @@ except NameError:
     pass
 
 
+
 class Config:
 	def __init__(self, reference_dir, git_local, git_remote, log):
 		self.reference_dir = os.path.expanduser(reference_dir)
@@ -25,7 +26,7 @@ def yaml(path):
 	d['reference_dir'] = dict_['config-yaml']['path-settings']['reference-directory']
 	d['git_local'] = dict_['config-yaml']['path-settings']['git-directory']
 	d['git_remote'] = dict_['config-yaml']['path-settings']['remote-repository']
-	d['log'] = dict_['config-yaml']['log-settings']['log']
+	d['log'] = utils.process_logical(dict_['config-yaml']['log-settings']['log'])
 	# d['break_on_error'] = dict_['config-yaml']['runtime-settings']['break-on-error']
 	# d['verbose'] = dict_['config-yaml']['runtime-settings']['verbose']
 
@@ -40,7 +41,7 @@ def ini(path):
 	d['reference_dir'] = config.get('path-settings', 'reference-directory')
 	d['git_local'] = config.get('path-settings', 'git-directory')
 	d['git_remote'] = config.get('path-settings', 'remote-repository')
-	d['log'] = config.get('log-settings', 'log')
+	d['log'] = utils.process_logical(config.get('log-settings', 'log'))
 	# d['break_on_error'] = config.get('runtime-settings', 'break-on-error')
 	# d['verbose'] = config.get('runtime-settings', 'verbose')
 

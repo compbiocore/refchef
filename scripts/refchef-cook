@@ -14,90 +14,128 @@ import glob
 import logging
 import datetime
 
-parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
+def main():
+    parser = argparse.ArgumentParser(description='Controls how to run the reference parser')
 
-parser.add_argument('--execute', '-e', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
-parser.add_argument('--new', '-n', type=str, help = 'Denotes the new YAML')
-parser.add_argument('--git', '-g', choices=['commit', 'push'], help='Git commands to use. Use `commit` if no `--git_remote` is passed.')
-parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
-parser.add_argument('--outdir', '-o', type=str, default=False, help='Directory where references will be saved.')
-parser.add_argument('--git_local', '-gl', type=str, default=False, help='Local git directory, where master.yaml will be located.')
-parser.add_argument('--git_remote', '-gr', type=str, default=False, help='Remote Git repository.')
-parser.add_argument('--logs', '-l', action='store_true', help='Logging mode on/off.')
+    parser.add_argument('--execute', '-e', help = 'Executes the YAML file, either the new if it exists or the master if not', action='store_true')
+    parser.add_argument('--new', '-n', type=str, help = 'Denotes the new YAML')
+    parser.add_argument('--git', '-g', choices=['commit', 'push'], help='Git commands to use. Use `commit` if no `--git_remote` is passed.')
+    parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
+    parser.add_argument('--outdir', '-o', type=str, default=False, help='Directory where references will be saved.')
+    parser.add_argument('--git_local', '-gl', type=str, default=False, help='Local git directory, where master.yaml will be located.')
+    parser.add_argument('--git_remote', '-gr', type=str, default=False, help='Remote Git repository.')
+    parser.add_argument('--logs', '-l', action='store_true', help='Logging mode on/off.')
 
+    # Parse arguments
+    arguments = parser.parse_args()
 
-# Parse arguments
-arguments = parser.parse_args()
+    # Check for config file or config arguments.
+    arg_dict = {'reference_dir': arguments.outdir,
+                'git_local': arguments.git_local,
+                'git_remote': arguments.git_remote,
+                'log': arguments.logs}
 
-# Check for config file or config arguments.
-arg_dict = {'reference_dir': arguments.outdir,
-            'git_local': arguments.git_local,
-            'git_remote': arguments.git_remote,
-            'log': arguments.logs}
+    conf = False
 
-conf = False
-
-if arguments.config:
-    try:
+    if arguments.config:
+        print(read_yaml(arguments.config))
+        print(config.yaml(arguments.config))
         try:
-            d = config.yaml(arguments.config)
+            try:
+                d = config.yaml(arguments.config)
+            except:
+                d = config.ini(arguments.config)
+            conf = config.Config(**d)
         except:
-            d = config.ini(arguments.config)
-        conf = config.Config(**d)
-    except:
-        print("""Malformatted config file. See the documentation for details at
-                https://compbiocore.github.io/refchef
-              """)
-else:
-    try:
-        conf = config.Config(**arg_dict)
-    except:
-        print("""No configuration file found. Try passing a .ini or .yaml file to --config (-c),
-or at least the output directory (--outdir, -o) and the path to the local git directory
-for this project (--git_local, -gl). For more details: refchef-cook --help, or see the
-documentation at https://compbiocore.github.io/refchef
-              """)
+            print("""Malformatted config file. See the documentation for details at
+                    https://compbiocore.github.io/refchef
+                  """)
+    else:
+        try:
+            conf = config.Config(**arg_dict)
+        except:
+            print("""No configuration file found. Try passing a .ini or .yaml file to --config (-c),
+    or at least the output directory (--outdir, -o) and the path to the local git directory
+    for this project (--git_local, -gl). For more details: refchef-cook --help, or see the
+    documentation at https://compbiocore.github.io/refchef
+                  """)
 
-if conf:
-
-    ### Log summary
-    if arguments.logs:
-        FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+    if conf:
+        ### Log summary
+        FORMAT = '%(asctime)s %(levelname)s: %(message)s'
         now = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        path_ = os.path.join(conf.git_local, 'logs')
-        file_name =  'refchef_{}.log'.format(now)
 
-        if not os.path.exists(path_):
-            os.makedirs(path_)
+        if conf.log:
 
-        logging.basicConfig(filename=os.path.join(path_, file_name),
-                            format=FORMAT,
-                            level=logging.INFO)
+            path_ = os.path.join(conf.git_local, 'logs')
+            file_name =  'refchef_{}.log'.format(now)
 
-    # Read menu (master.yaml)
-    master = read_menu(conf)
+            if not os.path.exists(path_):
+                os.makedirs(path_)
+
+            logging.basicConfig(filename=os.path.join(path_, file_name),
+                                format=FORMAT,
+                                level=logging.DEBUG)
+
+        else:
+            logging.basicConfig(format=FORMAT,
+                                level=logging.INFO)
+
+        logging.getLogger().addHandler(logging.StreamHandler())
 
 
-    # If new argument, append that to master and reload master.
-    if arguments.new is not None:
-        origin = arguments.new
-        destination = os.path.join(conf.git_local, 'master.yaml')
-        utils.append_yaml(origin, destination)
+        # Read menu (master.yaml)
         master = read_menu(conf)
 
-    ## Execute, commit and push steps.
-    if arguments.execute:
-        execute(conf, 'master.yaml')
-        if arguments.logs:
-            m = read_yaml(os.path.join(conf.git_local, 'master.yaml'))
-            logging.info("\n{0}".format(get_full_menu(m)[['type', 'name', 'component', 'organization', 'uuid']]))
+        logging.info(u"""
+        ===========================================
+        REFCHEF \U0001F436
+        -------------------------------------------
+        - References will be downloaded to: {0}
+        - Remote repository for master.yaml {1}
+        - Local repository for master.yaml {2}
+        - Logs files: {3}/logs/
+        -------------------------------------------
+        """.format(conf.reference_dir, conf.git_remote, conf.git_local, conf.git_local))
 
-    git_dir, work_tree = gh.setup_git(conf)
 
-    ## Git Steps
-    if arguments.git == 'push':
-        gh.pull(git_dir, work_tree)
-        gh.commit(git_dir, work_tree)
-        gh.push(git_dir, work_tree)
-    elif arguments.git == 'commit':
-        gh.commit(git_dir, work_tree)
+        # If new argument, append that to master and reload master.
+        if arguments.new is not None:
+            origin = arguments.new
+            destination = os.path.join(conf.git_local, 'master.yaml')
+            utils.append_yaml(origin, destination)
+            master = read_menu(conf)
+
+        for r in master.keys():
+            for i in master[r]['levels']['references']:
+                if not i['complete']['status']:
+                    logging.info(u"""
+        -------------------------------------------
+        The folowing references will be downloaded:
+            - {0}
+        ===========================================
+            """.format(r))
+                else:
+                    logging.info("""
+        No references to download.
+                    """)
+
+        ## Execute, commit and push steps.
+        if arguments.execute:
+            execute(conf, 'master.yaml')
+            if arguments.logs:
+                m = read_yaml(os.path.join(conf.git_local, 'master.yaml'))
+                logging.info("\n{0}".format(get_full_menu(m)[['type', 'name', 'component', 'organization', 'uuid']]))
+
+        git_dir, work_tree = gh.setup_git(conf)
+
+        ## Git Steps
+        if arguments.git == 'push':
+            gh.pull(git_dir, work_tree)
+            gh.commit(git_dir, work_tree)
+            gh.push(git_dir, work_tree)
+        elif arguments.git == 'commit':
+            gh.commit(git_dir, work_tree)
+
+if __name__ == '__main__':
+    main()

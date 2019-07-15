@@ -113,6 +113,10 @@ def main():
             - {0}
         ===========================================
             """.format(r))
+                else:
+                    logging.info("""
+        No references to download.
+                    """)
 
         ## Execute, commit and push steps.
         if arguments.execute:

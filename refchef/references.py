@@ -82,14 +82,20 @@ def get_filenames(path_):
 
 def add_uuid(path_):
     """Reads final_checksums.md5 and returns id."""
-    with open(os.path.join(path_, 'final_checksums.md5'), 'r') as f:
-        line = f.readline().replace('\n','')
-        if sys.platform == 'darwin':
-            id_ = line.split(" = ")[1]
-        else:
-            id_ = line.split(" ")[0]
+    if os.path.exists(os.path.join(path_, 'final_checksums.md5')):
+        with open(os.path.join(path_, 'final_checksums.md5'), 'r') as f:
+            line = f.readline().replace('\n','')
+            if sys.platform == 'darwin':
+                cs = line.split(" = ")[1]
+            else:
+                cs = line.split(" ")[0]
 
-    return str(uuid.uuid3(uuid.NAMESPACE_DNS, id_))
+        return str(uuid.uuid3(uuid.NAMESPACE_DNS, cs))
+    else:
+        logging.warning("No final_checksums.md found. UUID will not correspond to checksum.")
+        return str(uuid.uuid1())
+
+    return _id
 
 def create_metadata_file(metadata, path_):
     """Creates metadata.txt file."""

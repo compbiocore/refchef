@@ -38,6 +38,8 @@ def main():
     conf = False
 
     if arguments.config:
+        print(read_yaml(arguments.config))
+        print(config.yaml(arguments.config))
         try:
             try:
                 d = config.yaml(arguments.config)

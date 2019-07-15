@@ -12,7 +12,7 @@ Both scripts can take a `--config (-c)` argument with the path for a config file
 config-yaml:
   path-settings:
     reference-directory: ~/data/references_dir # directory where references will be downloaded and processed.
-    github-directory: ~/data/git_local # local git repository where `master.yaml` is located.
+    git-directory: ~/data/git_local # local git repository where `master.yaml` is located.
     remote-repository: user/repo # remote user and repository for version control of `master.yaml`
   log-settings:
     log: 'yes'

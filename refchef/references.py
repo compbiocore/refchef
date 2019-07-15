@@ -13,6 +13,7 @@ from refchef.utils import cd
 def execute(conf, file_name):
     """Process all steps to create directories, fetch files, and update yaml for
        references/indices/annotations"""
+
     yaml_file = os.path.join(conf.git_local, file_name)
     yaml_dict = utils.read_yaml(yaml_file)
     keys = list(yaml_dict.keys())
@@ -32,7 +33,6 @@ def execute(conf, file_name):
                                                                                                 k,
                                                                                                 component)
                         logging.info(to_print)
-                        print(to_print)
 
                         # Fetch references
                         fetch(entry['commands'], path_)
@@ -71,7 +71,7 @@ def fetch(command_list, directory):
     """ Run all commands from within the given directory"""
     for c in command_list:
         with cd(directory):
-            print("Running command \"{}\"".format(c))
+            logging.info("Running command \"{}\"".format(c))
             subprocess.call(c, shell=True)
 
 def get_filenames(path_):

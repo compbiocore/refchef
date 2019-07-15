@@ -3,6 +3,7 @@ import os
 import sys
 import shutil
 from refchef import config
+
 try:
     input = raw_input
 except NameError:

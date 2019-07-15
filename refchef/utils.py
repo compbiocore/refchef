@@ -6,6 +6,7 @@ import yamlloader
 from collections import OrderedDict, defaultdict, Mapping
 from future.utils import iteritems
 
+
 def read_yaml(file_path):
     """Simple function to read yaml file"""
     with open(file_path) as yml:

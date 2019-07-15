@@ -1,5 +1,121 @@
 RefChef comes with two main commands (`refchef-cook` and `refchef-menu`). `refchef-cook` will read the recipes and execute the commands that will retrieve the references, indices, or annotations. `refchef-menu` provides an easy way to summarize the items already on the system.
 
+- See the installation instructions for how to install refchef.
+- Create your own local repository for tracking references:
+```
+cd /Volumes/jwalla12
+git init local_references
+```
+
+- Create a directory for refchef to store your references:
+```
+mkdir /Volumes/jwalla12/references
+```
+
+- Create a `master.yaml` file and save it in your git repository. This file will contain the commands that will be executed to download your references, as well as some additional metadata. For more information about the details of the .yaml file format, see (https://compbiocore.github.io/refchef/specs/). Note that the creation of the `final_checksums.md5` file should always be included in the `master.yaml` file. As a minimal example, here is a `master.yaml` file that will download the grch38 human genome from Ensembl:
+```
+grch38:
+  metadata:
+    name: grch38_release87
+    species: Homo sapiens
+    organization: ensembl
+    downloader: jrwallace
+  levels:
+    references:
+    - component: primary
+      complete:
+        status: false
+      commands:
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
+      - md5sum *.gz > postdownload-checksums.md5
+      - gunzip *.gz
+      - md5sum *.* > final_checksums.md5
+
+```
+- In addition to the .yaml file, you will also need to specify the following details: 1. where you'd like the references to be saved, 2. the local git repository for version control of references, and 3. the remote github repository for version control of reference sequences. There are a few options for relaying this information to refchef -- they can be specified in a `cfg.ini` file or a `cfg.yaml` file, or you can pass them as arguments to `refchef-cook` -- the command that will read your `master.yaml` file and download the references. The following is an example where arguments are passed to `refchef-cook` and references are not pushed to a remote repository:
+
+```
+refchef-cook -e -o /Volumes/jwalla12/references -gl /Volumes/jwalla12/local_references
+```
+
+todo: add examples re: using a cfg file and remote repo
+
+- Then you'll see the following:
+```
+/anaconda3/lib/python3.7/site-packages/refchef/utils.py:12: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  dict_ = yaml.load(yml)
+ 🐶 RefChef... getting reference: grch38, component: primary
+Running command "wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz"
+--2019-07-12 15:56:56--  ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+           => ‘Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz’
+Resolving ftp.ensembl.org (ftp.ensembl.org)... 193.62.193.8
+Connecting to ftp.ensembl.org (ftp.ensembl.org)|193.62.193.8|:21... connected.
+Logging in as anonymous ... Logged in!
+==> SYST ... done.    ==> PWD ... done.
+==> TYPE I ... done.  ==> CWD (1) /pub/release-87/fasta/homo_sapiens/dna ... done.
+==> SIZE Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz ... 881214448
+==> PASV ... done.    ==> RETR Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz ... done.
+Length: 881214448 (840M) (unauthoritative)
+
+Homo_sapiens.GRCh38.d 100%[=======================>] 840.39M  6.71MB/s    in 4m 26s  
+
+2019-07-12 16:01:25 (3.16 MB/s) - ‘Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz’ saved [881214448]
+
+Running command "wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS"
+--2019-07-12 16:01:25--  ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
+           => ‘CHECKSUMS’
+Resolving ftp.ensembl.org (ftp.ensembl.org)... 193.62.193.8
+Connecting to ftp.ensembl.org (ftp.ensembl.org)|193.62.193.8|:21... connected.
+Logging in as anonymous ... Logged in!
+==> SYST ... done.    ==> PWD ... done.
+==> TYPE I ... done.  ==> CWD (1) /pub/release-87/fasta/homo_sapiens/dna ... done.
+==> SIZE CHECKSUMS ... 5010
+==> PASV ... done.    ==> RETR CHECKSUMS ... done.
+Length: 5010 (4.9K) (unauthoritative)
+
+CHECKSUMS             100%[=======================>]   4.89K  --.-KB/s    in 0s      
+
+2019-07-12 16:01:27 (97.5 MB/s) - ‘CHECKSUMS’ saved [5010]
+
+Running command "md5sum *.gz > postdownload-checksums.md5"
+Running command "gunzip *.gz"
+Running command "md5sum *.* > final_checksums.md5"
+
+```
+
+- After this command is run, master.yaml will reflect that you have downloaded the references and it will now look like this:
+```
+grch38:
+  metadata:
+    name: grch38_release87
+    species: Homo sapiens
+    organization: ensembl
+    downloader: jrwallace
+  levels:
+    references:
+    - component: primary
+      complete:
+        status: true
+        time: 2019-07-12 16:02:25.505498
+      commands:
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
+      - md5sum *.gz > postdownload-checksums.md5
+      - gunzip *.gz
+      - md5sum *.* > final_checksums.md5
+      location: /Volumes/jwalla12/references/grch38/primary
+      files:
+      - CHECKSUMS
+      - final_checksums.md5
+      - Homo_sapiens.GRCh38.dna.primary_assembly.fa
+      - metadata.txt
+      - postdownload-checksums.md5
+
+```
+
+todo: add information re: adding references already present elsewhere (should the command be more like a cp command?)
+
 #### User workflow diagram
 
 ![Diagram](assets/refchef-diagram.svg)

@@ -39,7 +39,7 @@ grch38:
     common_name: human
     ncbi_taxon_id: 9606
     organization: ensembl
-    description:
+    description: Genome Reference Consortium Human Build 38
     genbank_accession: 
     refseq_accession:
     ensembl_release_number: 87

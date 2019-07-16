@@ -1,12 +1,16 @@
 ### Overview 
-RefChef comes with two main commands ([`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu)). 
+RefChef is a reference management tool that helps make your next-generation sequencing projects and analyses reproducible. You can use it to document the provenance of reference genomes, transcriptomes, or proteomes downloaded from public databases (as well as their associated indices and annotations). It is a flexible workflow that could also be used to internally track the progress through different versions of draft assemblies. RefChef will: (1) document the exact steps undertaken in the retrieval and processing of genomic references; (2) maintain the associated metadata; (3) provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references.
+
+![Diagram](assets/refchef-diagram.svg)
+
+RefChef comes with two commands ([`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu)). 
 
 - [**refchef-cook**](#refchef-cook): Will read recipes and execute the commands that will retrieve the references, indices, or annotations. 
 - [**refchef-menu**](#refchef-menu): This command provides a way for the user to list all references present in the system, based on [`master.yaml`](#master.yaml), as well as filter the list of references based on metadata options. 
 
-In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) commands, RefChef requires a [`master.yaml`](#master.yaml) containing a list of references, indices, and annotations, as well as their metadata, and commands necessary to download and process the files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true` and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. 
+In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) commands, RefChef requires a [`master.yaml`](#master.yaml) containing a list of references, indices, and annotations, as well as their metadata, and commands necessary to download and process the files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true`and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository (red arrow in the above figure) or commit and push the changes to a remote repository (blue arrow in the above figure). 
 
-RefChef also requires some configuration information, including:
+[`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) both require some configuration information, including:
 
 1. Where you'd like the references to be saved 
 2. The local git repository for version control of references
@@ -58,23 +62,16 @@ grch38:
       - md5sum *.* > final_checksums.md5
 
 ```
-In addition to the .yaml file, you will also need to create a `cfg.ini` or `cfg.yaml` configuration file that specifies the
-following details:
 
-
-
-You can also pass these details as arguments to `refchef-cook`, as in the following example:
+Pass the configuration arguments directly to [`refchef-cook`](#refchef-cook)  in the following example:
 
 ```
 refchef-cook -e -o /Volumes/jwalla12/references -gl /Volumes/jwalla12/local_references
 ```
 
-After running `refchef-cook`, you'll see the following:
+After running [`refchef-cook`](#refchef-cook) , you'll see the following:
 
 ```
-(base) CIS2703FHTDH:local_references jwalla12$ refchef-cook -e -o /Volumes/jwalla12/references -gl /Volumes/jwalla12/local_references
-/anaconda3/lib/python3.7/site-packages/refchef/utils.py:13: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
-  dict_ = yaml.load(yml)
 2019-07-16 10:34:12,972 INFO: 
         ===========================================
         REFCHEF 🐶
@@ -153,10 +150,9 @@ Running command "md5 *.* > final_checksums.md5"
 References processed: ['grch38']
 2019-07-16 10:37:16,145 INFO: Location of references: /Volumes/jwalla12/references
 Location of references: /Volumes/jwalla12/references
-
 ```
 
-After this command is run, master.yaml will reflect that you have downloaded the references and it will now look like this:
+After this command is run, [`master.yaml`](#master.yaml) will reflect that you have downloaded the references and it will now look like this:
 
 ```
 grch38:
@@ -187,10 +183,9 @@ grch38:
 
 ```
 
+### **Usage**
 
-todo: add information re: adding references already present elsewhere (should the command be more like a cp command?)
-
-### **refchef-cook**
+## **refchef-cook**
 
 Will read recipes and execute the commands that will retrieve the references, indices, or annotations.
 
@@ -213,7 +208,7 @@ Example:
     `refchef-cook --execute -o /path/to/output/dir --git_local /path/to/git/dir --git_remote user/project_name --git push`
 
 
-### **refchef-menu**
+## **refchef-menu**
 This command provides a way for the user to list all references present in the system, based on `master.yaml`, as well as filter the list of references based on metadata options.  
 
 Usage: `refchef-cook [*arguments*]`
@@ -232,59 +227,11 @@ Example:
 
 ![menu](assets/menu-filtered.png)
 
+### **Inputs**
 
+## **master.yaml**
 
-
-Arguments:
-
-
-
-# Config
-# Refchef-menu
-
-
-#### User workflow diagram
-
-![Diagram](assets/refchef-diagram.svg)
-
-RefChef comes with two main scripts. `refchef-cook` will parse `master.yaml`, execute the commands listed (download and process reference files), commit, and push the `master.yaml` using git. `refchef-menu` is used to list the references already downloaded and processed. It also provides an easy way to find a reference uuid for use when processing new indices.
-Both scripts can take a `--config (-c)` argument with the path for a config file, that can be one of the following formats:
-
-`cfg.yaml`:
-```yaml
-config-yaml:
-  path-settings:
-    reference-directory: ~/data/references_dir # directory where references will be downloaded and processed.
-    git-directory: ~/data/git_local # local git repository where `master.yaml` is located.
-    remote-repository: user/repo # remote user and repository for version control of `master.yaml`
-  log-settings:
-    log: 'yes'
-```
-
-`cfg.ini`:
-```toml
-[path-settings]
-reference-directory=~/data/references_dir #directory where references will be downloaded and processed.
-git-directory=~/data/git_local #local git repository where `master.yaml` is located.
-remote-repository=user/repo # remote user and repository for version control of `master.yaml`
-[log-settings]
-log=yes
-[runtime-settings]
-break-on-error=yes
-verbose=yes
-```
-
-!!! Note
-    You can opt not to use a config file. In that case, when using `refchef-menu`, you must pass the argument `--master (-m)` with he path to the `master.yaml` file.
-    When using `refchef-cook`, you must pass at least the output directory (``--outdir, -o`) and the path to the local git directory, where the `master.yaml` file is located (``--git_local, -gl`). If you want the changes to `master.yaml` to be pushed to a git service, you must also pass `--git_remote (-gr)`.
-
-### `refchef-cook`
-
-#### Downloading and processing references, indices, or annotations.
-This command will read a `master.yaml` located in the `github-directory` path from the config file, or the directory passed to `--git_local`. The `master.yaml` file contains a list of references, indices, and annotations, as well as their metadata, and commands necessary to download and process the files (see example below).  
-The `master.yaml` file stores all the information about a reference that is downloaded or will be downloaded. When `refchef-cook -e` is executed, the files are downloaded to the output directory and processed. In addition, RefChef updates the status of the complete option to `true` in the  `master.yaml`, it also adds an `uuid`, the date, location, and list of files. If a reference has the `true` in the complete status, that entry will not be processed again.  
-
-### master.yaml name and header must match
+master.yaml name and header must match
 
 Example `master.yaml` before processing:  
 
@@ -333,6 +280,60 @@ reference_test1:
       - postdownload_checksums.md5
       - final_checksums.md5
       uuid: 8040b09f-3844-3c42-b765-1f6a32614895
+```
+
+## **cfg.yaml**
+`cfg.yaml`:
+```yaml
+config-yaml:
+  path-settings:
+    reference-directory: ~/data/references_dir # directory where references will be downloaded and processed.
+    git-directory: ~/data/git_local # local git repository where `master.yaml` is located.
+    remote-repository: user/repo # remote user and repository for version control of `master.yaml`
+  log-settings:
+    log: 'yes'
+```
+## **cfg.ini**
+
+
+`cfg.ini`:
+```toml
+[path-settings]
+reference-directory=~/data/references_dir #directory where references will be downloaded and processed.
+git-directory=~/data/git_local #local git repository where `master.yaml` is located.
+remote-repository=user/repo # remote user and repository for version control of `master.yaml`
+[log-settings]
+log=yes
+[runtime-settings]
+break-on-error=yes
+verbose=yes
+```
+
+!!! Note
+    You can opt not to use a config file. In that case, when using `refchef-menu`, you must pass the argument `--master (-m)` with he path to the `master.yaml` file.
+    When using `refchef-cook`, you must pass at least the output directory (``--outdir, -o`) and the path to the local git directory, where the `master.yaml` file is located (``--git_local, -gl`). If you want the changes to `master.yaml` to be pushed to a git service, you must also pass `--git_remote `(-gr)`.    
+
+### User workflow diagram
+
+![Diagram](assets/refchef-diagram.svg)
+
+RefChef comes with two main scripts. `refchef-cook` will parse [`master.yaml`](#master.yaml) (located in `github-directory`) and execute the commands listed to download and process reference files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true` and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository (red arrow) or commit and push the changes to a remote repository (blue arrow).  
+
+
+It will also edit `master.yaml` to include information about Based on the argument passed, it will also commit (if using a local repository), and push the `master.yaml` (if also using remote repository) using git. `refchef-menu` is used to list the references already downloaded and processed. It also provides an easy way to find a reference uuid for use when processing new indices. Both scripts require 
+Both scripts can take a `--config (-c)` argument with the path for a config file, that can be one of the following formats:
+
+
+
+
+
+#### Downloading and processing references, indices, or annotations.
+This command will read a `master.yaml` located in the `github-directory` path from the config file, or the directory passed to `--git_local`. The `master.yaml` file contains a list of references, indices, and annotations, as well as their metadata, and commands necessary to download and process the files (see example below).  
+The `master.yaml` file stores all the information about a reference that is downloaded or will be downloaded. When `refchef-cook -e` is executed, the files are downloaded to the output directory and processed. In addition, RefChef updates the status of the complete option to `true` in the  `master.yaml`, it also adds an `uuid`, the date, location, and list of files. If a reference has the `true` in the complete status, that entry will not be processed again.  
+
+### 
+
+
 ```
 
 #### Downloading an index linked to a reference.

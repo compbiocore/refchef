@@ -1,14 +1,24 @@
-### Overview 
+## **Overview** 
 RefChef is a reference management tool that helps make your next-generation sequencing projects and analyses reproducible. You can use it to document the provenance of reference genomes, transcriptomes, or proteomes downloaded from public databases (as well as their associated indices and annotations). It is a flexible workflow that could also be used to internally track the progress through different versions of draft assemblies. RefChef will: (1) document the exact steps undertaken in the retrieval and processing of genomic references; (2) maintain the associated metadata; (3) provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references.
 
 ![Diagram](assets/refchef-diagram.svg)
 
-RefChef comes with two commands ([`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu)). 
 
-- [**refchef-cook**](#refchef-cook): Will read recipes and execute the commands that will retrieve the references, indices, or annotations. 
-- [**refchef-menu**](#refchef-menu): This command provides a way for the user to list all references present in the system, based on [`master.yaml`](#master.yaml), as well as filter the list of references based on metadata options. 
+**RefChef comes with two commands:**      
 
-In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) commands, RefChef requires a [`master.yaml`](#master.yaml) containing a list of references, indices, and annotations, as well as their metadata, and commands necessary to download and process the files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true`and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository (red arrow in the above figure) or commit and push the changes to a remote repository (blue arrow in the above figure). 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`refchef-cook`](#refchef-cook):     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Will read recipes and execute the commands that will retrieve the references, indices, or   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annotations based on the contents of [`master.yaml`](#master.yaml).     
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`refchef-menu`](#refchef-menu):   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Provides a way for the user to list all references present in the system, based   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on [`master.yaml`](#master.yaml), as well as filter the list of references based on metadata options. 
+
+**RefChef requires a `master.yaml` file:**      
+
+In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) commands, RefChef requires a [`master.yaml`](#master.yaml) containing a list of references, indices, annotations, and metadata, as well as the commands necessary to download and process the files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true`and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository (red arrow in the above figure) or commit and push the changes to a remote repository (blue arrow in the above figure). 
+
+**RefChef requires configuration information:**      
 
 [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) both require some configuration information, including:
 
@@ -17,9 +27,10 @@ In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef
 3. The remote github repository for version control of reference
   sequences (optional).
 
-This information can be specified in a [`cfg.yaml`](#cfg.yaml) or [`cfg.ini`](#cfg.ini) file or it can be passed as arguments to [`refchef-cook`](#refchef-cook). 
+This information can be specified in a [`cfg.yaml`](#cfg.yaml) file, a [`cfg.ini`](#cfg.ini) file, or it can be passed as arguments to [`refchef-cook`](#refchef-cook). 
 
-### Quickstart
+## **Quickstart**
+
 **The following example uses a local repository for tracking references.**
 
 Create your own local repository for tracking references:
@@ -33,7 +44,7 @@ Create a directory for refchef to store your references:
 mkdir /Volumes/jwalla12/references
 ```
 
-Create a [`master.yaml`](#master.yaml) file and save it in your git repository directory. As a minimal example, here is a [`master.yaml`](#master.yaml) file that will download the grch38 human genome from Ensembl:
+Create a [`master.yaml`](#master.yaml) file and save it in your git repository directory (`local_references` in the above example). Here is a [`master.yaml`](#master.yaml) file that will download the grch38 human genome from Ensembl:
 
 ```
 grch38:
@@ -183,24 +194,23 @@ grch38:
 
 ```
 
-### **Usage**
+## **Usage**
+## refchef-cook <a name="refchef-cook"></a>   
+Reads recipes and executes the commands that will retrieve the references, indices, or annotations   
 
-<a name="refchef-cook"></a> 
+**Usage:**   
+`refchef-cook [*arguments*]`   
 
-**refchef-cook** will read recipes and execute the commands that will retrieve the references, indices, or annotations.   
-
-Usage: `refchef-cook [*arguments*]`   
-
-Arguments:  
+**Arguments:**  
 `--execute, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
-`--new, -n`: path to a new yaml file containing other references to be downloaded and appended to the `master.yaml`.
-`--git, -g`: Git action. Choose from `commit` or `push`.
-`--outdir, -o`: output directory, where references will be downloaded to.
-`--git_local, -gl`: Local git directory, where the `master.yaml` file can be found.
-`--git_remote, -gr`: Remote git repository, in the format `user/project_name`.
-`--logs, -l`: Whether to save the log files.
+`--new, -n`: path to a new yaml file containing other references to be downloaded and appended to the `master.yaml`.   
+`--git, -g`: Git action. Choose from `commit` or `push`.   
+`--outdir, -o`: output directory, where references will be downloaded to.   
+`--git_local, -gl`: Local git directory, where the `master.yaml` file can be found.   
+`--git_remote, -gr`: Remote git repository, in the format `user/project_name`.   
+`--logs, -l`: Whether to save the log files.   
 
-Example:  
+**Example:**  
   1 - This will read in `new.yaml` file, append to `master.yaml` and commit the changes using git.
     `refchef-cook --config /path/to/cfg.yaml --execute --new new.yaml --git commit`.
 
@@ -208,20 +218,20 @@ Example:
     `refchef-cook --execute -o /path/to/output/dir --git_local /path/to/git/dir --git_remote user/project_name --git push`
 
 
-<a name="refchef-menu"></a>  
+## refchef-menu <a name="refchef-menu"></a>   
 
-**refchef-menu**
 
 This command provides a way for the user to list all references present in the system, based on `master.yaml`, as well as filter the list of references based on metadata options.  
 
-Usage: `refchef-cook [*arguments*]`
+**Usage:**   
+`refchef-cook [*arguments*]`
 
-Arguments:  
-`--master, -m`: path to `master.yaml` file. Must be used if `--config` argument is not used.
-`--filter`: used to filter references based on metadata. Takes a pair key:value, or a list of pairs separated by comma: `key:value,key2:value2,key3:value3...`
-`--full`: whether to show the full table including files and location of files.
+**Arguments:**.    
+`--master, -m`: path to `master.yaml` file. Must be used if `--config` argument is not used.   
+`--filter`: used to filter references based on metadata. Takes a pair key:value, or a list of pairs separated by comma: `key:value,key2:value2,key3:value3...`   
+`--full`: whether to show the full table including files and location of files     
 
-Example:
+**Example:**
 `refchef-menu`
 
 ![menu](assets/menu-full.png)
@@ -230,11 +240,8 @@ Example:
 
 ![menu](assets/menu-filtered.png)
 
-### **Inputs**
-
-<a name="master.yaml"></a> 
-
-**master.yaml**
+## **Inputs**
+## master.yaml <a name="master.yaml"></a> 
 
 master.yaml name and header must match
 
@@ -287,9 +294,8 @@ reference_test1:
       uuid: 8040b09f-3844-3c42-b765-1f6a32614895
 ```
 
-<a name="cfg.yaml"></a> 
 
-**cfg.yaml**
+## cfg.yaml <a name="cfg.yaml"></a> 
 
 `cfg.yaml`:
 ```yaml
@@ -302,9 +308,7 @@ config-yaml:
     log: 'yes'
 ```
 
-<a name="cfg.ini"></a> 
-
-**cfg.ini**
+## cfg.ini <a name="cfg.ini"></a> 
 
 `cfg.ini`:
 ```toml
@@ -325,13 +329,7 @@ verbose=yes
 
 ### User workflow diagram
 
-![Diagram](assets/refchef-diagram.svg)
 
-RefChef comes with two main scripts. `refchef-cook` will parse [`master.yaml`](#master.yaml) (located in `github-directory`) and execute the commands listed to download and process reference files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true` and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository (red arrow) or commit and push the changes to a remote repository (blue arrow).  
-
-
-It will also edit `master.yaml` to include information about Based on the argument passed, it will also commit (if using a local repository), and push the `master.yaml` (if also using remote repository) using git. `refchef-menu` is used to list the references already downloaded and processed. It also provides an easy way to find a reference uuid for use when processing new indices. Both scripts require 
-Both scripts can take a `--config (-c)` argument with the path for a config file, that can be one of the following formats:
 
 
 

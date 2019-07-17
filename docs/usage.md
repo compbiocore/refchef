@@ -185,11 +185,11 @@ grch38:
 
 ### **Usage**
 
-## **refchef-cook**
+<a name="refchef-cook"></a> 
 
-Will read recipes and execute the commands that will retrieve the references, indices, or annotations.
+**refchef-cook** will read recipes and execute the commands that will retrieve the references, indices, or annotations.   
 
-Usage: `refchef-cook [*arguments*]`
+Usage: `refchef-cook [*arguments*]`   
 
 Arguments:  
 `--execute, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
@@ -208,7 +208,10 @@ Example:
     `refchef-cook --execute -o /path/to/output/dir --git_local /path/to/git/dir --git_remote user/project_name --git push`
 
 
-## **refchef-menu**
+<a name="refchef-menu"></a>  
+
+**refchef-menu**
+
 This command provides a way for the user to list all references present in the system, based on `master.yaml`, as well as filter the list of references based on metadata options.  
 
 Usage: `refchef-cook [*arguments*]`
@@ -229,7 +232,9 @@ Example:
 
 ### **Inputs**
 
-## **master.yaml**
+<a name="master.yaml"></a> 
+
+**master.yaml**
 
 master.yaml name and header must match
 
@@ -282,7 +287,10 @@ reference_test1:
       uuid: 8040b09f-3844-3c42-b765-1f6a32614895
 ```
 
-## **cfg.yaml**
+<a name="cfg.yaml"></a> 
+
+**cfg.yaml**
+
 `cfg.yaml`:
 ```yaml
 config-yaml:
@@ -293,8 +301,10 @@ config-yaml:
   log-settings:
     log: 'yes'
 ```
-## **cfg.ini**
 
+<a name="cfg.ini"></a> 
+
+**cfg.ini**
 
 `cfg.ini`:
 ```toml

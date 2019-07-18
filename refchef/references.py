@@ -99,7 +99,7 @@ def add_uuid(path_):
 def create_metadata_file(metadata, path_):
     """Creates metadata.txt file."""
     component = path_.split("/")[-1]
-    print(metadata)
+
     with open(os.path.join(path_, "metadata.txt"), "w+") as f:
         f.write("""
 Reference Name: {0}

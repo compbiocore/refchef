@@ -1,54 +1,25 @@
+Create a master.yaml empty template, which yaml fields are required, is the master.yaml tested in anyway re: strings or numbers in the yaml, spell out the file paths in the documentation (like the primary folder is made from the component entry in master.yaml), make sure the install on oscar conda env is correct, we should make the final_checksums.md5 be a built-in, automatic aspect that doesn't need to be hard-coded at the end of master.yaml. What happens if I try to run refchef-cook without the execute flag?  It will add the commands to the master.yaml and you manually move the references? It should just append the information re: the commands you used to download the files to the master.yaml file without executing them if you don't set the -e flag. 
+
+
+
+If you just want to add to master.yaml without executing 
+
 ## **Overview** 
-RefChef is a reference management tool that helps make your next-generation sequencing projects and analyses reproducible. You can use it to document the provenance of reference genomes, transcriptomes, or proteomes downloaded from public databases (as well as their associated indices and annotations). It is a flexible workflow that could also be used to internally track the progress through different versions of draft assemblies. RefChef will: (1) document the exact steps undertaken in the retrieval and processing of genomic references; (2) maintain the associated metadata; (3) provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references.
-<<<<<<< Updated upstream
-
-![Diagram](assets/refchef-diagram.svg)
-
+RefChef is a reference management tool that helps make your next-generation sequencing projects and analyses reproducible. You can use it to document the provenance of reference genomes, transcriptomes, or proteomes downloaded from public databases (as well as their associated indices and annotations). It is a flexible workflow that could also be used to internally track the progress through different versions of draft assemblies. RefChef will: 
+1. document the exact steps undertaken in the retrieval and processing of genomic references; 
+2. maintain the associated metadata; (3) provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references.
 
 **RefChef comes with two commands:**      
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`refchef-cook`](#refchef-cook):     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[**`refchef-cook`**](#refchef-cook):     
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Will read recipes and execute the commands that will retrieve the references, indices, or   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annotations based on the contents of [`master.yaml`](#master.yaml).     
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`refchef-menu`](#refchef-menu):   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[**`refchef-menu`**](#refchef-menu):   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Provides a way for the user to list all references present in the system, based   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on [`master.yaml`](#master.yaml), as well as filter the list of references based on metadata options. 
-
-**RefChef requires a `master.yaml` file:**      
-
-In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) commands, RefChef requires a [`master.yaml`](#master.yaml) containing a list of references, indices, annotations, and metadata, as well as the commands necessary to download and process the files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true`and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository (red arrow in the above figure) or commit and push the changes to a remote repository (blue arrow in the above figure). 
-
-**RefChef requires configuration information:**      
-
-[`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) both require some configuration information, including:
-
-1. Where you'd like the references to be saved 
-2. The local git repository for version control of references
-3. The remote github repository for version control of reference
-  sequences (optional).
-
-This information can be specified in a [`cfg.yaml`](#cfg.yaml) file, a [`cfg.ini`](#cfg.ini) file, or it can be passed as arguments to [`refchef-cook`](#refchef-cook). 
-
-## **Quickstart**
-
-**The following example uses a local repository for tracking references.**
-
-Create your own local repository for tracking references:
-=======
-
 ![Diagram](assets/refchef-diagram.svg)
 
-
-**RefChef comes with two commands:**      
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`refchef-cook`](#refchef-cook):     
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Will read recipes and execute the commands that will retrieve the references, indices, or   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annotations based on the contents of [`master.yaml`](#master.yaml).     
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`refchef-menu`](#refchef-menu):   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Provides a way for the user to list all references present in the system, based   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on [`master.yaml`](#master.yaml), as well as filter the list of references based on metadata options. 
 
 **RefChef requires a `master.yaml` file:**      
 
@@ -266,28 +237,42 @@ This command provides a way for the user to list all references present in the s
 ## **Inputs**
 ## master.yaml <a name="master.yaml"></a> 
 
-master.yaml name and header must match
-
 Example `master.yaml` before processing:  
 
 ```yaml
-reference_test1:
-  metadata:
-    name: reference_test1
-    species: mouse
-    organization: ucsc
-    downloader: fgelin
+grch38:   
+  metadata:   
+    common_name: human   
+    ncbi_taxon_id: 9606
+    organism: homo sapiens
+    organization: ensembl
+    custom: no
+    description: corresponds to ganbank id GCA_000001405.22
+    downloader: joselynn wallace
+    ensembl_release_number: 87
+    accession:
+      genbank:
+      refseq:
   levels:
     references:
     - component: primary
       complete:
         status: false
       commands:
-      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
+      - md5 *.gz > postdownload-checksums.md5
       - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
+      - md5 *.* > final_checksums.md5
 ```
+In the above `master.yaml` file, `grch38` is the reference name, which is a required entry in the `master.yaml` file. 
+
+The next chunk (`metadata`) contains the following fields:
+`common_name`: Required, can be any commonly used name for your reference.
+`ncbi_taxon_id`: Required, see the [NCBI taxonomy browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi) for more information. If your organism doesn't have an NCBI taxonomy assignment (for example, it is a metagenome) you can fill in any other string for this entry (for example, `none` rather than `9606`).
+`organism`: Required, can be any string including genus, species, or strain level information. 
+`organization`: Required, should convey information about which organization was the source of your reference genome (`ensembl`, `refseq`, etc.)
+
 
 Example `master.yaml` after processing:  
 ```yaml

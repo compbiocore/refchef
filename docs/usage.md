@@ -263,6 +263,6 @@ Example:
 
 ![menu](assets/menu-full.png)
 
-`refchef-menu --filter species:human`
+`refchef-menu --filter organism:human`
 
 ![menu](assets/menu-filtered.png)

@@ -10,7 +10,7 @@ import logging
 from refchef import utils
 from refchef.utils import cd
 
-def execute(conf, file_name):
+def execute(conf, file_name, yaml_append=False):
     """Process all steps to create directories, fetch files, and update yaml for
        references/indices/annotations"""
 
@@ -35,7 +35,10 @@ def execute(conf, file_name):
                         logging.info(to_print)
 
                         # Fetch references
-                        fetch(entry['commands'], path_)
+                        if yaml_append:
+                            pass
+                        else:
+                            fetch(entry['commands'], path_)
                         # create metadata file
                         create_metadata_file(yaml_dict[k]['metadata'], path_)
                         # get filenames and add to yaml

@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--git_local', '-gl', type=str, default=False, help='Local git directory, where master.yaml will be located.')
     parser.add_argument('--git_remote', '-gr', type=str, default=False, help='Remote Git repository.')
     parser.add_argument('--logs', '-l', action='store_true', help='Logging mode on/off.')
+    parser.add_argument('--append', '-a', action='store_true', help='Append master.yaml with new commands used for references that have already been downloaded or processed.')
 
     # Parse arguments
     arguments = parser.parse_args()
@@ -126,7 +127,11 @@ def main():
             if arguments.logs:
                 m = read_yaml(os.path.join(conf.git_local, 'master.yaml'))
                 logging.info("\n{0}".format(get_full_menu(m)[['type', 'name', 'component', 'organization', 'uuid']]))
-
+        elif arguments.append:
+            execute(conf, 'master.yaml', yaml_append=arguments.append)
+            if arguments.logs:
+                m = read_yaml(os.path.join(conf.git_local, 'master.yaml'))
+                logging.info("\n{0}".format(get_full_menu(m)[['type', 'name', 'component', 'organization', 'uuid']]))
         git_dir, work_tree = gh.setup_git(conf)
 
         ## Git Steps

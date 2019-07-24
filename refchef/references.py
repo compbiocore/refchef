@@ -84,6 +84,7 @@ def get_filenames(path_):
 
 def add_uuid(path_):
     """Reads final_checksums.md5 and returns id."""
+    print('uuid step')
     if os.path.exists(os.path.join(path_, 'final_checksums.md5')):
         with open(os.path.join(path_, 'final_checksums.md5'), 'r') as f:
             line = f.readline().replace('\n','')

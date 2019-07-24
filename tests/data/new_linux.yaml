@@ -22,4 +22,13 @@ index_test1:
       - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
       - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
-      - md5sum *.fa > final_checksums.md5
+      - md5sum *.fa.gz > final_checksums.md5
+    - component: bwa_index_2
+      complete:
+        status: false
+      src: 8040b09f-3844-3c42-b765-1f6a32614895
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5

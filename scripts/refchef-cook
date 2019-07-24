@@ -104,7 +104,7 @@ def main():
         if arguments.new is not None:
             origin = arguments.new
             destination = os.path.join(conf.git_local, 'master.yaml')
-            utils.append_yaml(origin, destination)
+            utils.merge_yaml(destination, origin)
             master = read_menu(conf)
 
         for r in master.keys():

@@ -47,7 +47,7 @@ def execute(conf, file_name, yaml_append=False):
                         # flip complete flag
                         yaml_dict[k]['levels'][level][i]['complete']['status'] = True
                         # add time of completion
-                        now = datetime.datetime.now()
+                        now = "{}".format(datetime.datetime.now())
                         yaml_dict[k]['levels'][level][i]['complete']['time'] = now
                         # get md5 and add to yaml
                         yaml_dict[k]['levels'][level][i]['uuid'] = add_uuid(path_)

@@ -44,9 +44,20 @@ def get_full_menu(master):
     m = metadata.reset_index().drop(columns=["f"], level="d")['c']
     #create full table (menu)
     menu = m.merge(levels)
-    menu.columns = ["downloader", "name", "organization", "species", "component", "files", "location", "uuid", "type"]
 
-    menu = menu[["type", "name", "species", "organization", "component", "downloader", "files", "location", "uuid"]]
+    cols = ['common_name', 'custom', 'description', 'downloader',
+       'ensembl_release_number', 'genbank', 'name', 'ncbi_taxon_id',
+       'organism', 'organization', 'refseq', 'component', 'files',
+       'location', 'uuid', 'type']
+
+    if ('genbank' not in menu.columns):
+        cols.remove('genbank')
+
+    if ('refseq' not in menu.columns):
+        cols.remove('refseq')
+
+    menu.columns = cols
+
     return menu
 
 def filter_menu(menu, key, value):
@@ -78,6 +89,19 @@ def multiple_filter(menu, string):
 
     return filtered
 
+def get_metadata(menu, name):
+    """Return metadata for reference"""
+    meta = menu.loc[menu['name'] == name]
+    cols = ['common_name', 'custom', 'description', 'downloader',
+        'ensembl_release_number', 'name', 'ncbi_taxon_id', 'organism',
+        'organization']
+
+    if 'genbank' in meta.columns:
+        cols.append('genbank')
+    if 'refseq' in meta.columns:
+        cols.append('refseq')
+
+    return meta[cols]
 
 def pretty_print(menu):
     """Print table with puppy emoji"""

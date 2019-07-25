@@ -1,13 +1,9 @@
-Create a master.yaml empty template, which yaml fields are required, is the master.yaml tested in anyway re: strings or numbers in the yaml, spell out the file paths in the documentation (like the primary folder is made from the component entry in master.yaml), make sure the install on oscar conda env is correct, we should make the final_checksums.md5 be a built-in, automatic aspect that doesn't need to be hard-coded at the end of master.yaml. What happens if I try to run refchef-cook without the execute flag?  It will add the commands to the master.yaml and you manually move the references? It should just append the information re: the commands you used to download the files to the master.yaml file without executing them if you don't set the -e flag. 
-
-
-
-If you just want to add to master.yaml without executing 
 
 ## **Overview** 
-RefChef is a reference management tool that helps make your next-generation sequencing projects and analyses reproducible. You can use it to document the provenance of reference genomes, transcriptomes, or proteomes downloaded from public databases (as well as their associated indices and annotations). It is a flexible workflow that could also be used to internally track the progress through different versions of draft assemblies. RefChef will: 
-1. document the exact steps undertaken in the retrieval and processing of genomic references; 
-2. maintain the associated metadata; (3) provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references.
+RefChef is a reference management tool that helps make your sequencing projects and analyses reproducible. You can use it to document the provenance of reference sequences downloaded from public databases, as well as their associated indices and annotations. It is a flexible workflow that could also be used to internally track the progress through different versions of draft assemblies. RefChef will: 
+1. Document the exact steps undertaken in the retrieval and processing of genomic references   
+2. Maintain the associated metadata   
+3. Provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references  
 
 **RefChef comes with two commands:**      
 
@@ -23,104 +19,36 @@ RefChef is a reference management tool that helps make your next-generation sequ
 
 **RefChef requires a `master.yaml` file:**      
 
-In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) commands, RefChef requires a [`master.yaml`](#master.yaml) containing a list of references, indices, annotations, and metadata, as well as the commands necessary to download and process the files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true`and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository (red arrow in the above figure) or commit and push the changes to a remote repository (blue arrow in the above figure). 
+In addition to the [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) commands, RefChef requires a [`master.yaml`](#master.yaml) containing a list of references, indices, annotations, and metadata, as well as the commands necessary to download and process the files. When [`refchef-cook`](#refchef-cook) is executed, RefChef will append the [`master.yaml`](#master.yaml) to change the `complete` option from `false` to `true`and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files. Based on the arguments you pass to [`refchef-cook`](#refchef-cook), it will either commit those changes to [`master.yaml`](#master.yaml) to a local repository or commit and push the changes to a remote repository. 
 
 **RefChef requires configuration information:**      
 
 [`refchef-cook`](#refchef-cook) and [`refchef-menu`](#refchef-menu) both require some configuration information, including:
 
 1. Where you'd like the references to be saved 
-2. The local git repository for version control of references
+2. The local git repository for version control of references   
 3. The remote github repository for version control of reference
-  sequences (optional).
+  sequences (optional).   
 
 This information can be specified in a [`cfg.yaml`](#cfg.yaml) file, a [`cfg.ini`](#cfg.ini) file, or it can be passed as arguments to [`refchef-cook`](#refchef-cook). 
 
 ## **Quickstart**
-[Create a remote repository.](https://help.github.com/en/articles/creating-a-new-repository) and [clone it.](https://help.github.com/en/articles/cloning-a-repository)
+[Create a remote repository](https://help.github.com/en/articles/creating-a-new-repository) and [clone it.](https://help.github.com/en/articles/cloning-a-repository).  
+
+Create a directory for refchef to save your references.
+
+Create a [`master.yaml`](#master.yaml) file and save it in your local git repository directory. Here is a [`master.yaml`](#master.yaml) file that will download a yeast genome from Ensembl:
 
 ```
-git clone https://github.com/JRWallace/remote_references.git
-```
-
-Create a directory for refchef to store your references:
-```
-mkdir /Volumes/jwalla12/references
-```
-
-Create a [`master.yaml`](#master.yaml) file and save it in your local git repository directory. Here is a [`master.yaml`](#master.yaml) file that will download chromosome 1 of the grch38 human genome from Ensembl:
-
-```
-grch38:
-  metadata:
-    common_name: human
-    ncbi_taxon_id: 9606
-    organism: homo sapiens
-    organization: ensembl
-    custom: no
-    description: corresponds to ganbank id GCA_000001405.22
-    downloader: joselynn wallace
-    ensembl_release_number: 87
-    accession:
-      genbank:
-      refseq:
-  levels:
-    references:
-    - component: primary
-      complete:
-        status: false
-      commands:
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
-      - md5 *.gz > postdownload-checksums.md5
-      - gunzip *.gz
-      - md5 *.* > final_checksums.md5
-
 ```
 Pass the configuration arguments in a config file or directly to [`refchef-cook`](#refchef-cook) (as seen in the following example):
 
 ```
-refchef-cook -e -o /Volumes/jwalla12/references -gl /Volumes/jwalla12/remote_references/remote_references -gr jrwallace/remote_references -g commit
 ```
 
 After [`refchef-cook`](#refchef-cook) is run, [`master.yaml`](#master.yaml) will reflect that you have downloaded the references and it will now look like this:
 
 ```
-grch38:
-  metadata:
-    name: grch38
-    common_name: human
-    ncbi_taxon_id: 9606
-    organism: homo sapiens
-    organization: ensembl
-    custom: false
-    description: corresponds to ganbank id GCA_000001405.22
-    downloader: joselynn wallace
-    ensembl_release_number: 87
-    accession:
-      genbank: null
-      refseq: null
-  levels:
-    references:
-    - component: primary
-      complete:
-        status: true
-        time: 2019-07-18 14:43:33.302255
-      commands:
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
-      - md5 *.gz > postdownload-checksums.md5
-      - gunzip *.gz
-      - md5 *.* > final_checksums.md5
-      location: /Volumes/jwalla12/references/grch38/primary
-      files:
-      - CHECKSUMS
-      - final_checksums.md5
-      - Homo_sapiens.GRCh38.dna.chromosome.1.fa
-      - metadata.txt
-      - postdownload-checksums.md5
-      uuid: ce305c7a-7473-30da-b7e5-7d4fd9185975
-
 ```
 
 To add more files (we will add a bwa index), create a new branch. Here, we make a branch called 'bwa_index_grch38':
@@ -330,5 +258,3 @@ log=yes
 break-on-error=yes
 verbose=yes
 ```
-
-

@@ -10,7 +10,7 @@ import logging
 from refchef import utils
 from refchef.utils import cd
 
-def execute(conf, file_name):
+def execute(conf, file_name, yaml_append=False):
     """Process all steps to create directories, fetch files, and update yaml for
        references/indices/annotations"""
 
@@ -35,7 +35,10 @@ def execute(conf, file_name):
                         logging.info(to_print)
 
                         # Fetch references
-                        fetch(entry['commands'], path_)
+                        if yaml_append:
+                            pass
+                        else:
+                            fetch(entry['commands'], path_)
                         # create metadata file
                         create_metadata_file(yaml_dict[k]['metadata'], path_)
                         # get filenames and add to yaml
@@ -44,7 +47,7 @@ def execute(conf, file_name):
                         # flip complete flag
                         yaml_dict[k]['levels'][level][i]['complete']['status'] = True
                         # add time of completion
-                        now = datetime.datetime.now()
+                        now = "{}".format(datetime.datetime.now())
                         yaml_dict[k]['levels'][level][i]['complete']['time'] = now
                         # get md5 and add to yaml
                         yaml_dict[k]['levels'][level][i]['uuid'] = add_uuid(path_)
@@ -56,7 +59,6 @@ def execute(conf, file_name):
     # save updated master.yaml files
     logging.info("References processed: {0}".format(keys))
     logging.info("Location of references: {0}".format(conf.reference_dir))
-
     utils.save_yaml(yaml_dict, yaml_file)
 
 def create_reference_directories(reference_dir, key, component):
@@ -82,6 +84,7 @@ def get_filenames(path_):
 
 def add_uuid(path_):
     """Reads final_checksums.md5 and returns id."""
+    print('uuid step')
     if os.path.exists(os.path.join(path_, 'final_checksums.md5')):
         with open(os.path.join(path_, 'final_checksums.md5'), 'r') as f:
             line = f.readline().replace('\n','')
@@ -102,12 +105,33 @@ def create_metadata_file(metadata, path_):
     component = path_.split("/")[-1]
 
     with open(os.path.join(path_, "metadata.txt"), "w+") as f:
-        f.write("Reference Name: " + metadata["name"] + "\n")
-        f.write("Component Name: " + component + "\n")
-        f.write("Species: " + metadata["species"] + "\n")
-        f.write("Organization: " + metadata["organization"] + "\n")
-        f.write("Downloaded by: " + metadata["downloader"] + "\n")
-        f.write("Downloaded on: {}".format(datetime.datetime.now()))
+        f.write("""
+Reference Name: {0}
+Component Name: {1}
+Species: {2}
+NCBI Taxon ID: {3}
+Common Name: {4}
+Organization: {5}
+Description: {6}
+Ensembl release number: {7}
+Genbank Accession: {8}
+RefSeq Accession: {9}
+Downloaded by: {10}
+Downloaded on: {11}
+        """.format(metadata["name"],
+                   component,
+                   metadata["organism"],
+                   metadata["ncbi_taxon_id"],
+                   metadata["common_name"],
+                   metadata["organization"],
+                   metadata["description"],
+                   metadata["ensembl_release_number"],
+                   metadata["accession"]["genbank"],
+                   metadata["accession"]["refseq"],
+                   metadata["downloader"],
+                   datetime.datetime.now()
+                     ))
+
 
 def get_reference_by_uuid(yaml_dict, id_):
     """ Finds reference directory by uuid """

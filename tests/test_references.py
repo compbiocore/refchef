@@ -93,7 +93,7 @@ def test_create_metadata(conf, master, dir):
         lines = f.readlines()
 
     assert os.path.exists(os.path.join(dir, 'metadata.txt'))
-    assert len(lines) == 6
+    assert len(lines) == 14
 
 def test_get_reference_by_uuid(conf, master):
     path_ = os.path.join(conf.git_local, master)

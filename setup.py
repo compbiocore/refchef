@@ -41,7 +41,8 @@ setuptools.setup(
         "configparser",
         "pytest>=3.6",
         "coverage>=4.4",
-        "pytest-cov>=2.0"
+        "pytest-cov>=2.0",
+        "hiyapyco"
         ],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],

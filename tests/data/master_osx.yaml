@@ -1,8 +1,16 @@
 reference_test1:
   metadata:
     name: reference_test1
-    species: mouse
-    organization: ucsc
+    organism: mouse
+    common_name: mouse
+    ncbi_taxon_id: 9606
+    organization: ensembl
+    description: 'null'
+    accession:
+      genbank: null
+      refseq: null
+    ensembl_release_number: 87
+    custom: false
     downloader: fgelin
   levels:
     references:

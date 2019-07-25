@@ -5,7 +5,7 @@ import oyaml as yaml
 import yamlloader
 from collections import OrderedDict, defaultdict, Mapping
 from future.utils import iteritems
-
+import hiyapyco
 
 def read_yaml(file_path):
     """Simple function to read yaml file"""
@@ -21,25 +21,17 @@ def save_yaml(object, file_path):
               indent=2,
               default_flow_style=False)
 
-def update(d, u):
-    """Updates dictionary recursively"""
-    for k, v in iteritems(u):
-        if isinstance(v, Mapping):
-            d[k] = update(d.get(k, {}), v)
-        else:
-            d[k] = v
-    return d
+def merge_yaml(master, new):
+    """Merge yaml files"""
+    conf = hiyapyco.load(master,
+                         new,
+                         method=hiyapyco.METHOD_MERGE,
+                         interpolate=True,
+                         failonmissingfiles=True,
+                         mergelists=False,
+                         loglevel='ERROR')
 
-
-def append_yaml(origin, destination):
-    """Reads two yaml files, append the first to the second."""
-    ori = read_yaml(destination)
-    dest = read_yaml(origin)
-
-    appended = update(ori, dest)
-
-    save_yaml(appended, destination)
-
+    save_yaml(conf, master)
 
 def process_logical(text):
     """

@@ -1,6 +1,7 @@
 
 ## **Overview** 
-RefChef is a reference management tool that helps make your sequencing projects and analyses reproducible. You can use it to document the provenance of reference sequences downloaded from public databases, as well as their associated indices and annotations. It is a flexible workflow that could also be used to internally track the progress through different versions of draft assemblies. RefChef will:   
+RefChef is a reference management system that includes additional tools to record the provenance of reference sequences, indices, and annotations. It was created to enable reproducible research.    
+RefChef will:   
 
 1. Document the exact steps undertaken in the retrieval and processing of genomic references   
 2. Maintain the associated metadata   
@@ -8,13 +9,11 @@ RefChef is a reference management tool that helps make your sequencing projects 
 
 **RefChef comes with two commands:**      
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[**`refchef-cook`**](#refchef-cook):     
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Will read recipes and execute the commands that will retrieve the references, indices, or   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annotations based on the contents of [`master.yaml`](#master.yaml).     
+[**`refchef-cook`**](#refchef-cook):     
+Will read recipes and execute the commands that will retrieve the references, indices, or annotations based on the contents of [`master.yaml`](#master.yaml).     
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[**`refchef-menu`**](#refchef-menu):   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Provides a way for the user to list all references present in the system, based   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on [`master.yaml`](#master.yaml), as well as filter the list of references based on metadata options. 
+[**`refchef-menu`**](#refchef-menu):   
+Provides a way for the user to list all references present in the system, based on [`master.yaml`](#master.yaml), as well as filter the list of references based on metadata options. 
 ![Diagram](assets/refchef-diagram.svg)
 
 
@@ -128,14 +127,10 @@ S_cerevisiae:
       commands:
       - mkdir /Users/jwalla12/references/S_cerevisiae/bowtie2_index
       - cd /Users/jwalla12/references/S_cerevisiae/bowtie2_index
-      - ln -s /Users/jwalla12/references/S_cerevisiae/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /Users/jwalla12/references/S_cerevisiae/bowtie2_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-      - bowtie2-build /Users/jwalla12/references/S_cerevisiae/bowtie2_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa S_cerevisiae
-      - md5 /Users/jwalla12/references/S_cerevisiae/bowtie2_index/*.* > /Users/jwalla12/references/S_cerevisiae/bowtie2_index/final_checksums.md5
+      - ln -s /Users/jwalla12/references/S_cerevisiae/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa ./Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa 
+      - bowtie2-build Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa S_cerevisiae
+      - md5 ./*.* > ./final_checksums.md5
 ```
-
-!!! Caution 
-    Note that in the above example of a new YAML, metadata entries present in the initial [`master.yaml`](#master.yaml) file have been omitted (for example, `ncbi_taxon_id:`, `common_name:`). When adding indices or annotations to a primary reference already in [`master.yaml`](#master.yaml), the metadata in [`master.yaml`](#master.yaml) will be overwritten by the metadata in the new.yaml file. This could be helpful in situations where you want to update the metadata fields.
-
 
 Then use [`refchef-cook`](#refchef-cook) and specify the new yaml to add to [`master.yaml`](#master.yaml).
 
@@ -156,9 +151,9 @@ S_cerevisiae:
       commands:
       - mkdir /Users/jwalla12/references/S_cerevisiae/bwa_index
       - cd /Users/jwalla12/references/S_cerevisiae/bwa_index
-      - ln -s /Users/jwalla12/references/S_cerevisiae/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /Users/jwalla12/references/S_cerevisiae/bwa_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-      - bwa index /Users/jwalla12/references/S_cerevisiae/bwa_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa > /Users/jwalla12/references/S_cerevisiae/bwa_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-      - md5 /Users/jwalla12/references/S_cerevisiae/bwa_index/*.* > /Users/jwalla12/references/S_cerevisiae/bwa_index/final_checksums.md5
+      - ln -s /Users/jwalla12/references/S_cerevisiae/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa ./Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+      - bwa index Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa -p S_cerevisiae
+      - md5 ./*.* > ./final_checksums.md5
 ```
 
 Then use [`refchef-cook`](#refchef-cook) and specify the new yaml to add to [`master.yaml`](#master.yaml).
@@ -199,7 +194,7 @@ refchef-menu -f /Users/jwalla12/remote_references/master.yaml
 ├──────────────┼──────────────────────────┼───────────────┼───────────────────────────────────────────┼──────────────────────────────────────┤
 │ S_cerevisiae │ Saccharomyces cerevisiae │ gtf           │ corresponds to genbank id GCA_000146045.2 │ 5f7ae94c-2e51-3cc6-bcbf-6e251c75ef2f │
 │ S_cerevisiae │ Saccharomyces cerevisiae │ bowtie2_index │ corresponds to genbank id GCA_000146045.2 │ 93393699-cb40-3ad7-ac07-ae4bdb1efd3e │
-│ S_cerevisiae │ Saccharomyces cerevisiae │ bwa_index     │ corresponds to genbank id GCA_000146045.2 │ 482c6e70-389e-3559-8c19-d86cac067060 │
+│ S_cerevisiae │ Saccharomyces cerevisiae │ bwa_index     │ corresponds to genbank id GCA_000146045.2 │ dff337a6-9a1d-3313-8ced-dc6f3bfc9689 │
 │ S_cerevisiae │ Saccharomyces cerevisiae │ primary       │ corresponds to genbank id GCA_000146045.2 │ dff337a6-9a1d-3313-8ced-dc6f3bfc9689 │
 └──────────────┴──────────────────────────┴───────────────┴───────────────────────────────────────────┴──────────────────────────────────────┘
 ```
@@ -372,7 +367,7 @@ refchef-menu [*arguments*]
 ###**master.yaml** <a name="master.yaml"></a>    
 
 **master.yaml overview**      
-Refchef makes use of YAML files that are composed of nested entry and value pairs -- for example, the entry and value pair `common_name`: `yeast`. The spacing and indentation of the entries and values are meaningful - Refchef uses the convention of using 2 spaces to indent each subsequent level of the entries and values in the YAML. Additionally, the spaces and colons are important: be sure to include a `:` and space between each entry and value. 
+Refchef uses YAML files that are composed of nested entry and value pairs -- for example, the entry and value pair `common_name`: `yeast`. The spacing and indentation of the entries and values are meaningful - Refchef uses the convention of using 2 spaces to indent each subsequent level of the entries and values in the YAML. Additionally, the spaces and colons are important: be sure to include a `:` and space between each entry and value. Some entries in the yaml (`- component:`, commands under the `commands` header) will have a preceeding `-` and a space before them, which are required for Refchef to properly process the YAML.
 
 Example `master.yaml` before processing:
 ```yaml
@@ -403,14 +398,15 @@ S_cerevisiae:
       - md5 *.* > final_checksums.md5
 ```
 **master.yaml keys**    
-The first line of the yaml is the `key` for the block of code that follows it (`S_cerevisiae:` in the above example).   
+The first line of the yaml is the `key` for the block of code that follows it (`S_cerevisiae:` in the above example), they key must:  
     1. The `key` must be a string.   
-    2. The `key` must match the `name` entry under the `metadata` header of the yaml.   
+    2. The `key` must match the `name` entry under the `metadata` header of the yaml.    
+    3. Each `key` in a given `master.yaml` should be unique.  
 
-The string of text entered in `key` field will be used to create a folder inside the directory you specify as your output in your config file (cfg.ini or cfg.yaml) or `refchef-cook` arguments. In the previous quickstart example, we used `/Users/jwalla12/references` as the output directory for `refchef-cook` and here is the collapsed file tree that refchef created, note that the folders containing the primary references, indices, and gtf annotations are nested inside a folder named `S_cerevisiae`.
+The string of text entered in the `key` field will be used to create a folder inside the directory you specify as your output in your config file (cfg.ini or cfg.yaml) or `refchef-cook` arguments. In the previous quickstart example, we used `/Users/jwalla12/references` as the output directory for `refchef-cook`. Here is the collapsed file tree that refchef created, note that the folder containing the primary reference is nested inside a folder named `S_cerevisiae` based on the `key`.
 
 ```
-./Users/jwalla12/references
+./Users/jwalla12/references #this directory is specified in refchef-cook or the config files
 └── S_cerevisiae
     ├── bowtie2_index
     ├── bwa_index
@@ -419,12 +415,11 @@ The string of text entered in `key` field will be used to create a folder inside
 
 ```
 **master.yaml metadata**    
-The `metadata` section must contain all of the following fields listed below (although not all of them need to be filled out). Also indicated below: if filling the fields out is required (Yes or No), their expected format, and a brief description of their expected content:
+Right after the `key` is the `metadata` section, which must contain the fields listed below (although not all of them need to be filled out). Also indicated below: if filling the fields out is required, their expected format, and a brief description of their expected content:
 
-```
-
+```yaml
   metadata:
-    name:                   Required, string, should match `key`
+    name:                   Required, string, should match `key`, creates a directory in the output folder
     common_name:            Required, string, common name of organism or 'none' of not applicable. 
     ncbi_taxon_id:          Required, integer, based on NCBI conventions, enter 'none' if not applicable
     organism:               Required, string, suggest using genus, species, and/or strain identifiers
@@ -437,86 +432,80 @@ The `metadata` section must contain all of the following fields listed below (al
       genbank:   Not required, string, leave blank if reference is not from genbank
       refseq:    Not required, string, leave blank if reference is not from refseq
 ```
+
+!!! Caution 
+    When running a new YAML file to add additional information to a primary reference, metadata entries present in the initial [`master.yaml`](#master.yaml) file can be omitted (for example, `ncbi_taxon_id:`, `common_name:`). When adding indices or annotations to a primary reference already in [`master.yaml`](#master.yaml), the metadata in [`master.yaml`](#master.yaml) will be overwritten by the metadata in the new.yaml file. This could be helpful in situations where you want to update the metadata fields.
+
 **master.yaml levels**    
-The `levels` section contains following fields below. Also indicated below: if filling the fields out is required (Yes or No), their expected format, and a brief description of their expected content:
+The `levels` section contains following fields below. Also indicated below: if filling the fields out is required, their expected format, and a brief description of their expected content:
 
-```
-    references: 
-
-    - component:              Yes, string
-                              must be either 'primary', 'indices', or 'annotations'  
-      complete:
-
-        status:               Yes, string
-                              'true'/'false', refchef will execute commands only if 'false'
-      commands:
-
-```
-
-
-
-
-
-
-In the above `master.yaml` file, `grch38` is the reference name, which is a required entry in the `master.yaml` file. 
-
-The next chunk (`metadata`) contains the following fields:
-`common_name`: Required, can be any commonly used name for your reference.
-`ncbi_taxon_id`: Required, see the [NCBI taxonomy browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi) for more information. If your organism doesn't have an NCBI taxonomy assignment (for example, it is a metagenome) you can fill in any other string for this entry (for example, `none` rather than `9606`).
-`organism`: Required, can be any string including genus, species, or strain level information. 
-`organization`: Required, should convey information about which organization was the source of your reference genome (`ensembl`, `refseq`, etc.)
-
-
-Example `master.yaml` after processing:  
 ```yaml
-reference_test1:
-  metadata:
-    name: reference_test1
-    species: mouse
-    organization: ucsc
-    downloader: fgelin
-  levels:
-    references:
-    - component: primary
+ levels:
+    references: 
+    - component:              Required, string, must be either 'primary', 'indices', or 'annotations'                         
       complete:
-        status: true
-        time: 2018-12-20 11:14:13.153237
+        status:               Required, string, must be 'true' or 'false', refchef will execute commands only if 'false'
+      src:                    Including the 'src:' field is optional -- use this to indicate the uuid of the primary reference that should be linked to an index file.
       commands:
-      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
-      - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
-      location: refchef-data/reference_test1/primary
-      files:
-      - chr1.fa
-      - metadata.txt
-      - postdownload_checksums.md5
-      - final_checksums.md5
-      uuid: 8040b09f-3844-3c42-b765-1f6a32614895
+
 ```
+!!! Caution 
+    The entry `status` must be set to `false` for Refchef to exeecute the commands in the code block. If it is set to `true`, the code will not execute (even if the -e flag is set). After a code block is executed, the `false` flag will flip to `true` automatically and the `time:` entry will appear under the `status` header. The `time:` header will be populated with the datetime stamp the reference was downloaded. 
+
+**master.yaml commands**    
+This portion of the `master.yaml` should be populated with the specific commands you want to execute to download and process your reference. Each command should be prepended with a `-` and a space. 
+
+!!! Caution 
+    Each time files are processed using a set of commands in the YAML, the last command must run `md5` on all of the files and direct the output to a file called `final_checksums.md5`.
 
 
-### cfg.yaml <a name="cfg.yaml"></a> 
+### **cfg.yaml** <a name="cfg.yaml"></a> 
+**overview**     
+Refchef requires configuration information, which can be passed as arguments or specified in a configuration file. A `cfg.yaml` is one option for configuration and should contain the following fields. Also indicated below: If filling out the field is required, their expected format, and a brief description of their contents. 
 
-`cfg.yaml`:
 ```yaml
 config-yaml:
   path-settings:
-    reference-directory: ~/data/references_dir # directory where references will be downloaded and processed.
-    git-directory: ~/data/git_local # local git repository where `master.yaml` is located.
-    remote-repository: user/repo # remote user and repository for version control of `master.yaml`
+    reference-directory:  Required, string, directory where references will be downloaded and processed.
+    git-directory:        Required, string, directory of local git repository where `master.yaml` is located.
+    remote-repository:    Not required, string (user/repo), used for remote version control of `master.yaml`
+  log-settings:
+    log:     Required, should be 'yes' or 'no' (in single quotes), indicate if log files should be created.
+```
+**example:**
+```yaml
+config-yaml:
+  path-settings:
+    reference-directory: /Users/jwalla12/references
+    git-directory: /Users/jwalla12/remote_references
+    remote-repository: jrwallace/remote_references
   log-settings:
     log: 'yes'
 ```
 
-### cfg.ini <a name="cfg.ini"></a> 
+### **cfg.ini** <a name="cfg.ini"></a> 
+**overview**     
+Refchef requires configuration information, which can be passed as arguments or specified in a configuration file. A `cfg.ini` is one option for configuration and should contain the following fields. Also indicated below: If filling out the field is required, their expected format, and a brief description of their contents. 
 
 `cfg.ini`:
 ```toml
 [path-settings]
-reference-directory=~/data/references_dir #directory where references will be downloaded and processed.
-git-directory=~/data/git_local #local git repository where `master.yaml` is located.
-remote-repository=user/repo # remote user and repository for version control of `master.yaml`
+reference-directory=    Required, string, directory where references will be downloaded and processed.
+git-directory=          Required, string, directory of local git repository where `master.yaml` is located.
+remote-repository=      Not required, string (user/repo), used for remote version control of `master.yaml` 
+[log-settings]
+log=                    Required, should be 'yes' or 'no' (in single quotes), indicate if log files should be created.
+[runtime-settings]
+break-on-error=yes      Required, should be 'yes' or 'no' (in single quotes)
+verbose=yes             Required, should be 'yes' or 'no' (in single quotes)
+```
+**example:**
+
+```toml
+[path-settings]
+reference-directory=/Users/jwalla12/references
+git-directory=/Users/jwalla12/remote_references
+remote-repository=jrwallace/remote_references
 [log-settings]
 log=yes
 [runtime-settings]
@@ -524,9 +513,70 @@ break-on-error=yes
 verbose=yes
 ```
 
-## **Files** <a name="files"></a> 
+## **Folders and Files** <a name="files"></a> 
 
+Refchef creates several folders based on:    
+1. The master.yaml key (which should match the 'name' entry under 'metadata' in master.yaml).   
+2. The 'component' entry under 'levels' in master.yaml.   
+
+ Here is the collapsed file tree that refchef created from the quickstart part of the documentation and what the directory names are based on:  
 
 ```
+./Users/jwalla12/references #this directory is specified in refchef-cook or the config files
+└── S_cerevisiae            #this is named after the 'key' and the 'name' entry under 'metadata' in master.yaml
+    ├── bowtie2_index       #this folder is created in the master.yaml `commands` section.
+    ├── bwa_index           #this folder is created in the master.yaml `commands` section.
+    ├── gtf                 #this folder is created in the master.yaml `commands` section.
+    └── primary             #this is named after the 'component' entry under 'levels' in master.yaml
+```
+
+Here is the expanded file tree: 
 
 ```
+./Users/jwalla12/references 
+└── S_cerevisiae      
+    ├── bowtie2_index 
+    │   └── metadata.txt
+    ├── bwa_index     
+    │   └── metadata.txt
+    ├── gtf          
+    │   ├── CHECKSUMS
+    │   ├── Saccharomyces_cerevisiae.R64-1-1.87.gtf
+    │   ├── final_checksums.md5
+    │   ├── metadata.txt
+    │   └── postdownload-checksums.md5
+    └── primary      
+        ├── CHECKSUMS
+        ├── Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+        ├── bowtie2_index -> /Users/jwalla12/references/S_cerevisiae/bowtie2_index
+        ├── bwa_index -> /Users/jwalla12/references/S_cerevisiae/bwa_index
+        ├── final_checksums.md5
+        ├── metadata.txt
+        └── postdownload-checksums.md5
+```
+This indicates that refchef has created symlinked directories for bowtie2 and bwa indices  in `/Users/jwalla12/references/S_cerevisiae/primary`. This process (linking reference and index) is triggered by:
+1. The addition of the `src:` line in bowtie2.yaml and bwa.yaml
+2. Specifying the master.yaml `levels` are `indices:` in the master.yaml
+
+If we look at the output from `refchef-menu`, we see the UUID for the primary reference file, which is `dff337a6-9a1d-3313-8ced-dc6f3bfc9689`.
+
+```
+┌ 🐶 RefChef Menu ────────────────────────┬───────────┬───────────────────────────────────────────┬──────────────────────────────────────┐
+│ name         │ organism                 │ component │ description                               │ uuid                                 │
+├──────────────┼──────────────────────────┼───────────┼───────────────────────────────────────────┼──────────────────────────────────────┤
+│ S_cerevisiae │ Saccharomyces cerevisiae │ primary   │ corresponds to ganbank id GCA_000146045.2 │ dff337a6-9a1d-3313-8ced-dc6f3bfc9689 │
+└──────────────┴──────────────────────────┴───────────┴───────────────────────────────────────────┴──────────────────────────────────────┘
+```
+In this clipping from bowtie2.yaml, note that the UUID was indicated in the `src:` entry under `component`, `indices`, and `levels`.
+
+```yaml
+S_cerevisiae:
+  levels:
+    indices:
+    - component: bowtie2_index
+      complete:
+        status: false
+      src: dff337a6-9a1d-3313-8ced-dc6f3bfc9689 
+```
+
+This indicates which primary reference was used to create the index file.

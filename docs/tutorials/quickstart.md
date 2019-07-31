@@ -294,8 +294,8 @@ Example:
 
 `refchef-menu`
 
-![menu](assets/menu-full.png)
+![menu](../assets/menu-full.png)
 
 `refchef-menu --filter species:human`
 
-![menu](assets/menu-filtered.png)
+![menu](../assets/menu-filtered.png)

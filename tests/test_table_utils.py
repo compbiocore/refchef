@@ -23,12 +23,12 @@ def test_split_filter():
     assert t[1] == "2"
 
 def test_table_columns(menu): #takes the fixture created above as an argument.
-    assert menu.shape == (1,9)
+    assert menu.shape == (2,14)
 
 def test_filter(menu):
-    filtered = filter_menu(menu, "species", "mouse")
-    assert filtered.shape == (1,9)
-    for i in list(filtered["species"]):
+    filtered = filter_menu(menu, "organism", "mouse")
+    assert filtered.shape == (2,14)
+    for i in list(filtered["organism"]):
         assert i == "mouse"
 
     filtered2 = filter_menu(menu, "type", "references")
@@ -36,19 +36,19 @@ def test_filter(menu):
         assert i == "references"
 
 def test_multiple_filter(menu):
-    s1 = "species:mouse"
-    s2 = "species:mouse,type:references"
+    s1 = "organism:mouse"
+    s2 = "organism:mouse,type:references"
 
     f1 = multiple_filter(menu, s1)
-    assert f1.shape == (1,9)
-    for i in list(f1["species"]):
+    assert f1.shape == (2,14)
+    for i in list(f1["organism"]):
         assert i == "mouse"
 
     f2 = multiple_filter(menu, s2)
     print(f2)
-    assert f2.shape == (1,9)
+    assert f2.shape == (1,14)
 
-    for i in list(f2["species"]):
+    for i in list(f2["organism"]):
         assert i == "mouse"
 
     for i in list(f2["type"]):

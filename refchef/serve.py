@@ -7,7 +7,9 @@ def get_items(master):
     for i, r in menu.iterrows():
         item = {'type': r['type'],
                 'name': r['name'],
-                'species': r['species'],
+                'organism': r['organism'],
+                'common_name': r["common_name"],
+                'ncbi_taxon_id': r["ncbi_taxon_id"],
                 'organization': r['organization'],
                 'component': r['component'],
                 'downloader': r['downloader'],

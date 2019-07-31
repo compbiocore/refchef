@@ -31,3 +31,5 @@ nav:
   - Usage: 'usage.md'
   - YAML specs: 'specs.md'
   - RefChef serve: 'serve.md'
+  - Tutorials:
+      - QuickStart: tutorials/quickstart.md

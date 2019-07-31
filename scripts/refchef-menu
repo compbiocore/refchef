@@ -20,9 +20,10 @@ def main():
     # parser.add_argument("--regex", "-r",
     #                     help="Whether value passed to filter is a regex expression.",
     #                     action="store_true")
-    parser.add_argument('--master', '-m', type=str, help='Path do to master.yaml')
+    parser.add_argument('--master', '-f', type=str, help='Path do to master.yaml')
     parser.add_argument('--config', '-c', type=str, help='Path do to config file in .yaml or .ini format.')
     parser.add_argument('--full', action='store_true', help='Whether to show full table, including location and names of files.')
+    parser.add_argument('--meta', '-m', type=str, help='Return metadata for specific reference.')
     # Parse arguments
     arguments = parser.parse_args()
 
@@ -41,19 +42,23 @@ def main():
 
     menu = get_full_menu(master)
 
-    if (arguments.filter is not None):
-        filtered = multiple_filter(menu, arguments.filter)
-        if arguments.full:
-            pretty_print(filtered)
-        else:
-            partial = filtered.drop(columns=['location', 'files'])
-            pretty_print(partial)
+    if (arguments.meta is not None):
+        pretty_print(get_metadata(menu, arguments.meta))
     else:
-        if arguments.full:
-            pretty_print(menu)
+        if (arguments.filter is not None):
+            filtered = multiple_filter(menu, arguments.filter)
+            if arguments.full:
+                pretty_print(filtered)
+            else:
+                partial = filtered[['name', 'organism', 'component', 'description', 'uuid']]
+
+                pretty_print(partial)
         else:
-            partial = menu.drop(columns=['location', 'files'])
+            if arguments.full:
+                pretty_print(menu)
+            else:
+                partial = menu[['name', 'organism', 'component', 'description', 'uuid']]
             pretty_print(partial)
-            
+
 if __name__ == '__main__':
     main()

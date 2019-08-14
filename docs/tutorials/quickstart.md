@@ -1,301 +1,257 @@
-# Overview 
-RefChef comes with two main commands (`refchef-cook` and `refchef-menu`). 
+## **Quickstart**
 
-- **refchef-cook** *link to options section* : Will read recipes and execute the commands that will retrieve the references, indices, or annotations. 
-- **refchef-menu**: Provides an easy way to summarize the items already on the system.
+This quickstart assumes that [bwa](http://bio-bwa.sourceforge.net/) and [bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) are installed and in your current path.
 
-# Quickstart
+Create a [remote repository](https://help.github.com/en/articles/creating-a-new-repository) and [clone it](https://help.github.com/en/articles/cloning-a-repository).  
 
-See the installation instructions for how to install refchef. Create
-your own local repository for tracking references:
+Create a directory for refchef to save your references.
 
-```
-cd /Volumes/jwalla12
-git init local_references
-```
+Create a [`master.yaml`](#master.yaml) file and save it in your local git repository directory. Here is a [`master.yaml`](#master.yaml) file that will download a yeast genome from Ensembl:
 
-Create a directory for refchef to store your references:
-
-```
-mkdir /Volumes/jwalla12/references
-```
-
-Create a `master.yaml` file and save it in your git repository. This
-file will contain the commands that will be executed to download your
-references, as well as some additional metadata. For more information
-about the details of the .yaml file format, see
-(https://compbiocore.github.io/refchef/specs/). 
-
-!!! Note
-	the creation of the `final_checksums.md5` file should always be included in the `master.yaml` file. As a minimal example, here is a `master.yaml` file that will download the grch38 human genome from Ensembl:
-
-```
-grch38:
+```yaml
+S_cerevisiae:
   metadata:
-    name: grch38_release87
-    species: Homo sapiens
+    name: S_cerevisiae
+    common_name: yeast
+    ncbi_taxon_id: 4932
+    organism: Saccharomyces cerevisiae
     organization: ensembl
-    downloader: jrwallace
+    custom: no
+    description: corresponds to genbank id GCA_000146045.2
+    downloader: joselynn wallace
+    ensembl_release_number: 87
+    accession:
+      genbank:
+      refseq:
   levels:
     references:
     - component: primary
       complete:
         status: false
       commands:
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
-      - md5sum *.gz > postdownload-checksums.md5
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/saccharomyces_cerevisiae/dna/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/saccharomyces_cerevisiae/dna/CHECKSUMS
+      - md5 *.gz > postdownload-checksums.md5
       - gunzip *.gz
-      - md5sum *.* > final_checksums.md5
+      - md5 *.* > final_checksums.md5
+```
+Pass the configuration arguments in a config file or directly to [`refchef-cook`](#refchef-cook) (as seen in the following example):
 
 ```
-In addition to the .yaml file, you will also need to specify the
-following details:
-
-- where you'd like the references to be saved, 
-- the local git repository for version control of references, and 
-- the remote github repository for version control of reference
-	sequences. 
-
-!!!tip
-	There are a few options for relaying this information to refchef:
-	- they can be specified in a `cfg.ini` file or a `cfg.yaml` file
-	- or you can pass them as arguments to `refchef-cook`, the command
-	that will read your `master.yaml` file and download the references. 
-	
-	!!!note 
-		The following is an example where arguments are passed to `refchef-cook` and references are not pushed to a remote repository:
-		```
-		refchef-cook -e -o /Volumes/jwalla12/references -gl /Volumes/jwalla12/local_references
-		```
-
-!!!todo
-	add examples re: using a cfg file and remote repo
-
-Then you'll see the following:
-
-```
-/anaconda3/lib/python3.7/site-packages/refchef/utils.py:12: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
-  dict_ = yaml.load(yml)
- 🐶 RefChef... getting reference: grch38, component: primary
-Running command "wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz"
---2019-07-12 15:56:56--  ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-           => ‘Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz’
-Resolving ftp.ensembl.org (ftp.ensembl.org)... 193.62.193.8
-Connecting to ftp.ensembl.org (ftp.ensembl.org)|193.62.193.8|:21... connected.
-Logging in as anonymous ... Logged in!
-==> SYST ... done.    ==> PWD ... done.
-==> TYPE I ... done.  ==> CWD (1) /pub/release-87/fasta/homo_sapiens/dna ... done.
-==> SIZE Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz ... 881214448
-==> PASV ... done.    ==> RETR Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz ... done.
-Length: 881214448 (840M) (unauthoritative)
-
-Homo_sapiens.GRCh38.d 100%[=======================>] 840.39M  6.71MB/s    in 4m 26s  
-
-2019-07-12 16:01:25 (3.16 MB/s) - ‘Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz’ saved [881214448]
-
-Running command "wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS"
---2019-07-12 16:01:25--  ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
-           => ‘CHECKSUMS’
-Resolving ftp.ensembl.org (ftp.ensembl.org)... 193.62.193.8
-Connecting to ftp.ensembl.org (ftp.ensembl.org)|193.62.193.8|:21... connected.
-Logging in as anonymous ... Logged in!
-==> SYST ... done.    ==> PWD ... done.
-==> TYPE I ... done.  ==> CWD (1) /pub/release-87/fasta/homo_sapiens/dna ... done.
-==> SIZE CHECKSUMS ... 5010
-==> PASV ... done.    ==> RETR CHECKSUMS ... done.
-Length: 5010 (4.9K) (unauthoritative)
-
-CHECKSUMS             100%[=======================>]   4.89K  --.-KB/s    in 0s      
-
-2019-07-12 16:01:27 (97.5 MB/s) - ‘CHECKSUMS’ saved [5010]
-
-Running command "md5sum *.gz > postdownload-checksums.md5"
-Running command "gunzip *.gz"
-Running command "md5sum *.* > final_checksums.md5"
-
+refchef-cook -e -o /Users/jwalla12/references -gl /Users/jwalla12/remote_references -gr jrwallace/remote_references --git commit -l
 ```
 
-After this command is run, master.yaml will reflect that you have downloaded the references and it will now look like this:
+After [`refchef-cook`](#refchef-cook) is run, [`master.yaml`](#master.yaml) will reflect that you have downloaded the reference and it will now look like this:
 
-```
-grch38:
+```yaml
+S_cerevisiae:
   metadata:
-    name: grch38_release87
-    species: Homo sapiens
+    name: S_cerevisiae
+    common_name: yeast
+    ncbi_taxon_id: 4932
+    organism: Saccharomyces cerevisiae
     organization: ensembl
-    downloader: jrwallace
+    custom: false
+    description: corresponds to genbank id GCA_000146045.2
+    downloader: joselynn wallace
+    ensembl_release_number: 87
+    accession:
+      genbank: null
+      refseq: null
   levels:
     references:
     - component: primary
       complete:
         status: true
-        time: 2019-07-12 16:02:25.505498
+        time: '2019-07-25 09:08:37.478553'
       commands:
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/dna/CHECKSUMS
-      - md5sum *.gz > postdownload-checksums.md5
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/saccharomyces_cerevisiae/dna/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/saccharomyces_cerevisiae/dna/CHECKSUMS
+      - md5 *.gz > postdownload-checksums.md5
       - gunzip *.gz
-      - md5sum *.* > final_checksums.md5
-      location: /Volumes/jwalla12/references/grch38/primary
+      - md5 *.* > final_checksums.md5
+      location: /Users/jwalla12/references/S_cerevisiae/primary
       files:
-      - CHECKSUMS
-      - final_checksums.md5
-      - Homo_sapiens.GRCh38.dna.primary_assembly.fa
       - metadata.txt
       - postdownload-checksums.md5
-
+      - CHECKSUMS
+      - final_checksums.md5
+      - Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+      uuid: dff337a6-9a1d-3313-8ced-dc6f3bfc9689
 ```
 
-todo: add information re: adding references already present elsewhere (should the command be more like a cp command?)
-
-#### User workflow diagram
-
-![Diagram](../assets/refchef-diagram.svg)
-
-RefChef comes with two main scripts. `refchef-cook` will parse `master.yaml`, execute the commands listed (download and process reference files), commit, and push the `master.yaml` using git. `refchef-menu` is used to list the references already downloaded and processed. It also provides an easy way to find a reference uuid for use when processing new indices.
-Both scripts can take a `--config (-c)` argument with the path for a config file, that can be one of the following formats:
-
-`cfg.yaml`:
-```yaml
-config-yaml:
-  path-settings:
-    reference-directory: ~/data/references_dir # directory where references will be downloaded and processed.
-    github-directory: ~/data/git_local # local git repository where `master.yaml` is located.
-    remote-repository: user/repo # remote user and repository for version control of `master.yaml`
-  log-settings:
-    log: 'yes'
-```
-
-`cfg.ini`:
-```toml
-[path-settings]
-reference-directory=~/data/references_dir #directory where references will be downloaded and processed.
-git-directory=~/data/git_local #local git repository where `master.yaml` is located.
-remote-repository=user/repo # remote user and repository for version control of `master.yaml`
-[log-settings]
-log=yes
-[runtime-settings]
-break-on-error=yes
-verbose=yes
-```
-
-!!! Note
-    You can opt not to use a config file. In that case, when using `refchef-menu`, you must pass the argument `--master (-m)` with he path to the `master.yaml` file.
-    When using `refchef-cook`, you must pass at least the output directory (``--outdir, -o`) and the path to the local git directory, where the `master.yaml` file is located (``--git_local, -gl`). If you want the changes to `master.yaml` to be pushed to a git service, you must also pass `--git_remote (-gr)`.
-
-### `refchef-cook`
-
-#### Downloading and processing references, indices, or annotations.
-This command will read a `master.yaml` located in the `github-directory` path from the config file, or the directory passed to `--git_local`. The `master.yaml` file contains a list of references, indices, and annotations, as well as their metadata, and commands necessary to download and process the files (see example below).  
-The `master.yaml` file stores all the information about a reference that is downloaded or will be downloaded. When `refchef-cook -e` is executed, the files are downloaded to the output directory and processed. In addition, RefChef updates the status of the complete option to `true` in the  `master.yaml`, it also adds an `uuid`, the date, location, and list of files. If a reference has the `true` in the complete status, that entry will not be processed again.  
-
-Example `master.yaml` before processing:  
+Make another .yaml file to create a bowtie2 index of this genome, call the file `bowtie2.yaml`.
 
 ```yaml
-reference_test1:
-  metadata:
-    name: reference_test1
-    species: mouse
-    organization: ucsc
-    downloader: fgelin
+S_cerevisiae:
   levels:
-    references:
-    - component: primary
+    indices:
+    - component: bowtie2_index
       complete:
         status: false
+      src: dff337a6-9a1d-3313-8ced-dc6f3bfc9689 
       commands:
-      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
-      - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
+      - mkdir /Users/jwalla12/references/S_cerevisiae/bowtie2_index
+      - cd /Users/jwalla12/references/S_cerevisiae/bowtie2_index
+      - ln -s /Users/jwalla12/references/S_cerevisiae/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa ./Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa 
+      - bowtie2-build Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa S_cerevisiae
+      - md5 ./*.* > ./final_checksums.md5
 ```
 
-Example `master.yaml` after processing:  
-```yaml
-reference_test1:
-  metadata:
-    name: reference_test1
-    species: mouse
-    organization: ucsc
-    downloader: fgelin
-  levels:
-    references:
-    - component: primary
-      complete:
-        status: true
-        time: 2018-12-20 11:14:13.153237
-      commands:
-      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
-      - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
-      location: refchef-data/reference_test1/primary
-      files:
-      - chr1.fa
-      - metadata.txt
-      - postdownload_checksums.md5
-      - final_checksums.md5
-      uuid: 8040b09f-3844-3c42-b765-1f6a32614895
+Then use [`refchef-cook`](#refchef-cook) and specify the new yaml to add to [`master.yaml`](#master.yaml).
+
+```
+refchef-cook -e -o /Users/jwalla12/references -gl /Users/jwalla12/remote_references -gr jrwallace/remote_references -n /Users/jwalla12/remote_references/bowtie2.yaml -g commit -l
 ```
 
-#### Downloading an index linked to a reference.
+Make another .yaml file to create a bwa index of this genome, call the file `bwa.yaml`.
 
-Indices can be downloaded just like any reference or annotation (see process above), but also, one might download an index that is linked to a particular reference. In that case, the index entry in the `master.yaml` file has a key `src` that takes the `uuid` of the reference to be linked to the index.
-
-Example of index `master.yaml`:
 ```yaml
-index_1:
-  metadata:
-    name: index_test1
-    species: mouse
-    organization: ucsc
-    downloader: fgelin
+S_cerevisiae:
   levels:
     indices:
     - component: bwa_index
       complete:
         status: false
-      src: 8040b09f-3844-3c42-b765-1f6a32614895
+      src: dff337a6-9a1d-3313-8ced-dc6f3bfc9689 
       commands:
-      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
-      - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
+      - mkdir /Users/jwalla12/references/S_cerevisiae/bwa_index
+      - cd /Users/jwalla12/references/S_cerevisiae/bwa_index
+      - ln -s /Users/jwalla12/references/S_cerevisiae/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa ./Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+      - bwa index Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa -p S_cerevisiae
+      - md5 ./*.* > ./final_checksums.md5
 ```
 
-In this case, the commands will be processed like before, but in the reference folder, a symlink to the index folder will be created.
+Then use [`refchef-cook`](#refchef-cook) and specify the new yaml to add to [`master.yaml`](#master.yaml).
 
-Arguments:  
-`--execute, -e`: will execute all commands listed in the `master.yaml` for each reference, if reference doesn't exist in the location provided in the config file.  
-`--new, -n`: path to a new yaml file containing other references to be downloaded and appended to the `master.yaml`.
-`--git, -g`: Git action. Choose from `commit` or `push`.
-`--outdir, -o`: output directory, where references will be downloaded to.
-`--git_local, -gl`: Local git directory, where the `master.yaml` file can be found.
-`--git_remote, -gr`: Remote git repository, in the format `user/project_name`.
-`--logs, -l`: Whether to save the log files.
+```
+refchef-cook -e -o /Users/jwalla12/references -gl /Users/jwalla12/remote_references -gr jrwallace/remote_references -n /Users/jwalla12/remote_references/bwa.yaml -g commit -l
+```
 
-Example run:  
-  1 - This will read in `new.yaml` file, append to `master.yaml` and commit the changes using git.
-    `refchef-cook --config /path/to/cfg.yaml --execute --new new.yaml --git commit`.
+We can also track annotation files for the reference genome. Make the following .yaml file and call it `gtf.yaml`:
 
-  2 - This will process `master.yaml`, commit and push changes to the remote repository:  
-    `refchef-cook --execute -o /path/to/output/dir --git_local /path/to/git/dir --git_remote user/project_name --git push`
+```yaml
+S_cerevisiae:
+  levels:
+    annotations:
+    - component: gtf
+      complete:
+        status: false
+      commands:
+      - wget ftp://ftp.ensembl.org/pub/release-87/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.87.gtf.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/gtf/saccharomyces_cerevisiae/CHECKSUMS
+      - md5 *.gz > postdownload-checksums.md5
+      - gunzip *.gz
+      - md5 *.* > final_checksums.md5
+```
 
+Then use [`refchef-cook`](#refchef-cook) and specify the new yaml to add to [`master.yaml`](#master.yaml). 
 
-### `refchef-menu`
-This command provides a way for the user to list all references present in the system, based on `master.yaml`, as well as filter the list of references based on metadata options.  
-Arguments:  
-`--master, -m`: path to `master.yaml` file. Must be used if `--config` argument is not used.
-`--filter`: used to filter references based on metadata. Takes a pair key:value, or a list of pairs separated by comma: `key:value,key2:value2,key3:value3...`
-`--full`: whether to show the full table including files and location of files.
-
-Example:
-
-`refchef-menu`
-
-![menu](../assets/menu-full.png)
-
-`refchef-menu --filter species:human`
-
-![menu](../assets/menu-filtered.png)
+```
+refchef-cook -e -o /Users/jwalla12/references -gl /Users/jwalla12/remote_references -gr jrwallace/remote_references -n /Users/jwalla12/remote_references/gtf.yaml -g commit -l
+```
+We can see what references are available using [`refchef-menu`](#refchef-menu):
+```
+refchef-menu -f /Users/jwalla12/remote_references/master.yaml
+```
+```
+┌ 🐶 RefChef Menu ────────────────────────┬───────────────┬───────────────────────────────────────────┬──────────────────────────────────────┐
+│ name         │ organism                 │ component     │ description                               │ uuid                                 │
+├──────────────┼──────────────────────────┼───────────────┼───────────────────────────────────────────┼──────────────────────────────────────┤
+│ S_cerevisiae │ Saccharomyces cerevisiae │ gtf           │ corresponds to genbank id GCA_000146045.2 │ 5f7ae94c-2e51-3cc6-bcbf-6e251c75ef2f │
+│ S_cerevisiae │ Saccharomyces cerevisiae │ bowtie2_index │ corresponds to genbank id GCA_000146045.2 │ 93393699-cb40-3ad7-ac07-ae4bdb1efd3e │
+│ S_cerevisiae │ Saccharomyces cerevisiae │ bwa_index     │ corresponds to genbank id GCA_000146045.2 │ dff337a6-9a1d-3313-8ced-dc6f3bfc9689 │
+│ S_cerevisiae │ Saccharomyces cerevisiae │ primary       │ corresponds to genbank id GCA_000146045.2 │ dff337a6-9a1d-3313-8ced-dc6f3bfc9689 │
+└──────────────┴──────────────────────────┴───────────────┴───────────────────────────────────────────┴──────────────────────────────────────┘
+```
+We can also get this information if we look at [`master.yaml`](#master.yaml):
+```yaml
+S_cerevisiae:
+  metadata:
+    name: S_cerevisiae
+    common_name: yeast
+    ncbi_taxon_id: 4932
+    organism: Saccharomyces cerevisiae
+    organization: ensembl
+    custom: false
+    description: corresponds to genbank id GCA_000146045.2
+    downloader: joselynn wallace
+    ensembl_release_number: 87
+    accession:
+      genbank: null
+      refseq: null
+  levels:
+    references:
+    - component: primary
+      complete:
+        status: true
+        time: '2019-07-25 16:26:42.700668'
+      commands:
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/saccharomyces_cerevisiae/dna/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/fasta/saccharomyces_cerevisiae/dna/CHECKSUMS
+      - md5 *.gz > postdownload-checksums.md5
+      - gunzip *.gz
+      - md5 *.* > final_checksums.md5
+      location: /Users/jwalla12/references/S_cerevisiae/primary
+      files:
+      - metadata.txt
+      - postdownload-checksums.md5
+      - CHECKSUMS
+      - final_checksums.md5
+      - Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+      uuid: dff337a6-9a1d-3313-8ced-dc6f3bfc9689
+    indices:
+    - component: bowtie2_index
+      complete:
+        status: true
+        time: '2019-07-25 16:26:43.971349'
+      src: dff337a6-9a1d-3313-8ced-dc6f3bfc9689
+      commands:
+      - mkdir /Users/jwalla12/references/yeast_refs/bowtie2_index
+      - cd /Users/jwalla12/references/yeast_refs/bowtie2_index
+      - ln -s /Users/jwalla12/references/yeast_refs/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+        /Users/jwalla12/references/yeast_refs/bowtie2_index/
+      - bowtie2-build /Users/jwalla12/references/yeast_refs/bowtie2_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+        S_cerevisiae
+      - md5 /Users/jwalla12/references/yeast_refs/bowtie2_index/*.* > /Users/jwalla12/references/yeast_refs/bowtie2_index/final_checksums.md5
+      location: /Users/jwalla12/references/S_cerevisiae/bowtie2_index
+      files:
+      - metadata.txt
+      uuid: 84928c3e-af1a-11e9-a45e-8c8590bd206d
+    - component: bwa_index
+      complete:
+        status: true
+        time: '2019-07-25 16:26:45.183284'
+      src: dff337a6-9a1d-3313-8ced-dc6f3bfc9689
+      commands:
+      - mkdir /Users/jwalla12/references/yeast_refs/bwa_index
+      - cd /Users/jwalla12/references/yeast_refs/bwa_index
+      - ln -s /Users/jwalla12/references/yeast_refs/primary/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+        /Users/jwalla12/references/yeast_refs/bwa_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+      - bwa index /Users/jwalla12/references/yeast_refs/bwa_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+        > /Users/jwalla12/references/yeast_refs/bwa_index/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+      - md5 /Users/jwalla12/references/yeast_refs/bwa_index/*.* > /Users/jwalla12/references/yeast_refs/bwa_index/final_checksums.md5
+      location: /Users/jwalla12/references/S_cerevisiae/bwa_index
+      files:
+      - metadata.txt
+      uuid: 854b7780-af1a-11e9-a9f8-8c8590bd206d
+    annotations:
+    - component: gtf
+      complete:
+        status: true
+        time: '2019-07-25 16:26:54.326082'
+      commands:
+      - wget ftp://ftp.ensembl.org/pub/release-87/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.87.gtf.gz
+      - wget ftp://ftp.ensembl.org/pub/release-87/gtf/saccharomyces_cerevisiae/CHECKSUMS
+      - md5 *.gz > postdownload-checksums.md5
+      - gunzip *.gz
+      - md5 *.* > final_checksums.md5
+      location: /Users/jwalla12/references/S_cerevisiae/gtf
+      files:
+      - metadata.txt
+      - postdownload-checksums.md5
+      - Saccharomyces_cerevisiae.R64-1-1.87.gtf
+      - CHECKSUMS
+      - final_checksums.md5
+      uuid: 5f7ae94c-2e51-3cc6-bcbf-6e251c75ef2f
+```

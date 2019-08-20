@@ -17,7 +17,7 @@ Run unit tests as:
 `python setup.py test`
 
 ### Set up GitHub Access Token and `.env` file
-RefChef uses Git and GitHub for version control of the `master.yaml` file that contains a list of all the references on the system. To use RefChef, create a GitHub account and set up an [access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). 
+RefChef uses Git and GitHub for version control of the `master.yaml` file, which contains a list of all the references on the system and their provenance. To use RefChef, create a GitHub account and set up an [access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). 
 ![](assets/github_token.png)
 
 Additionally, create a [`.gitignore` file](https://help.github.com/en/articles/ignoring-files)...
@@ -38,7 +38,14 @@ Now create a `.env` file...
 touch .env
 ```
 
-...and paste the GitHub access token into the `.env` file and the `.env.template` file in the `RefChef` home directory.
+... and paste the contents of the `.env.template` file in the `RefChef` home directory into the `.env` file, which will now look like this:
+
+```bash
+GITHUB_TOKEN=
+```
+
+Then, paste the GitHub access token into the `GITHUB_TOKEN=` line copied over from the `env.template` file. For example, your `.env` file might now look like this:
+
 ```bash
 GITHUB_TOKEN=5c25370fcf7db4a676d98d72700e2922654485ed
 ```

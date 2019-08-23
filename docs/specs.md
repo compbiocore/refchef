@@ -1,18 +1,17 @@
-# Specifications for `master.yaml` <a name="master.yaml"></a>
+### `master.yaml` <a name="master.yaml"></a>
 
-The `master.yaml` file is the main source of information that RefChef uses to retrieve references, indices, and annotations. It is composed of code blocks that each contain three distinct sections:       
+The [`master.yaml`](./inputs.md#master.yaml) file is the main source of information that RefChef uses to retrieve references, indices, and annotations. It is composed of sequences of code blocks that correspond to each reference. Each code block in [`master.yaml`](./inputs.md#master.yaml) starts with a `key`, followed by `metadata` and `levels`.       
 
-1. key     
-2. metadata     
-3. levels     
+See the [`master.yaml` overview and usage](./inputs.md#master.yaml) for more information.
 
-For example:
+---
 
-![Diagram](assets/yamlsections.svg)
+The `key` section consists of:    
 
-See the [`master.yaml` overview and usage](./usage.md#master.yaml) for more information.
+`<reference_name>:`     
+Expected format: String where <reference_name\> is the name of the reference.
 
-Each block starts with a `key`, which should be <reference_name\> (the name of the reference).
+---
 
 The `metadata` section consists of:
 
@@ -49,6 +48,8 @@ The `metadata` section consists of:
 >>`metadata.accession.refseq`       
 >>Expected format: string
 
+---
+
 The `levels` section consists of:
 
 >`levels.<type>`  
@@ -66,7 +67,7 @@ The `levels` section consists of:
 >>`levels.<type>.commands`       
   Expected format: Each command should start with `- `, this section is a list of commands to download and process each reference.
 
-After RefChef-cook is run and references are downloaded, `levels.<type>.complete.status: false` will change to `levels.<type>.complete.status: true` and the following fields will be added to `master.yaml`
+After [`refchef-cook`](./usage.md#refchef-cook) is run and references are downloaded, `levels.<type>.complete.status: false` will change to `levels.<type>.complete.status: true` and the following fields will be added to `master.yaml`
 
 >>>`levels.<type>.complete.time`          
 >>>Expected format: RefChef will autopopulate this field with the date and time stamp the reference was downloaded if `levels.<type>.complete.status: true`
@@ -81,7 +82,7 @@ After RefChef-cook is run and references are downloaded, `levels.<type>.complete
   Expected format: Refchef will autopopulate this field with a UUID for your reference file if `levels.<type>.complete.status: true`       
 ---
 
-# Specifications for `cfg.yaml` <a name="cfg.yaml"></a>
+### `cfg.yaml` <a name="cfg.yaml"></a>
 
 If using a `cfg.yaml` file, the `cfg.yaml` file should follow the following specs:
 
@@ -100,7 +101,7 @@ Expected format: String, should be either 'yes' or 'no' in single quotes, indica
 Also see the [`cfg.yaml` overview and example.](./usage.md#cfg.yaml)
 
 ---
-# Specifications for `cfg.ini` <a name="cfg.ini"></a>
+### `cfg.ini` <a name="cfg.ini"></a>
 
 If using a `cfg.ini` file, the `cfg.ini` file should follow the following specs:     
 

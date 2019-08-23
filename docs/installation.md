@@ -1,23 +1,17 @@
+### Install RefChef
+
 To install from PyPI using **pip**:  
 `pip install refchef`
 
 To install using **Anaconda Python**:  
 `conda install -c compbiocore refchef`
 
+### Set up Git and GitHub
+RefChef uses Git repositories for version control of the `master.yaml` file, which contains a list of all the references on the system and their provenance. You can also use GitHub to remotely host your repositories, but this is optional. 
 
-### Development
-To install a **development version** from the current directory:  
-```bash
-git clone https://github.com/compbiocore/refchef.git
-cd refchef
-pip install -e .
-```
+Before using RefChef, set up [git](https://help.github.com/en/articles/set-up-git). 
 
-Run unit tests as:
-`python setup.py test`
-
-### Set up GitHub Access Token and `.env` file
-RefChef uses Git and GitHub for version control of the `master.yaml` file, which contains a list of all the references on the system and their provenance. To use RefChef, create a GitHub account and set up an [access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). 
+If you want to use GitHub to host your repositories, create a GitHub account and set up an [access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). 
 ![](assets/github_token.png)
 
 Additionally, create a [`.gitignore` file](https://help.github.com/en/articles/ignoring-files)...
@@ -49,6 +43,16 @@ Then, paste the GitHub access token into the `GITHUB_TOKEN=` line copied over fr
 ```bash
 GITHUB_TOKEN=5c25370fcf7db4a676d98d72700e2922654485ed
 ```
+### Development
+To install a **development version** from the current directory:  
+```bash
+git clone https://github.com/compbiocore/refchef.git
+cd refchef
+pip install -e .
+```
+
+Run unit tests as:
+`python setup.py test`
 
 ## Contributing
 

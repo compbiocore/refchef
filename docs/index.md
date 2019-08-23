@@ -8,9 +8,7 @@
 
 ---
 
-### `RefChef` is a reference management system that includes additional tools to record the provenance of reference sequences, indices, and annotations. It was created to enable reproducible research.       
-
----
+`RefChef` is a reference management system that includes additional tools to record the provenance of reference sequences, indices, and annotations. It was created to enable reproducible research.       
 
 `RefChef` will:       
 

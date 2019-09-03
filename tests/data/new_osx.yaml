@@ -22,6 +22,7 @@ index_test1:
       - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
       - md5sum *.fa.gz > final_checksums.md5
+      src: 8040b09f-3844-3c42-b765-1f6a32614895
     - component: bwa_index_2
       complete:
         status: false
@@ -30,3 +31,4 @@ index_test1:
       - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
       - md5sum *.fa.gz > final_checksums.md5
+      src: 'web'

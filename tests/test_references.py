@@ -111,7 +111,7 @@ def test_index_ref_link(conf, master):
         file_name = 'new_linux.yaml'
     ori = os.path.join(conf.git_local, file_name)
     des = os.path.join(conf.git_local, master)
-    append_yaml(ori, des)
+    merge_yaml(des, ori)
 
     execute(conf, master)
     path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary', 'bwa_index')

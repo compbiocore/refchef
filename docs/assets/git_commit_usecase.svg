@@ -1,0 +1,160 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 845.99 1116.99">
+  <defs>
+    <style>
+      .cls-1, .cls-3, .cls-4, .cls-5, .cls-8 {
+        fill: none;
+      }
+
+      .cls-1, .cls-3, .cls-4, .cls-5 {
+        stroke: #c92d3a;
+        stroke-width: 6px;
+      }
+
+      .cls-1 {
+        stroke-dasharray: 12;
+      }
+
+      .cls-2 {
+        fill: #ddd;
+      }
+
+      .cls-4 {
+        stroke-dasharray: 11.87 11.87;
+      }
+
+      .cls-5 {
+        stroke-dasharray: 14.57 14.57;
+      }
+
+      .cls-16, .cls-6 {
+        font-size: 20px;
+      }
+
+      .cls-6 {
+        font-family: Courier-Bold, Courier;
+      }
+
+      .cls-14, .cls-16, .cls-6, .cls-9 {
+        font-weight: 700;
+      }
+
+      .cls-7 {
+        fill: #2a3282;
+      }
+
+      .cls-12, .cls-7 {
+        stroke: #000;
+        stroke-opacity: 0;
+      }
+
+      .cls-9 {
+        font-size: 21px;
+      }
+
+      .cls-11, .cls-14, .cls-16, .cls-9 {
+        fill: #fff;
+      }
+
+      .cls-14, .cls-16, .cls-9 {
+        font-family: Arial-BoldMT, Arial;
+      }
+
+      .cls-10 {
+        fill: #c92d3a;
+      }
+
+      .cls-11 {
+        stroke: #fff;
+      }
+
+      .cls-12, .cls-13, .cls-15 {
+        fill: #c92d39;
+      }
+
+      .cls-13 {
+        font-size: 26px;
+      }
+
+      .cls-13, .cls-15 {
+        stroke: #c92d39;
+        font-family: Courier;
+      }
+
+      .cls-14 {
+        font-size: 16px;
+      }
+
+      .cls-15 {
+        font-size: 25px;
+      }
+
+      .cls-17 {
+        stroke: #999;
+        stroke-miterlimit: 10;
+        stroke-width: 0.5px;
+      }
+    </style>
+  </defs>
+  <title>git_commit_usecase</title>
+  <g>
+    <line class="cls-1" x1="305.43" y1="74.75" x2="418.52" y2="74.75"/>
+    <line class="cls-1" x1="421.33" y1="74.75" x2="419.52" y2="650.83"/>
+  </g>
+  <g>
+    <rect class="cls-2" x="3" y="547.59" width="664.58" height="55.72"/>
+    <g>
+      <polyline class="cls-3" points="667.58 597.3 667.58 603.3 661.58 603.3"/>
+      <line class="cls-4" x1="649.71" y1="603.3" x2="14.93" y2="603.3"/>
+      <polyline class="cls-3" points="9 603.3 3 603.3 3 597.3"/>
+      <line class="cls-5" x1="3" y1="582.73" x2="3" y2="560.87"/>
+      <polyline class="cls-3" points="3 553.59 3 547.59 9 547.59"/>
+      <line class="cls-4" x1="20.87" y1="547.59" x2="655.65" y2="547.59"/>
+      <polyline class="cls-3" points="661.58 547.59 667.58 547.59 667.58 553.59"/>
+      <line class="cls-5" x1="667.58" y1="568.16" x2="667.58" y2="590.02"/>
+    </g>
+  </g>
+  <text class="cls-6" transform="translate(13 583.4)">refchef-cook --execute --git commit --config cfg.yaml </text>
+  <line class="cls-1" x1="643.37" y1="648.83" x2="643.37" y2="1000.15"/>
+  <polyline class="cls-1" points="611.32 1044.79 486.35 1044.79 486.35 969.25"/>
+  <polyline class="cls-1" points="511.73 940.51 386.76 940.51 386.76 847.67"/>
+  <polyline class="cls-1" points="411.29 827.35 286.32 827.35 286.32 648.83"/>
+  <path class="cls-7" d="M291.69,681.19H267.94a15.85,15.85,0,0,0-10.57,4.32l-6,6.07a15.47,15.47,0,0,0-4.32,10.58v72.4a9.52,9.52,0,0,0,9.5,9.46h101a9.58,9.58,0,0,0,9.48-9.47V707.81a9.56,9.56,0,0,0-9.47-9.46H315a5.61,5.61,0,0,1-2.64-1.44l-9.73-11.1a16.29,16.29,0,0,0-10.92-4.63Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-7" d="M491.69,897.19H467.94a15.85,15.85,0,0,0-10.57,4.32l-6,6.07a15.47,15.47,0,0,0-4.32,10.58v72.4a9.52,9.52,0,0,0,9.5,9.46h101a9.58,9.58,0,0,0,9.48-9.47V923.81a9.56,9.56,0,0,0-9.47-9.46H515a5.61,5.61,0,0,1-2.64-1.44l-9.73-11.1a16.29,16.29,0,0,0-10.92-4.63Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-7" d="M391.69,788.19H367.94a15.85,15.85,0,0,0-10.57,4.32l-6,6.07a15.47,15.47,0,0,0-4.32,10.58v72.4a9.52,9.52,0,0,0,9.5,9.46h101a9.58,9.58,0,0,0,9.48-9.47V814.81a9.56,9.56,0,0,0-9.47-9.46H415a5.61,5.61,0,0,1-2.64-1.44l-9.73-11.1a16.29,16.29,0,0,0-10.92-4.63Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-8" d="M247,721.19H367v60H247Z" transform="translate(-17.36 -10.92)"/>
+  <path d="M347,882.86v0Z" transform="translate(-17.36 -10.92)"/>
+  <text class="cls-9" transform="translate(238.21 733.31)">reference-<tspan x="21.61" y="25.2">folder</tspan></text>
+  <text class="cls-9" transform="translate(341.21 833.73)">reference-<tspan x="27.42" y="25.2">key1</tspan></text>
+  <text class="cls-9" transform="translate(451.18 946.73)">primary</text>
+  <path class="cls-10" d="M365.85,85.48l27-14V99.54Zm21-.8-1.56.8,1.57.83Z" transform="translate(-17.36 -10.92)"/>
+  <g>
+    <rect class="cls-11" x="391.07" y="361.4" width="63.97" height="116.99"/>
+    <path class="cls-7" d="M421.7,398.94h31.9v7.35H421.7v-7.35Zm0,14.09h31.9v7.26H421.7V413Zm0,13.81h31.9v7.26H421.7Z" transform="translate(-17.36 -10.92)"/>
+    <path class="cls-7" d="M457.93,372.32H413c-5.24,0-9.51,5.32-9.51,11.78v65c0,6.46,4.28,11.78,9.52,11.78h49.81c5.3,0,9.56-5.31,9.56-11.78V389.94Zm4.91,81.48H413c-2,0-3.65-1.94-3.65-4.69v-65c0-2.48,1.66-4.52,3.66-4.52h41.89V394.2h11.57v55.08c0,2.59-1.59,4.52-3.66,4.52Z" transform="translate(-17.36 -10.92)"/>
+    <text class="cls-6" transform="translate(364.64 469.83)">master.yaml</text>
+  </g>
+  <path class="cls-7" d="M420.07,138.07H396.32a15.85,15.85,0,0,0-10.57,4.32l-6,6.07A15.47,15.47,0,0,0,375.43,159v72.4a9.52,9.52,0,0,0,9.5,9.46H486a9.58,9.58,0,0,0,9.48-9.47V164.69a9.56,9.56,0,0,0-9.47-9.46h-42.6a5.61,5.61,0,0,1-2.64-1.44L431,142.69a16.29,16.29,0,0,0-10.92-4.63Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-8" d="M375.42,179.49h120v60h-120Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-12" d="M315.77,81.26,279,45.51a5.33,5.33,0,0,0-7.32,0l-8.07,7.65,9.58,9.26a6.64,6.64,0,0,1,2.28-.4,6.29,6.29,0,0,1,6.4,6.18,6.61,6.61,0,0,1-.42,2.28l9.33,9a7.06,7.06,0,0,1,2.28-.4,6.22,6.22,0,1,1-6.4,6.18,5.86,5.86,0,0,1,.43-2.2l-8.74-8.44v22.1a6.16,6.16,0,0,1,3.54,5.44,6.29,6.29,0,0,1-6.4,6.18,6.35,6.35,0,0,1-6.47-6.18,6.26,6.26,0,0,1,4.2-5.85V73.81A6,6,0,0,1,269,68a8,8,0,0,1,.42-2.2L260,56.57,234.8,81.27a4.68,4.68,0,0,0,0,7l36.75,35.5a5.05,5.05,0,0,0,7.23,0l36.75-35.5a4.51,4.51,0,0,0,.26-7Z" transform="translate(-17.36 -10.92)"/>
+  <text class="cls-9" transform="translate(371.87 188.5)">git-folder</text>
+  <path class="cls-10" d="M437.16,271.63l14,27H423.1Zm.8,21-.8-1.56-.84,1.57Z" transform="translate(-17.36 -10.92)"/>
+  <text class="cls-13" transform="translate(165.73 21.03)">--git commit</text>
+  <text class="cls-13" transform="translate(429.69 721.67)">--execute</text>
+  <text class="cls-14" transform="translate(471.35 853.1)"><tspan xml:space="preserve">      commands:</tspan><tspan x="0" y="19.2" xml:space="preserve">      - wget ftp://ftp.someplace.org/reference1.fa</tspan></text>
+  <g>
+    <rect class="cls-11" x="618.07" y="1007.67" width="59.74" height="79"/>
+    <path class="cls-7" d="M684,1011.35l-44.91,0c-5.24,0-9.51,5.3-9.52,11.77l-.06,65c0,6.46,4.26,11.78,9.5,11.79l49.81,0c5.3,0,9.57-5.31,9.58-11.77l0-59.17Zm4.83,81.48-49.82,0c-2,0-3.65-1.94-3.65-4.69l.07-65c0-2.48,1.66-4.52,3.66-4.52l41.89,0v14.62h11.56l-.05,55.08c0,2.59-1.59,4.52-3.66,4.52Z" transform="translate(-17.36 -10.92)"/>
+    <text class="cls-6" transform="matrix(1, 0, 0, 1, 564.54, 1108.78)">reference1.fa</text>
+  </g>
+  <text x="-17.36" y="-10.92"/>  <line class="cls-1" x1="286.32" y1="650.83" x2="643.37" y2="650.83"/>
+  <path class="cls-10" d="M660.71,734.67l-14-27h28.08Zm-.81-21,.81,1.56.83-1.57Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-10" d="M659.88,971.49l-14-27h28.07Zm-.8-21,.8,1.56.83-1.57Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-10" d="M342.45,660.58l27-14v28.07Zm21-.8-1.56.8,1.57.83Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-10" d="M548.49,661.78l-27,14V647.72Zm-21,.8,1.56-.8-1.57-.83Z" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-1" d="M438.69-62.3" transform="translate(-17.36 -10.92)"/>
+  <path class="cls-1" d="M438.69,85.68" transform="translate(-17.36 -10.92)"/>
+  <text class="cls-15" transform="translate(220.41 134.85)">local<tspan x="-37.51" y="30">repository</tspan></text>
+  <path class="cls-7" d="M831.11,823c19.27,5.38,31.74,17.79,31.74,32,0,16.27-16.61,30.2-39.68,33.78l-7.55,1.11H542.47c-31.74,0-57.43-17.51-57.43-38.61s25.72-38.61,57.44-38.61a37.88,37.88,0,0,1,6.8.41c9.45-10.2,25.72-16,43.84-16a72,72,0,0,1,14.36,1.38v-1.38c0-25.1,29.85-45.09,67.25-45.09,25.7,0,49.5,10.48,60.46,26.2a87.4,87.4,0,0,1,31.73-5.79c35.9,0,65,19.58,65,43.57a15.61,15.61,0,0,1-.77,7Z" transform="translate(-17.36 -10.92)"/>
+  <text class="cls-16" transform="translate(489.99 832.22)">wget<tspan x="0" y="24">ftp://ftp.someplace.org/reference1.fa</tspan></text>
+  <path class="cls-17" d="M644.43,1073a1.17,1.17,0,0,0,1.16,1.3h2.35a1.18,1.18,0,0,0,1.17-1c0-.35.13-.8.24-1.31h22.73c.12.5.21,1,.26,1.31a1.17,1.17,0,0,0,1.16,1h2.35A1.16,1.16,0,0,0,677,1073a23.79,23.79,0,0,0-8.65-15.11,37.23,37.23,0,0,1-4.26,2.57c.45.34.83.69,1.24,1h-9.29a28,28,0,0,1,5.73-3.74c12.52-6.23,14.82-15.93,15.24-19.41a1.15,1.15,0,0,0-1.15-1.3h-2.36a1.18,1.18,0,0,0-1.17,1c-.05.36-.13.81-.24,1.32H649.36c-.12-.51-.2-1-.25-1.32a1.17,1.17,0,0,0-1.16-1H645.6a1.17,1.17,0,0,0-1.17,1.3c.38,3.12,2.28,11.2,11.64,17.32C646.72,1061.84,644.81,1069.92,644.43,1073Zm16.3-20a27.45,27.45,0,0,1-4.68-3.18h9.35a26.4,26.4,0,0,1-4.67,3.18Zm9.54-9a19.33,19.33,0,0,1-1.53,2.33h-16a18.08,18.08,0,0,1-1.52-2.33Zm-19.08,23.29a19.33,19.33,0,0,1,1.53-2.33h16a19.59,19.59,0,0,1,1.55,2.33Z" transform="translate(-17.36 -10.92)"/>
+</svg>

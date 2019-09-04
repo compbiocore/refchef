@@ -108,18 +108,22 @@ def main():
             master = read_menu(conf)
 
         for r in master.keys():
-            for i in master[r]['levels']['references']:
-                if not i['complete']['status']:
-                    logging.info(u"""
-        -------------------------------------------
-        The folowing references will be downloaded:
-            - {0}
-        ===========================================
-            """.format(r))
-                else:
-                    logging.info("""
-        No references to download.
-                    """)
+            for type in ['references', 'indices', 'annotations']:
+                try:
+                    for i in master[r]['levels'][type]:
+                        if not i['complete']['status']:
+                            logging.info(u"""
+                -------------------------------------------
+                The folowing references will be downloaded:
+                    - {0}
+                ===========================================
+                    """.format(r))
+                        else:
+                            logging.info("""
+                No references to download.
+                            """)
+                except:
+                    pass
 
         ## Execute, commit and push steps.
         if arguments.execute:

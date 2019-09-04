@@ -99,7 +99,7 @@
               <input type="text" id="referenceInput" list="references" onkeyup="search('referenceInput', 0)" placeholder="Reference">
             </th>
             <th>
-              <input type="text" id="speciesInput" list="species" onkeyup="search('speciesInput', 1)" placeholder="Species">
+              <input type="text" id="speciesInput" list="species" onkeyup="search('speciesInput', 1)" placeholder="Organism">
             </th>
             <th>
               <input type="text" id="orgInput" list="organizations" onkeyup="search('orgInput', 2)" placeholder="Organization">
@@ -120,7 +120,7 @@
           {% for entry in items %}
           <tr>
             <td><p>{{ entry.name }}</p></td>
-            <td><p>{{ entry.species }}</p></td>
+            <td><p>{{ entry.organism }}</p></td>
             <td><p>{{ entry.organization }}</p></td>
             <td><p>{{ entry.component }}</p></td>
             <td><code>{{ entry.location }}</code></td>

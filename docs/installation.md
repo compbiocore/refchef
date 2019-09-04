@@ -1,10 +1,48 @@
+### Install RefChef
+
 To install from PyPI using **pip**:  
 `pip install refchef`
 
 To install using **Anaconda Python**:  
 `conda install -c compbiocore refchef`
 
+### Set up Git and GitHub
+RefChef uses Git repositories for version control of the `master.yaml` file, which contains a list of all the references on the system and their provenance. You can also use GitHub to remotely host your repositories, but this is optional. 
 
+Before using RefChef, set up [git](https://help.github.com/en/articles/set-up-git). 
+
+If you want to use GitHub to host your repositories, create a GitHub account and set up an [access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). 
+![](assets/github_token.png)
+
+Additionally, create a [`.gitignore` file](https://help.github.com/en/articles/ignoring-files)...
+
+```bash
+touch .gitignore
+```
+
+...and add `.env` to the `.gitignore` by pasting the following into the `.gitignore` file.
+
+```bash
+# ignore env files
+*.env
+```
+
+Now create a `.env` file...
+```bash
+touch .env
+```
+
+... and paste the contents of the `.env.template` file in the `RefChef` home directory into the `.env` file, which will now look like this:
+
+```bash
+GITHUB_TOKEN=
+```
+
+Then, paste the GitHub access token into the `GITHUB_TOKEN=` line copied over from the `env.template` file. For example, your `.env` file might now look like this:
+
+```bash
+GITHUB_TOKEN=5c25370fcf7db4a676d98d72700e2922654485ed
+```
 ### Development
 To install a **development version** from the current directory:  
 ```bash
@@ -16,14 +54,6 @@ pip install -e .
 Run unit tests as:
 `python setup.py test`
 
-### Set up `.env` file with GitHub Access Token
-Sensitive environment variables are stored in the .env file. This file is included in .gitignore intentionally, so that it is never committed.
-- Create a `.env` file and copy into it the contents of `.env.template`
-- Get your [GitHub Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) and add to the `.env` file.  
-- Make sure to add the GH_TOKEN variable to the environment of the CI provider you use.
-
-![](assets/github_token.png)
-
 ## Contributing
 
 Contributions consistent with the style and quality of existing code are
@@ -32,7 +62,6 @@ welcome. Be sure to follow the guidelines below.
 Check the issues page of this repository for available work.
 
 ### Committing
-
 
 This project uses [commitizen](https://pypi.org/project/commitizen/)
 to ensure that commit messages remain well-formatted and consistent
@@ -47,16 +76,16 @@ pip install commitizen
 ```
 
 To start work on a new change, pull the latest `develop` and create a
-new *topic branch* (e.g. feature-resume-model`,
+new *topic branch* (e.g. `feature-resume-model`,
 `chore-test-update`, `bugfix-bad-bug`).
 
+Add your changes to the current branch.
 ```bash
 git add .
 ```
 
-To commit, run the following command (instead of ``git commit``) and
+To commit your changes, run the following command (instead of `git commit`) and
 follow the directions:
-
 
 ```bash
 cz commit

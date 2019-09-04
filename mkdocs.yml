@@ -28,8 +28,11 @@ markdown_extensions:
 nav:
   - Home: 'index.md'
   - Installation: 'installation.md'
+  - Overview: 'overview.md'
   - Usage: 'usage.md'
-  - YAML specs: 'specs.md'
+  - Inputs: 'inputs.md'
+  - Folders: 'folders.md'
+  - File specifications: 'specs.md'
+  - Quickstart: 'quickstart.md'
   - RefChef serve: 'serve.md'
-  - Tutorials:
-      - QuickStart: tutorials/quickstart.md
+  - Refchef use cases: 'usecases.md'

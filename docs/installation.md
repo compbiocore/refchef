@@ -3,9 +3,6 @@
 To install from PyPI using **pip**:  
 `pip install refchef`
 
-To install using **Anaconda Python**:  
-`conda install -c compbiocore refchef`
-
 ### Set up Git and GitHub
 RefChef uses Git repositories for version control of the `master.yaml` file, which contains a list of all the references on the system and their provenance. You can also use GitHub to remotely host your repositories, but this is optional. 
 

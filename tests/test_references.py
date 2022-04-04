@@ -29,6 +29,13 @@ def master():
         file_name = 'master_linux.yaml'
     return file_name
 
+@pytest.fixture
+def img_dir():
+    images_path = "tests/data/mnist"
+    path_ = "tests/data/mnist"
+    yield path_
+    print(os.path.join(os.getcwd(), path_))
+
 def test_create_reference_directories(conf, dir):
     create_reference_directories(conf.reference_dir, 'test_a', 'test_a')
     assert os.path.exists(dir)

@@ -23,7 +23,7 @@ def test_split_filter():
     assert t[1] == "2"
 
 def test_table_columns(menu): #takes the fixture created above as an argument.
-    assert menu.shape == (3,14)
+    assert menu.shape == (5,14)
 
 def test_filter(menu):
     filtered = filter_menu(menu, "organism", "mouse")

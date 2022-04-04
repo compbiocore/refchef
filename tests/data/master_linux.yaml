@@ -12,6 +12,7 @@ reference_test1:
     ensembl_release_number: 87
     custom: false
     downloader: fgelin
+    category: genomics
   levels:
     references:
     - component: primary

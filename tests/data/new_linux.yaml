@@ -12,6 +12,7 @@ mnist:
     ensembl_release_number: null
     custom: false
     downloader: joselynn
+    category: other
   levels:
     other:
     - component: train_images
@@ -44,6 +45,7 @@ index_test1:
     ensembl_release_number: 87
     custom: false
     downloader: fgelin
+    category: genomics
   levels:
     indices:
     - component: bwa_index

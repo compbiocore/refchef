@@ -15,6 +15,7 @@ def get_items(master):
                 'downloader': r['downloader'],
                 'files': ", ".join(r['files']),
                 'location': r['location'],
-                'uuid': r['uuid']}
+                'uuid': r['uuid'],
+                'category':r['category']}
         items.append(item)
     return items

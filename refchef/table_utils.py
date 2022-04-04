@@ -45,7 +45,7 @@ def get_full_menu(master):
     #create full table (menu)
     menu = m.merge(levels)
 
-    cols = ['common_name', 'custom', 'description', 'downloader',
+    cols = ['category', 'common_name', 'custom', 'description', 'downloader',
        'ensembl_release_number', 'genbank', 'name', 'ncbi_taxon_id',
        'organism', 'organization', 'refseq', 'component', 'files',
        'location', 'uuid', 'type']
@@ -92,7 +92,7 @@ def multiple_filter(menu, string):
 def get_metadata(menu, name):
     """Return metadata for reference"""
     meta = menu.loc[menu['name'] == name]
-    cols = ['common_name', 'custom', 'description', 'downloader',
+    cols = ['category', 'common_name', 'custom', 'description', 'downloader',
         'ensembl_release_number', 'name', 'ncbi_taxon_id', 'organism',
         'organization']
 

@@ -92,7 +92,7 @@ def multiple_filter(menu, string):
 def get_metadata(menu, name):
     """Return metadata for reference"""
     meta = menu.loc[menu['name'] == name]
-    cols = ['category', 'common_name', 'custom', 'description', 'downloader',
+    cols = ['common_name', 'custom', 'description', 'downloader',
         'ensembl_release_number', 'name', 'ncbi_taxon_id', 'organism',
         'organization']
 

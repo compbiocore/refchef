@@ -8,10 +8,12 @@ def menu():
     d = config.yaml("tests/data/cfg.yaml")
     conf = config.Config(**d)
 
-    if sys.platform == 'darwin':
-        file_name = 'master_osx.yaml'
-    else:
-        file_name = 'master_linux.yaml'
+    #if sys.platform == 'darwin':
+    #    file_name = 'master_osx.yaml'
+    #else:
+    #    file_name = 'master_linux.yaml'
+    
+    file_name = 'master.yaml'
     master = read_yaml(os.path.join(conf.git_local, file_name))
     menu = get_full_menu(master)
     return menu

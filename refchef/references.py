@@ -12,13 +12,13 @@ from refchef.utils import cd
 
 def execute(conf, file_name, yaml_append=False):
     """Process all steps to create directories, fetch files, and update yaml for
-       references/indices/annotations"""
+       references/indices/annotations/other"""
 
     yaml_file = os.path.join(conf.git_local, file_name)
     yaml_dict = utils.read_yaml(yaml_file)
     keys = list(yaml_dict.keys())
 
-    for level in ['references', 'annotations', 'indices']:
+    for level in ['references', 'annotations', 'indices', 'other']:
         for k in keys:
             try:
                 item = yaml_dict[k]['levels'][level]

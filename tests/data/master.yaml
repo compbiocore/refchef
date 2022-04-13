@@ -12,62 +12,77 @@ reference_test1:
     ensembl_release_number: 87
     custom: false
     downloader: fgelin
+    category: genomics
   levels:
     references:
     - component: primary
       complete:
         status: true
-        time: 2018-12-20 11:14:13.153237
+        time: '2022-04-05 12:30:00.737055'
       commands:
       - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
+      - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
-      location: refchef-data/reference_test1/primary
+      - md5sum *.fa > final_checksums.md5
+      location: tests/data/reference_test1/primary
       files:
-      - chr1.fa
-      - metadata.txt
       - postdownload_checksums.md5
+      - metadata.txt
       - final_checksums.md5
+      - chr1.fa
       uuid: 8040b09f-3844-3c42-b765-1f6a32614895
-    - component: secondary
-      complete:
-        status: true
-        time: 2018-12-20 11:14:15.695842
-      commands:
-      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
-      - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
-      location: refchef-data/reference_test1/secondary
-      files:
-      - chr1.fa
-      - metadata.txt
-      - postdownload_checksums.md5
-      - final_checksums.md5
-      uuid: 8040b09f-3844-3c42-b765-1f6a32614895-a
-index_1:
-  levels:
-    indices:
-    - component: bwa_index
-      complete:
-        status: true
-        time: 2018-12-20 11:15:16.870703
-      src: 8040b09f-3844-3c42-b765-1f6a32614895
-      commands:
-      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
-      - md5 *.fa.gz > postdownload_checksums.md5
-      - gunzip *.gz
-      - md5 *.fa > final_checksums.md5
-      location: refchef-data/index_1/bwa_index
-      files:
-      - chr1.fa
-      - metadata.txt
-      - postdownload_checksums.md5
-      - final_checksums.md5
-      uuid: 8040b09f-3844-3c42-b765-1f6a32614895
+mnist:
   metadata:
-    name: reference_test1
+    name: mnist
+    organism: na
+    common_name: na
+    ncbi_taxon_id: na
+    organization: Modified National Institute of Standards and Technology database
+    description: Large database of handwritten digits used for image processing
+    accession:
+      genbank: null
+      refseq: null
+    ensembl_release_number: null
+    custom: false
+    downloader: joselynn
+    category: other
+  levels:
+    other:
+    - component: train_images
+      complete:
+        status: true
+        time: '2022-04-05 12:30:06.644429'
+      commands:
+      - wget -nv http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz
+      - md5sum *.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.* > final_checksums.md5
+      location: tests/data/mnist/train_images
+      files:
+      - postdownload_checksums.md5
+      - train-labels-idx1-ubyte
+      - metadata.txt
+      - final_checksums.md5
+      uuid: 8a14d792-4bb7-34ac-bb1b-ace96dbf9985
+    - component: test_images
+      complete:
+        status: true
+        time: '2022-04-05 12:30:06.826753'
+      commands:
+      - wget -nv http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz
+      - md5sum *.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.* > final_checksums.md5
+      location: tests/data/mnist/test_images
+      files:
+      - postdownload_checksums.md5
+      - t10k-images-idx3-ubyte
+      - metadata.txt
+      - final_checksums.md5
+      uuid: f0d12737-e675-320f-8329-729658830749
+index_test1:
+  metadata:
+    name: index_test1
     organism: mouse
     common_name: mouse
     ncbi_taxon_id: 9606
@@ -79,3 +94,40 @@ index_1:
     ensembl_release_number: 87
     custom: false
     downloader: fgelin
+    category: genomics
+  levels:
+    indices:
+    - component: bwa_index
+      complete:
+        status: true
+        time: '2022-04-05 12:30:03.478446'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: 8040b09f-3844-3c42-b765-1f6a32614895
+      location: tests/data/index_test1/bwa_index
+      files:
+      - postdownload_checksums.md5
+      - metadata.txt
+      - final_checksums.md5
+      - chr1.fa
+      uuid: c87ee674-4ddc-3efe-a74e-dfe25da5d7b3
+    - component: bwa_index_2
+      complete:
+        status: true
+        time: '2022-04-05 12:30:06.526588'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: web
+      location: tests/data/index_test1/bwa_index_2
+      files:
+      - postdownload_checksums.md5
+      - metadata.txt
+      - final_checksums.md5
+      - chr1.fa
+      uuid: c87ee674-4ddc-3efe-a74e-dfe25da5d7b3

@@ -45,7 +45,7 @@ def get_full_menu(master):
     #create full table (menu)
     menu = m.merge(levels)
 
-    cols = ['common_name', 'custom', 'description', 'downloader',
+    cols = ['category', 'common_name', 'custom', 'description', 'downloader',
        'ensembl_release_number', 'genbank', 'name', 'ncbi_taxon_id',
        'organism', 'organization', 'refseq', 'component', 'files',
        'location', 'uuid', 'type']

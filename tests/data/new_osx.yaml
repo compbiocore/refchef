@@ -1,3 +1,36 @@
+mnist:
+  metadata:
+    name: mnist
+    organism: na
+    common_name: na
+    ncbi_taxon_id: na
+    organization: Modified National Institute of Standards and Technology database
+    description: 'Large database of handwritten digits used for image processing'
+    accession:
+      genbank: null
+      refseq: null
+    ensembl_release_number: null
+    custom: false
+    downloader: joselynn
+    category: other
+  levels:
+    other:
+    - component: train_images
+      complete:
+        status: false
+      commands:
+      - wget -nv http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz
+      - md5sum *.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.* > final_checksums.md5
+    - component: test_images
+      complete:
+        status: false
+      commands:
+      - wget -nv http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz
+      - md5sum *.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.* > final_checksums.md5
 index_test1:
   metadata:
     name: index_test1
@@ -12,6 +45,7 @@ index_test1:
     ensembl_release_number: 87
     custom: false
     downloader: fgelin
+    category: genomics
   levels:
     indices:
     - component: bwa_index
@@ -31,4 +65,3 @@ index_test1:
       - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
       - md5sum *.fa.gz > final_checksums.md5
-      src: 'web'

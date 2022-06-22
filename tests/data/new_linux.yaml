@@ -65,4 +65,3 @@ index_test1:
       - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
       - md5sum *.fa.gz > final_checksums.md5
-      src: 'web'

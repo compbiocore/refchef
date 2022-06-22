@@ -1,17 +1,21 @@
-**RefChef comes with two commands:**      
+**RefChef comes with three commands:**      
 
 [**`refchef-cook`**](./usage.md#refchef-cook):     
-Will read recipes and execute the commands that will retrieve the references, indices, or annotations based on the contents of [`master.yaml`](./inputs.md#master.yaml).     
+Will read recipes (yaml files) and execute the commands that will retrieve or create the references or their indices, annotations, or other associated files and add the metadata and commands to [`master.yaml`](./inputs.md#master.yaml).     
 
 [**`refchef-menu`**](./usage.md#refchef-menu):   
-Provides a way for the user to list all references present in the system, based on [`master.yaml`](./inputs.md#master.yaml), as well as filter the list of references based on metadata options.         
+Prints all references documented in [`master.yaml`](./inputs.md#master.yaml) as a table on the command line.
+
+[**`refchef-serve`**](./serve.md):   
+Lists all references documented in [`master.yaml`](./inputs.md#master.yaml) as a minimal web interface.
 
 ![Diagram](assets/refchef-cook_and_refchef-menu.svg)         
 
 **RefChef requires a [`master.yaml`](./inputs.md#master.yaml) file:**      
 
-In addition to the [`refchef-cook`](./usage.md#refchef-cook) and [`refchef-menu`](./usage.md#refchef-menu) commands, RefChef requires a [`master.yaml`](./inputs.md#master.yaml) containing a list of references, indices, annotations, and metadata, as well as the commands necessary to download and process the files.    
-When [`refchef-cook`](./usage.md#refchef-cook) is executed, RefChef will append the [`master.yaml`](./inputs.md#master.yaml) to change the `complete` option from `false` to `true`and will also add a `uuid` for each reference, the date the files were downloaded and their location, as well as a complete list of files downloaded.     
+The `master.yaml` file contains a list of references and associated files (indices, annotations, other associated files), their metadata, and the commands necessary to download and/or process the references and associated files.
+
+When [`refchef-cook`](./usage.md#refchef-cook) is executed, RefChef will append the [`master.yaml`](./inputs.md#master.yaml) to change the `complete` flag from `false` to `true`and will also add a `uuid` for each reference. It also adds the date the files were downloaded and their location, as well as a complete list of files downloaded.     
 Based on the arguments you pass to [`refchef-cook`](./usage.md#refchef-cook), it will either commit those changes to [`master.yaml`](./inputs.md#master.yaml) to a local repository or commit and push the changes to a remote repository. 
 
 **RefChef requires configuration information:**      

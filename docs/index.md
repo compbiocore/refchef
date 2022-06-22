@@ -8,12 +8,12 @@
 
 ---
 
-`RefChef` is a reference management system that includes additional tools to record the provenance of reference sequences, indices, and annotations. It was created to enable reproducible research.       
+`RefChef` is a reference management system that includes tools to record the provenance of reference data sets. It is flexible enough to also track additional information and associated files such as annotations, indices, labels, or other metadata. It was created to enable reproducible research.       
 
 `RefChef` will:       
 
-1. Document the exact steps undertaken in the retrieval and processing of genomic references   
+1. Document the exact steps undertaken in the retrieval and processing of references   
 2. Maintain the associated metadata   
-3. Provide a mechanism for automatically reproducing retrieval and creation of an exact copy of genomic references 
+3. Provide a mechanism for automatically reproducing the retrieval and creation of references 
 
 ![Diagram](assets/refchef_overview.svg)         

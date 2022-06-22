@@ -65,26 +65,26 @@ def test_is_uuid():
     assert is_uuid('a1949ec6-b1c8-33fe-9326-46ef7d597027') == True
     assert is_uuid('not_an_uuid') == False
 
-# def test_execute(conf, master):
-#
-#     execute(conf, master)
-#
-#     path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary')
-#
-#     files = get_filenames(path_1)
-#     #assert len(files) == 4
-#     fnames = ['chr1.fa', 'metadata.txt','postdownload_checksums.md5','final_checksums.md5']
-#     for f in fnames:
-#         assert f in files
-#
-#     path_ = os.path.join(conf.git_local, master)
-#     yaml_dict = utils.read_yaml(path_)
-#
-#     assert yaml_dict['reference_test1']['levels']['references'][0]['complete']['status'] == True
-#     id_ = uuid.UUID(yaml_dict['reference_test1']['levels']['references'][0]['uuid'])
-#     assert type(id_) == uuid.UUID
-#     assert yaml_dict['reference_test1']['levels']['references'][0]['location'] == path_1
-#     assert yaml_dict['reference_test1']['levels']['references'][0]['files'] == files
+def test_execute(conf, master):
+
+    execute(conf, master)
+
+    path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary')
+
+    files = get_filenames(path_1)
+    #assert len(files) == 4
+    fnames = ['bwa_index', 'chr1.fa', 'metadata.txt', 'postdownload_checksums.md5', 'final_checksums.md5', 'chr1.fa.gz']
+    for f in fnames:
+        assert f in files
+
+    path_ = os.path.join(conf.git_local, master)
+    yaml_dict = utils.read_yaml(path_)
+
+    assert yaml_dict['reference_test1']['levels']['references'][0]['complete']['status'] == True
+    id_ = uuid.UUID(yaml_dict['reference_test1']['levels']['references'][0]['uuid'])
+    assert type(id_) == uuid.UUID
+    assert yaml_dict['reference_test1']['levels']['references'][0]['location'] == path_1
+    assert yaml_dict['reference_test1']['levels']['references'][0]['files'] == files
 
 def test_create_metadata(conf, master, dir):
     path_ = os.path.join(conf.git_local, master)
@@ -107,14 +107,14 @@ def test_get_reference_by_uuid(conf, master):
 
     assert loc == path_1
 
-# def test_index_ref_link(conf, master):
-#     file_name = 'master.yaml'
-#     ori = os.path.join(conf.git_local, file_name)
-#     des = os.path.join(conf.git_local, master)
-#     merge_yaml(des, ori)
-#
-#     execute(conf, master)
-#     path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary', 'bwa_index')
-#
-#     assert os.path.islink(path_1)
+def test_index_ref_link(conf, master):
+    file_name = 'master.yaml'
+    ori = os.path.join(conf.git_local, file_name)
+    des = os.path.join(conf.git_local, master)
+    merge_yaml(des, ori)
+
+    execute(conf, master)
+    path_1 = os.path.join(conf.reference_dir, 'reference_test1', 'primary', 'bwa_index')
+
+    assert os.path.islink(path_1)
 

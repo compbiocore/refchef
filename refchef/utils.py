@@ -10,7 +10,7 @@ import hiyapyco
 def read_yaml(file_path):
     """Simple function to read yaml file"""
     with open(file_path) as yml:
-        dict_ = yaml.load(yml)
+        dict_ = yaml.full_load(yml)
     return dict_
 
 def save_yaml(object, file_path):

@@ -61,7 +61,7 @@ def read_menu_from_github(conf, save=False):
 	except github.GithubException:
 		master = repo.get_contents("master.yaml")
 
-	master_dict = yaml.load(master.decoded_content)
+	master_dict = yaml.full_load(master.decoded_content)
 
 	if save:
 		save_yaml(master_dict, config.reference_dir)

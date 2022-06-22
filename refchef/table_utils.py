@@ -35,15 +35,17 @@ def get_full_menu(master):
 
     #create matadata table
     metadata = table[table["e"] == "metadata"][["c", "d", "f"]].pivot(index="f", columns="d")
-    # metadata.columns = metadata.columns.droplevel()
+    metadata.columns = metadata.columns.droplevel(0)
+    metadata = metadata.reset_index().rename_axis(index = None)
 
     #create levels table
     levels = table[table["e"] == "levels"][["c.component", "c.files", "c.location", "c.uuid", "f", "d"]]
 
     levels.rename(columns={"f":"name"}, inplace=True)
-    m = metadata.reset_index().drop(columns=["f"], level="d")['c']
+    m = metadata
     #create full table (menu)
-    menu = m.merge(levels)
+    menu = m.merge(levels).drop(columns=["f"])
+
 
     cols = ['category', 'common_name', 'custom', 'description', 'downloader',
        'ensembl_release_number', 'genbank', 'name', 'ncbi_taxon_id',

@@ -104,6 +104,126 @@ index_test1:
       - chr1.fa.gz
     - component: bwa_index_2
       complete:
+        status: true
+        time: '2022-06-22 16:04:28.222058'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: web
+      location: tests/data/index_test1/bwa_index_2
+      files:
+      - chr1.fa
+      - metadata.txt
+      - postdownload_checksums.md5
+      - final_checksums.md5
+      - chr1.fa.gz.1
+      - chr1.fa.gz
+    - component: bwa_index
+      complete:
+        status: true
+        time: '2022-06-22 16:04:30.748423'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: 8040b09f-3844-3c42-b765-1f6a32614895
+      location: tests/data/index_test1/bwa_index
+      files:
+      - chr1.fa.gz.3
+      - chr1.fa
+      - metadata.txt
+      - chr1.fa.gz.2
+      - postdownload_checksums.md5
+      - final_checksums.md5
+      - chr1.fa.gz.1
+      - chr1.fa.gz
+    - component: bwa_index_2
+      complete:
+        status: true
+        time: '2022-06-22 16:30:54.967400'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: web
+      location: tests/data/index_test1/bwa_index_2
+      files:
+      - chr1.fa
+      - metadata.txt
+      - chr1.fa.gz.2
+      - postdownload_checksums.md5
+      - final_checksums.md5
+      - chr1.fa.gz.1
+      - chr1.fa.gz
+    - component: bwa_index
+      complete:
+        status: true
+        time: '2022-06-22 16:30:57.641174'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: 8040b09f-3844-3c42-b765-1f6a32614895
+      location: tests/data/index_test1/bwa_index
+      files:
+      - chr1.fa.gz.3
+      - chr1.fa.gz.4
+      - chr1.fa
+      - metadata.txt
+      - chr1.fa.gz.2
+      - postdownload_checksums.md5
+      - final_checksums.md5
+      - chr1.fa.gz.1
+      - chr1.fa.gz
+    - component: bwa_index_2
+      complete:
+        status: true
+        time: '2022-06-22 16:34:25.043499'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: web
+      location: tests/data/index_test1/bwa_index_2
+      files:
+      - chr1.fa.gz.3
+      - chr1.fa
+      - metadata.txt
+      - chr1.fa.gz.2
+      - postdownload_checksums.md5
+      - final_checksums.md5
+      - chr1.fa.gz.1
+      - chr1.fa.gz
+    - component: bwa_index
+      complete:
+        status: true
+        time: '2022-06-22 16:34:27.603443'
+      commands:
+      - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
+      - md5sum *.fa.gz > postdownload_checksums.md5
+      - gunzip *.gz
+      - md5sum *.fa.gz > final_checksums.md5
+      src: 8040b09f-3844-3c42-b765-1f6a32614895
+      location: tests/data/index_test1/bwa_index
+      files:
+      - chr1.fa.gz.3
+      - chr1.fa.gz.4
+      - chr1.fa
+      - metadata.txt
+      - chr1.fa.gz.5
+      - chr1.fa.gz.2
+      - postdownload_checksums.md5
+      - final_checksums.md5
+      - chr1.fa.gz.1
+      - chr1.fa.gz
+    - component: bwa_index_2
+      complete:
         status: false
       commands:
       - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz

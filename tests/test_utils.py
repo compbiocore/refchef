@@ -19,10 +19,10 @@ def conf():
     return conf
 
 def test_read_yaml():
-    if sys.platform == 'darwin':
-        file_name = 'new_osx.yaml'
-    else:
-        file_name = 'new_linux.yaml'
+    #if sys.platform == 'darwin':
+    #    file_name = 'new_osx.yaml'
+    #else:
+    file_name = 'new_linux.yaml'
     p = os.path.join('tests/data', file_name)
     data = read_yaml(p)
     assert type(data).__name__ in  ['OrderedDict', 'dict']

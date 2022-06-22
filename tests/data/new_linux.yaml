@@ -45,7 +45,6 @@ index_test1:
     ensembl_release_number: 87
     custom: false
     downloader: fgelin
-    category: genomics
   levels:
     indices:
     - component: bwa_index
@@ -65,3 +64,4 @@ index_test1:
       - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
       - md5sum *.fa.gz > final_checksums.md5
+      src: 'web'

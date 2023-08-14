@@ -1,7 +1,7 @@
 import os
 import json
 import pandas as pd
-from pandas.io.json import json_normalize
+#from pandas.io.json import json_normalize
 import terminaltables
 import oyaml as yaml
 try:

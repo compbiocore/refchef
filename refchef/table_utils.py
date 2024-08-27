@@ -12,7 +12,7 @@ except NameError:
 from refchef import config
 from refchef.github_utils import read_menu_from_github
 from refchef.utils import *
-
+from pandas.io.json import json_normalize
 
 def get_full_menu(master):
     """Reads yaml file and converts to a table format"""

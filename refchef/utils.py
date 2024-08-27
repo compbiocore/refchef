@@ -3,7 +3,8 @@ import sys
 import subprocess
 import oyaml as yaml
 import yamlloader
-from collections import OrderedDict, defaultdict, Mapping
+from collections import OrderedDict, defaultdict
+from collections.abc import Mapping
 from future.utils import iteritems
 import hiyapyco
 

@@ -23,10 +23,7 @@ def dir():
 
 @pytest.fixture
 def master():
-    if sys.platform == 'darwin':
-        file_name = 'master_osx.yaml'
-    else:
-        file_name = 'master_linux.yaml'
+    file_name = 'master_linux.yaml'
     return file_name
 
 #@pytest.fixture
@@ -76,7 +73,7 @@ def test_execute(conf, master):
 
     files = get_filenames(path_1)
     #assert len(files) == 4
-    fnames = ['chr1.fa', 'metadata.txt','postdownload_checksums.md5','final_checksums.md5']
+    fnames = ['bwa_index', 'chr1.fa', 'metadata.txt', 'postdownload_checksums.md5', 'final_checksums.md5', 'chr1.fa.gz']
     for f in fnames:
         assert f in files
 
@@ -111,10 +108,7 @@ def test_get_reference_by_uuid(conf, master):
     assert loc == path_1
 
 def test_index_ref_link(conf, master):
-    if sys.platform == 'darwin':
-        file_name = 'new_osx.yaml'
-    else:
-        file_name = 'new_linux.yaml'
+    file_name = 'master.yaml'
     ori = os.path.join(conf.git_local, file_name)
     des = os.path.join(conf.git_local, master)
     merge_yaml(des, ori)

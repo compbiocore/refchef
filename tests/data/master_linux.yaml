@@ -12,14 +12,23 @@ reference_test1:
     ensembl_release_number: 87
     custom: false
     downloader: fgelin
-    category: genomics
   levels:
     references:
     - component: primary
       complete:
-        status: false
+        status: true
+        time: '2022-06-22 15:59:39.188924'
       commands:
       - wget -nv https://s3.us-east-2.amazonaws.com/refchef-tests/chr1.fa.gz
       - md5sum *.fa.gz > postdownload_checksums.md5
       - gunzip *.gz
       - md5sum *.fa > final_checksums.md5
+      location: tests/data/reference_test1/primary
+      files:
+      - bwa_index
+      - chr1.fa
+      - metadata.txt
+      - postdownload_checksums.md5
+      - final_checksums.md5
+      - chr1.fa.gz
+      uuid: 8040b09f-3844-3c42-b765-1f6a32614895

@@ -12,13 +12,13 @@ except NameError:
 from refchef import config
 from refchef.github_utils import read_menu_from_github
 from refchef.utils import *
-from pandas.io.json import json_normalize
+#from pandas.io.json import json_normalize
 
 def get_full_menu(master):
     """Reads yaml file and converts to a table format"""
 
     #json normalize data (to expand dict to table)
-    df = json_normalize(master).T.reset_index()
+    df = pd.json_normalize(master).T.reset_index()
     df.columns = ["a", "b"]
 
     #rearange data
@@ -31,7 +31,7 @@ def get_full_menu(master):
     res.drop(columns=["a"])
 
     #expand dict again for lower levels
-    table = json_normalize(res.to_dict(orient="records"))
+    table = pd.json_normalize(res.to_dict(orient="records"))
 
     #create matadata table
     metadata = table[table["e"] == "metadata"][["c", "d", "f"]].pivot(index="f", columns="d")
